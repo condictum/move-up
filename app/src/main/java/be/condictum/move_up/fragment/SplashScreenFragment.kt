@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import be.condictum.move_up.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -45,7 +46,8 @@ class SplashScreenFragment : Fragment() {
         val button = view.findViewById<Button>(R.id.button)
 
         button.setOnClickListener {
-
+            val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
+            view.findNavController().navigate(action)
         }
     }
 
