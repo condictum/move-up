@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/detail_screens">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_screens"
+    app:startDestination="@id/goalScreenFragment">
 
+    <fragment
+        android:id="@+id/goalScreenFragment"
+        android:name="be.condictum.move_up.fragment.GoalScreenFragment"
+        android:label="fragment_goal_screen"
+        tools:layout="@layout/fragment_goal_screen">
+        <action
+            android:id="@+id/action_goalScreenFragment_to_goalResultFragment"
+            app:destination="@id/goalResultFragment" />
+        <action
+            android:id="@+id/action_goalScreenFragment_to_preparationScreenFragment22"
+            app:destination="@id/preparationScreenFragment2" />
+        <action
+            android:id="@+id/action_goalScreenFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/countDownTimerScreenFragment"
+        android:name="be.condictum.move_up.fragment.CountDownTimerScreenFragment"
+        android:label="fragment_count_down_timer_screen"
+        tools:layout="@layout/fragment_count_down_timer_screen" />
+    <fragment
+        android:id="@+id/preparationScreenFragment2"
+        android:name="be.condictum.move_up.fragment.PreparationScreenFragment"
+        android:label="PreparationScreenFragment">
+        <action
+            android:id="@+id/action_preparationScreenFragment2_to_countDownTimerScreenFragment"
+            app:destination="@id/countDownTimerScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="be.condictum.move_up.fragment.SettingsFragment"
+        android:label="SettingsFragment">
+        <action
+            android:id="@+id/action_settingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/goalResultFragment"
+        android:name="be.condictum.move_up.fragment.GoalResultFragment"
+        android:label="GoalResultFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="be.condictum.move_up.fragment.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
