@@ -11,8 +11,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         val selectedFragment =
-            supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment
-                    as NavHostFragment?
-        val navController = selectedFragment?.navController
+            supportFragmentManager.findFragmentById(R.id.detail_nav_host_fragment) as NavHostFragment
+        val navController = selectedFragment.navController
     }
 }
