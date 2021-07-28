@@ -1,9 +1,8 @@
 package be.condictum.move_up.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import be.condictum.move_up.R
 
@@ -28,6 +27,8 @@ class GoalScreenFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -56,5 +57,24 @@ class GoalScreenFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.goal_screen_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.ac_new_goal -> {
+                Toast.makeText(requireContext(), "New goal", Toast.LENGTH_SHORT).show()
+            }
+
+            R.id.ac_goal_screen_settings -> {
+                Toast.makeText(requireContext(), "Goal settings", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
