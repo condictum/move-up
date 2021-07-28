@@ -8,14 +8,14 @@
     <fragment
         android:id="@+id/goalScreenFragment"
         android:name="be.condictum.move_up.fragment.GoalScreenFragment"
-        android:label="fragment_goal_screen"
+        android:label="Goal Screen"
         tools:layout="@layout/fragment_goal_screen">
         <action
             android:id="@+id/action_goalScreenFragment_to_goalResultFragment"
             app:destination="@id/goalResultFragment" />
         <action
             android:id="@+id/action_goalScreenFragment_to_preparationScreenFragment22"
-            app:destination="@id/preparationScreenFragment2" />
+            app:destination="@id/preparationScreenFragment" />
         <action
             android:id="@+id/action_goalScreenFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -26,7 +26,7 @@
         android:label="fragment_count_down_timer_screen"
         tools:layout="@layout/fragment_count_down_timer_screen" />
     <fragment
-        android:id="@+id/preparationScreenFragment2"
+        android:id="@+id/preparationScreenFragment"
         android:name="be.condictum.move_up.fragment.PreparationScreenFragment"
         android:label="PreparationScreenFragment">
         <action
@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="be.condictum.move_up.fragment.SettingsFragment"
-        android:label="SettingsFragment">
+        android:label="Settings Screen">
         <action
             android:id="@+id/action_settingsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -48,6 +48,6 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="be.condictum.move_up.fragment.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="Profile Screen"
         tools:layout="@layout/fragment_profile" />
 </navigation>
