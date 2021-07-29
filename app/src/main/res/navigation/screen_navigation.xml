@@ -3,8 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/detail_screens"
-    app:startDestination="@id/goalScreenFragment">
+    app:startDestination="@id/splashScreenFragment">
 
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="be.condictum.move_up.fragment.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_goalScreenFragment"
+            app:destination="@id/goalScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="be.condictum.move_up.fragment.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen">
+        <action
+            android:id="@+id/action_splashScreenFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/goalScreenFragment"
         android:name="be.condictum.move_up.fragment.GoalScreenFragment"
