@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import be.condictum.move_up.adapter.GoalRecyclerAdapter
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.database.data.Lessons
 import be.condictum.move_up.databinding.FragmentMainBinding
 import be.condictum.move_up.viewmodel.AppDatabaseViewModel
 import be.condictum.move_up.viewmodel.AppDatabaseViewModelFactory
+import java.sql.Date
+
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
@@ -39,10 +42,18 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.mainFragmentRecyclerView.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToGoalScreenFragment()
-            view.findNavController().navigate(action)
-        }
+        binding.mainFragmentRecyclerView.adapter = GoalRecyclerAdapter(
+            view.context, arrayListOf(
+                Goals(1, "YKS", Date(System.currentTimeMillis())),
+                Goals(2, "KPSS", Date(System.currentTimeMillis())),
+                Goals(3, "TUS", Date(System.currentTimeMillis())),
+            )
+        )
+
+        val linearLayoutManager = LinearLayoutManager(requireContext())
+        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        binding.mainFragmentRecyclerView.layoutManager = linearLayoutManager
+
     }
 
 /*
