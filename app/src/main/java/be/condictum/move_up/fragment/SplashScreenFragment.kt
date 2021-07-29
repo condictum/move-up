@@ -1,5 +1,6 @@
 package be.condictum.move_up.fragment
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -25,17 +26,23 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var c = Runnable {
-            val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
-            view.findNavController().navigate(action)
+        ObjectAnimator.ofFloat(binding.textView2, "translationX", 100f).apply {
+            duration = 2000
+            start()
         }
 
-        var hand = Handler(Looper.getMainLooper())
-        hand.postDelayed(c, 5000)
-    }
+        var c = Runnable {
+            var action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
+            view.findNavController().navigate(action)
+        }
+        var textc = Runnable {
+          val textanime =  binding.textView2
+            textanime.text="by condictum"
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        }
+
+        var hand = Handler()
+        hand.postDelayed(c,3000)
+        hand.postDelayed(textc,1500)
     }
 }
