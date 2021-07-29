@@ -36,6 +36,20 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+/*
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.mainFragmentRecyclerView.adapter = GoalRecyclerAdapter(
+            view.context,
+            arrayListOf(
+                Goals(1, "YKS", Date(System.currentTimeMillis())),
+                Goals(2, "KPSS", Date(System.currentTimeMillis())),
+                Goals(3, "TUS", Date(System.currentTimeMillis())),
+            ),
+        )
+    }*/
+
     /*
     private fun isEntryValid(): Boolean {
         return viewModel.isEntryValid(
