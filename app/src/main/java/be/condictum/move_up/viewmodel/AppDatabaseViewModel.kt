@@ -3,44 +3,85 @@ package be.condictum.move_up.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import be.condictum.move_up.database.AppDao
-import be.condictum.move_up.database.AppData
+import be.condictum.move_up.database.dao.GoalsDao
+import be.condictum.move_up.database.dao.LessonsDao
+import be.condictum.move_up.database.data.Goals
+import be.condictum.move_up.database.data.Lessons
 import kotlinx.coroutines.launch
+import java.util.*
 
-class AppDatabaseViewModel(private val appDao: AppDao) : ViewModel() {
-    fun addNewData(dataName: String, dataPrice: String, dataCount: String) {
-        val newData = getNewDataEntry(dataName, dataPrice, dataCount)
-        insertData(newData)
+class AppDatabaseViewModel(private val goalsDao: GoalsDao, private val lessonsDao: LessonsDao) :
+    ViewModel() {
+
+    // Goals
+
+    fun addNewGoal(dataName: String, dataDate: Date) {
+        val newGoal = getNewGoalEntry(dataName, dataDate)
+        insertGoal(newGoal)
     }
 
-    private fun insertData(data: AppData) {
+    private fun insertGoal(data: Goals) {
         viewModelScope.launch {
-            appDao.insert(data)
+            goalsDao.insert(data)
         }
     }
 
-    fun isEntryValid(dataName: String, dataPrice: String, dataCount: String): Boolean {
-        if (dataName.isBlank() || dataPrice.isBlank() || dataCount.isBlank()) {
+    fun isEntryValid(dataName: String, dataDate: String): Boolean {
+        if (dataName.isBlank() || dataDate.isBlank()) {
             return false
         }
 
         return true
     }
 
-    private fun getNewDataEntry(dataName: String, dataPrice: String, dataCount: String): AppData {
-        return AppData(
+    private fun getNewGoalEntry(
+        dataName: String,
+        dataDate: Date,
+    ): Goals {
+        return Goals(
             dataName = dataName,
-            dataPrice = dataPrice.toDouble(),
-            dataCount = dataCount.toInt()
+            dataDate = dataDate as java.sql.Date,
+        )
+    }
+
+    // Lessons
+
+    fun addNewLesson(lessonName: String, lessonScore: Double, goalsId: Int) {
+        val newLesson = getNewLessonEntry(lessonName, lessonScore, goalsId)
+        insertLesson(newLesson)
+    }
+
+    private fun insertLesson(data: Lessons) {
+        viewModelScope.launch {
+            lessonsDao.insert(data)
+        }
+    }
+
+    fun isEntryValid(lessonName: String, lessonScore: String, goalsId: String): Boolean {
+        if (lessonName.isBlank() || lessonScore.isBlank() || goalsId.isBlank()) {
+            return false
+        }
+
+        return true
+    }
+
+    private fun getNewLessonEntry(lessonName: String, lessonScore: Double, goalsId: Int): Lessons {
+        return Lessons(
+            lessonName = lessonName,
+            lessonScore = lessonScore,
+            goalsId = goalsId
         )
     }
 }
 
-class AppDatabaseViewModelFactory(private val appDao: AppDao) : ViewModelProvider.Factory {
+class AppDatabaseViewModelFactory(
+    private val goalsDao: GoalsDao,
+    private val lessonsDao: LessonsDao
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AppDatabaseViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return AppDatabaseViewModel(appDao) as T
+            return AppDatabaseViewModel(goalsDao, lessonsDao) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")

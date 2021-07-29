@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import be.condictum.move_up.database.AppData
 import be.condictum.move_up.database.DatabaseApplication
+import be.condictum.move_up.database.data.Goals
+import be.condictum.move_up.database.data.Lessons
 import be.condictum.move_up.databinding.FragmentMainBinding
 import be.condictum.move_up.viewmodel.AppDatabaseViewModel
 import be.condictum.move_up.viewmodel.AppDatabaseViewModelFactory
@@ -17,11 +18,13 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    lateinit var data: AppData
+    lateinit var goals: Goals
+    lateinit var lessons: Lessons
 
     private val viewModel: AppDatabaseViewModel by activityViewModels {
         AppDatabaseViewModelFactory(
-            (activity?.application as DatabaseApplication).database.appDao()
+            (activity?.application as DatabaseApplication).database.goalsDao(),
+            (activity?.application as DatabaseApplication).database.lessonsDao()
         )
     }
 
