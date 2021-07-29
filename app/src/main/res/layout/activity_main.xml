@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:itemBackground="@color/purple_500"
+        app:itemBackground="@color/secondary_dark"
         app:itemIconTint="@drawable/bottom_nav_view_colors"
         app:itemTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

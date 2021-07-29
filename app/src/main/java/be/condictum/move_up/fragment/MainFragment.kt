@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import be.condictum.move_up.adapter.GoalRecyclerAdapter
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.database.data.Goals
@@ -43,17 +42,13 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.mainFragmentRecyclerView.adapter = GoalRecyclerAdapter(
-            view.context, arrayListOf(
+            view.context,
+            arrayListOf(
                 Goals(1, "YKS", Date(System.currentTimeMillis())),
                 Goals(2, "KPSS", Date(System.currentTimeMillis())),
                 Goals(3, "TUS", Date(System.currentTimeMillis())),
-            )
+            ),
         )
-
-        val linearLayoutManager = LinearLayoutManager(requireContext())
-        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        binding.mainFragmentRecyclerView.layoutManager = linearLayoutManager
-
     }
 
 /*
