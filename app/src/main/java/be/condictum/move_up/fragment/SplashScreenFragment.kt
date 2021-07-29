@@ -1,6 +1,7 @@
 package be.condictum.move_up.fragment
 
 import android.animation.ObjectAnimator
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
@@ -25,11 +26,18 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ObjectAnimator.ofFloat(binding.textView2, "translationX", 100f).apply {
+        ObjectAnimator.ofFloat(binding.textView2, "translationY", -100f).apply {
             duration = 2000
             start()
         }
-
+        ObjectAnimator.ofFloat(binding.imageView2, "translationY", -100f).apply {
+            duration = 2000
+            start()
+        }
+        ObjectAnimator.ofFloat(binding.imageView2, "translationX", 100f).apply {
+            duration = 2000
+            start()
+        }
         val c = Runnable {
             val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
             view.findNavController().navigate(action)
@@ -39,8 +47,14 @@ class SplashScreenFragment : Fragment() {
             binding.textView2.text = "by condictum"
         }
 
+        val colorc = Runnable {
+            binding.layoutId.setBackgroundColor(Color.parseColor("#ffecfc"))
+            binding.imageView2.setBackgroundColor(Color.parseColor("#ffecfc"))
+        }
+
         val hand = Handler()
         hand.postDelayed(c, 3000)
         hand.postDelayed(textc, 1500)
+        hand.postDelayed(colorc, 1500)
     }
 }
