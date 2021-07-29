@@ -1,6 +1,8 @@
 package be.condictum.move_up.fragment
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,10 +25,13 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.button.setOnClickListener {
+        var c = Runnable {
             val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
             view.findNavController().navigate(action)
         }
+
+        var hand = Handler(Looper.getMainLooper())
+        hand.postDelayed(c, 5000)
     }
 
     override fun onDestroyView() {
