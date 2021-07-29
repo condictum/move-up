@@ -10,14 +10,17 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import be.condictum.move_up.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import be.condictum.move_up.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
@@ -29,28 +32,29 @@ class MainActivity : AppCompatActivity() {
                 R.id.settingsFragment
             )
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        bottomNavigationView.setOnItemSelectedListener { item ->
+        binding.bottomNavView.setOnItemSelectedListener { item ->
             NavigationUI.onNavDestinationSelected(
                 item,
                 Navigation.findNavController(this, R.id.main_nav_host_fragment)
             )
         }
 
-        bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.goalScreenFragment -> {
-                    bottomNavigationView.visibility = View.VISIBLE
+                    binding.bottomNavView.visibility = View.VISIBLE
                 }
                 R.id.mainFragment -> {
-                    bottomNavigationView.visibility = View.GONE
+                    binding.bottomNavView.visibility = View.GONE
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
                 R.id.splashScreenFragment -> {
-                    bottomNavigationView.visibility = View.GONE
+                    binding.bottomNavView.visibility = View.GONE
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
             }

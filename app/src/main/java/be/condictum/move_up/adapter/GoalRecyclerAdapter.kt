@@ -19,14 +19,14 @@ class GoalRecyclerAdapter(private val context: Context, private val dataSet: Arr
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
 
     class GoalViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
-        val goalNameText: TextView = view.findViewById(R.id.row_item_goal_name_text)
-        val goalDateText: TextView = view.findViewById(R.id.row_item_goal_date_text)
+        val goalNameText: TextView = view.findViewById(R.id.row_item_profile_name_text)
+        val goalDateText: TextView = view.findViewById(R.id.row_item_profile_surname_text)
         val goalsListCardView: CardView = view.findViewById(R.id.goals_list_card_view)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoalViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.goals_list_row_item, parent, false)
+            .inflate(R.layout.profiles_list_row_item, parent, false)
         return GoalViewHolder(view)
     }
 
