@@ -20,7 +20,7 @@
             android:layout_marginTop="76dp"
             android:fontFamily="@font/luckiest_guy"
             android:shadowColor="#0A2F33"
-            android:text="@string/move_up"
+            android:text="MOVE UP"
             android:textColor="#3AC1D3"
             android:textSize="34sp"
             app:layout_constraintBottom_toBottomOf="parent"
