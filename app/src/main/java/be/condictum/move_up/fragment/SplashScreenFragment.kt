@@ -3,7 +3,6 @@ package be.condictum.move_up.fragment
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,18 +30,17 @@ class SplashScreenFragment : Fragment() {
             start()
         }
 
-        var c = Runnable {
-            var action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
+        val c = Runnable {
+            val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
             view.findNavController().navigate(action)
         }
-        var textc = Runnable {
-          val textanime =  binding.textView2
-            textanime.text="by condictum"
 
+        val textc = Runnable {
+            binding.textView2.text = "by condictum"
         }
 
-        var hand = Handler()
-        hand.postDelayed(c,3000)
-        hand.postDelayed(textc,1500)
+        val hand = Handler()
+        hand.postDelayed(c, 3000)
+        hand.postDelayed(textc, 1500)
     }
 }

@@ -39,7 +39,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.button.setOnClickListener {
+        binding.mainFragmentRecyclerView.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToGoalScreenFragment()
             view.findNavController().navigate(action)
         }
@@ -48,22 +48,19 @@ class MainFragment : Fragment() {
 /*
     private fun isEntryValid(): Boolean {
         return viewModel.isEntryValid(
-            /*
                 binding.dataName.text.toString(),
                 binding.dataPrice.text.toString(),
                 binding.dataCount.text.toString(),
-             */
+
         )
     }
 
-    private fun addNewData() {
+    private fun addNewGoal() {
         if (isEntryValid()) {
-            viewModel.addNewData(
-                /*
+            viewModel.addNewGoal(
                     binding.dataName.text.toString(),
                     binding.dataPrice.text.toString(),
                     binding.dataCount.text.toString(),
-                 */
             )
             val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
             findNavController().navigate(action)
@@ -73,7 +70,6 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        // hide keyboard
         val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
                 InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
