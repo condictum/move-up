@@ -8,23 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.database.data.Goals
-import be.condictum.move_up.database.data.Lessons
 import be.condictum.move_up.databinding.FragmentMainBinding
-import be.condictum.move_up.viewmodel.AppDatabaseViewModel
-import be.condictum.move_up.viewmodel.AppDatabaseViewModelFactory
-
+import be.condictum.move_up.viewmodel.GoalsViewModel
+import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
     lateinit var goals: Goals
-    lateinit var lessons: Lessons
 
-    private val viewModel: AppDatabaseViewModel by activityViewModels {
-        AppDatabaseViewModelFactory(
+    private val viewModel: GoalsViewModel by activityViewModels {
+        GoalsViewModelFactory(
             (activity?.application as DatabaseApplication).database.goalsDao(),
-            (activity?.application as DatabaseApplication).database.lessonsDao()
         )
     }
 
