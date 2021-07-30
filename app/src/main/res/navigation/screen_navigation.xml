@@ -20,7 +20,9 @@
         tools:layout="@layout/fragment_splash_screen">
         <action
             android:id="@+id/action_splashScreenFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/splashScreenFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/goalScreenFragment"
@@ -36,6 +38,9 @@
         <action
             android:id="@+id/action_goalScreenFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <argument
+            android:name="profileId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/countDownTimerScreenFragment"

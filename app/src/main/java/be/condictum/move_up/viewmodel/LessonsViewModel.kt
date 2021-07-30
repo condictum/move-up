@@ -1,5 +1,6 @@
 package be.condictum.move_up.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -8,6 +9,8 @@ import be.condictum.move_up.database.data.Lessons
 import kotlinx.coroutines.launch
 
 class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
+    val allProfiles: LiveData<List<Lessons>> = lessonsDao.getAllData()
+
     fun addNewLesson(lessonName: String, lessonScore: Double, goalsId: Int) {
         val newLesson = getNewLessonEntry(lessonName, lessonScore, goalsId)
         insertLesson(newLesson)

@@ -13,5 +13,5 @@ data class Profiles(
     @ColumnInfo(name = "surname")
     val surname: String,
     @ColumnInfo(name = "age")
-    val age: Int,
+    val age: Int
 )

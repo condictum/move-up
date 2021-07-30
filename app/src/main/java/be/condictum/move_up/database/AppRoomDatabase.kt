@@ -35,6 +35,7 @@ abstract class AppRoomDatabase : RoomDatabase() {
                     "move_up_database"
                 )
                     .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
                     .build()
                 INSTANCE = instance
                 instance

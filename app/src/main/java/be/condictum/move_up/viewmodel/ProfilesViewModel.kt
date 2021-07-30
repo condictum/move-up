@@ -1,5 +1,6 @@
 package be.condictum.move_up.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,8 @@ import kotlinx.coroutines.launch
 
 
 class ProfilesViewModel(private val profilesDao: ProfilesDao) : ViewModel() {
+    val allProfiles: LiveData<List<Profiles>> = profilesDao.getAllData()
+
     fun addNewProfile(name: String, surname: String, age: Int) {
         val newProfile = getNewProfileEntry(name, surname, age)
         insertProfile(newProfile)
@@ -21,7 +24,7 @@ class ProfilesViewModel(private val profilesDao: ProfilesDao) : ViewModel() {
     }
 
     fun isEntryValid(name: String, surname: String, age: String): Boolean {
-        if (name.isBlank() || name.isBlank() || age.isBlank()) {
+        if (name.isBlank() || surname.isBlank() || age.isBlank()) {
             return false
         }
 

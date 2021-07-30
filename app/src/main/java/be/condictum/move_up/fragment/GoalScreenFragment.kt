@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.databinding.FragmentGoalScreenBinding
@@ -15,6 +16,8 @@ import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 class GoalScreenFragment : Fragment() {
     private var _binding: FragmentGoalScreenBinding? = null
     private val binding get() = _binding!!
+
+    private val args: GoalScreenFragmentArgs by navArgs()
 
     lateinit var goals: Goals
 
@@ -32,10 +35,14 @@ class GoalScreenFragment : Fragment() {
         return binding.root
     }
 
-/*
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val id = args.profileId
+        binding.goalsScreenTextView.text = "$id"
+
+/*
         binding.mainFragmentRecyclerView.adapter = GoalRecyclerAdapter(
             view.context,
             arrayListOf(
@@ -44,7 +51,8 @@ class GoalScreenFragment : Fragment() {
                 Goals(3, "TUS", Date(System.currentTimeMillis())),
             ),
         )
-    }*/
+ */
+    }
 
     /*
     private fun isEntryValid(): Boolean {

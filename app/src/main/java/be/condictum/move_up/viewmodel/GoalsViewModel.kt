@@ -1,5 +1,6 @@
 package be.condictum.move_up.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,8 @@ import kotlinx.coroutines.launch
 import java.sql.Date
 
 class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
+    val allProfiles: LiveData<List<Goals>> = goalsDao.getAllData()
+
     fun addNewGoal(dataName: String, dataDate: Date, profilesId: Int) {
         val newGoal = getNewGoalEntry(dataName, dataDate, profilesId)
         insertGoal(newGoal)

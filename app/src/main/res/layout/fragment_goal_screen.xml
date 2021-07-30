@@ -23,7 +23,7 @@
             tools:layout_editor_absoluteY="277dp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/goals_screen_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="177dp"

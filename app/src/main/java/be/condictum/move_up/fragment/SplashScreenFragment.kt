@@ -16,6 +16,16 @@ class SplashScreenFragment : Fragment() {
     private var _binding: FragmentSplashScreenBinding? = null
     private val binding get() = _binding!!
 
+    companion object {
+        private var isFirstOpening: Boolean = true
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (isFirstOpening) {
+            super.onCreate(savedInstanceState)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
