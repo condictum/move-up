@@ -1,11 +1,11 @@
 package be.condictum.move_up.adapter
 
 /*
-class ProfileRecyclerAdapter(private val context: Context, private val dataSet: ArrayList<Goals>) :
+class ProfileMainRecyclerAdapter(private val context: Context, private val dataSet: ArrayList<Goals>) :
     RecyclerView.Adapter<ProfileRecyclerAdapter.GoalViewHolder>() {
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
 
-    class ProfileViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class ProfileMainViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val goalNameText: TextView = view.findViewById(R.id.row_item_profile_name_text)
         val goalDateText: TextView = view.findViewById(R.id.row_item_profile_surname_text)
         val goalsListCardView: CardView = view.findViewById(R.id.goals_list_card_view)

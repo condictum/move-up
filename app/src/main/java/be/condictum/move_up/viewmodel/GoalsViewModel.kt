@@ -9,8 +9,8 @@ import kotlinx.coroutines.launch
 import java.sql.Date
 
 class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
-    fun addNewGoal(dataName: String, dataDate: Date) {
-        val newGoal = getNewGoalEntry(dataName, dataDate)
+    fun addNewGoal(dataName: String, dataDate: Date, profilesId: Int) {
+        val newGoal = getNewGoalEntry(dataName, dataDate, profilesId)
         insertGoal(newGoal)
     }
 
@@ -31,10 +31,12 @@ class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
     private fun getNewGoalEntry(
         dataName: String,
         dataDate: Date,
+        profilesId: Int
     ): Goals {
         return Goals(
             dataName = dataName,
             dataDate = dataDate,
+            profilesId = profilesId,
         )
     }
 }

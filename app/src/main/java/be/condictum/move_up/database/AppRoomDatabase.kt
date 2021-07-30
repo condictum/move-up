@@ -7,12 +7,19 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import be.condictum.move_up.database.dao.GoalsDao
 import be.condictum.move_up.database.dao.LessonsDao
+import be.condictum.move_up.database.dao.ProfilesDao
 import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.database.data.Lessons
+import be.condictum.move_up.database.data.Profiles
 
-@Database(entities = [Goals::class, Lessons::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Profiles::class, Goals::class, Lessons::class],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(DateConverter::class)
 abstract class AppRoomDatabase : RoomDatabase() {
+    abstract fun profilesDao(): ProfilesDao
     abstract fun goalsDao(): GoalsDao
     abstract fun lessonsDao(): LessonsDao
 
