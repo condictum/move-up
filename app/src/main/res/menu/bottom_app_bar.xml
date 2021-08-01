@@ -5,16 +5,16 @@
     <item
         android:id="@+id/goalScreenFragment"
         android:icon="@drawable/ic_goals"
-        android:title="Goals"
+        android:title="@string/goals_text"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_profile"
-        android:title="Profile"
+        android:title="@string/profile_text"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
-        android:title="Settings"
+        android:title="@string/settings_text"
         app:showAsAction="ifRoom" />
 </menu>

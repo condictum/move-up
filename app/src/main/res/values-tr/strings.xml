@@ -1,11 +1,21 @@
 <resources>
     <string name="app_name">Move Up</string>
     <string name="app_name_move_up_text">MOVE UP</string>
-    <string name="by_condictum_text">by condictum</string>
-    <string name="create_profile_text">Profile oluştur</string>
+    <string name="condictum_text">Condictum</string>
+    <string name="create_profile_text">Profil oluştur</string>
     <string name="save_text">Kaydet</string>
     <string name="cancel_text">İptal</string>
     <string name="input_error_text">Hata! Girilen bilgileri kontrol ediniz.</string>
     <string name="try_again_button_text">TEKRAR DENE</string>
     <string name="there_is_no_profile_please_create_a_new_profile">Henüz profil oluşturulmamış.\nLütfen bir tane profil oluşturun.</string>
+    <string name="settings_text">Ayarlar</string>
+    <string name="profile_text">Profil</string>
+    <string name="goals_text">Hedefler</string>
+    <string name="name_text">İsim</string>
+    <string name="surname_text">Soyisim</string>
+    <string name="age_text">Yaş</string>
+    <string name="profiles_text">Profiller</string>
+    <string name="preparations_text">Hazırlıklar</string>
+    <string name="results_text">Sonuçlar</string>
+    <string name="timer_text">Zamanlayıcı</string>
 </resources>

@@ -62,7 +62,7 @@ class SplashScreenFragment : Fragment() {
         }
 
         val textc = Runnable {
-            binding.textView2.text = getString(R.string.by_condictum_text)
+            binding.textView2.text = getString(R.string.condictum_text)
         }
 
         val hand = Handler(Looper.getMainLooper())
