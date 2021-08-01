@@ -21,9 +21,13 @@ class SplashScreenFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (isFirstOpening) {
-            super.onCreate(savedInstanceState)
+        if (!isFirstOpening) {
+            val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
+            view?.findNavController()?.navigate(action)
         }
+
+        super.onCreate(savedInstanceState)
+        isFirstOpening = false
     }
 
     override fun onCreateView(

@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">move-up</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name_move_up_text">MOVE UP</string>
     <string name="by_condictum_text">by condictum</string>
+    <string name="create_profile_text">Create profile</string>
+    <string name="save_text">Save</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="input_error_text">Error! Check the inputs.</string>
+    <string name="try_again_button_text">TRY AGAIN</string>
+    <string name="there_is_no_profile_please_create_a_new_profile">There is no profile. Please create a new profile.</string>
 </resources>

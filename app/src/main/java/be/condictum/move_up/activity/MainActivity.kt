@@ -46,9 +46,6 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.goalScreenFragment -> {
-                    binding.bottomNavView.visibility = View.VISIBLE
-                }
                 R.id.mainFragment -> {
                     binding.bottomNavView.visibility = View.GONE
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -56,6 +53,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.splashScreenFragment -> {
                     binding.bottomNavView.visibility = View.GONE
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                }
+                else -> {
+                    binding.bottomNavView.visibility = View.VISIBLE
                 }
             }
         }

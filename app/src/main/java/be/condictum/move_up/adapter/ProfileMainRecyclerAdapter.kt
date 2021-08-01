@@ -1,6 +1,5 @@
 package be.condictum.move_up.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,7 @@ import be.condictum.move_up.database.data.Profiles
 import be.condictum.move_up.fragment.MainFragmentDirections
 
 class ProfileMainRecyclerAdapter(
-    private val context: Context,
-    var dataSet: List<Profiles>
+    private var dataSet: List<Profiles>
 ) :
     RecyclerView.Adapter<ProfileMainRecyclerAdapter.ProfileMainViewHolder>() {
 
@@ -44,5 +42,9 @@ class ProfileMainRecyclerAdapter(
     }
 
     override fun getItemCount(): Int = dataSet.size
+
+    fun setDataset(data: List<Profiles>) {
+        dataSet = data
+    }
 }
 

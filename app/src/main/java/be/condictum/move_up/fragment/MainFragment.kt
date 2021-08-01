@@ -3,9 +3,6 @@ package be.condictum.move_up.fragment
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -15,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
 import be.condictum.move_up.adapter.ProfileMainRecyclerAdapter
 import be.condictum.move_up.database.DatabaseApplication
-import be.condictum.move_up.database.data.Profiles
 import be.condictum.move_up.databinding.FragmentMainBinding
 import be.condictum.move_up.viewmodel.ProfilesViewModel
 import be.condictum.move_up.viewmodel.ProfilesViewModelFactory
@@ -26,8 +22,6 @@ import com.google.android.material.textfield.TextInputEditText
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-
-    private var profiles: List<Profiles>? = null
 
     private lateinit var recyclerProfileAdapter: ProfileMainRecyclerAdapter
 
@@ -40,8 +34,6 @@ class MainFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-        profiles = viewModel.allProfiles.value
     }
 
     override fun onCreateView(
@@ -56,12 +48,15 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerProfileAdapter = ProfileMainRecyclerAdapter(
-            requireContext(),
             listOf(),
         )
 
         binding.mainFragmentRecyclerView.adapter = recyclerProfileAdapter
         setDataset()
+
+        binding.mainFragmentFab.setOnClickListener {
+            addNewProfile()
+        }
     }
 
     override fun onDestroyView() {
@@ -73,28 +68,13 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.add_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.ac_add_item -> {
-                addNewProfile()
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun isEntryValid(name: String, surname: String, age: String): Boolean {
         return viewModel.isEntryValid(name, surname, age)
     }
 
     private fun addNewProfile() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Create profile")
+        builder.setTitle(getString(R.string.create_profile_text))
 
         val view = activity?.layoutInflater?.inflate(
             R.layout.custom_create_profile_alert_dialog,
@@ -111,7 +91,7 @@ class MainFragment : Fragment() {
         builder.setView(view)
 
         builder.setPositiveButton(
-            "Save"
+            getString(R.string.save_text)
         ) { _, _ ->
             val name = nameText?.text.toString()
             val surname = surnameText?.text.toString()
@@ -124,17 +104,12 @@ class MainFragment : Fragment() {
 
                 setDataset()
             } else {
-                Snackbar.make(
-                    requireContext(),
-                    requireView(),
-                    "Error! Check the inputs.",
-                    Snackbar.LENGTH_SHORT
-                ).show()
+                showSnackbarForInputError()
             }
         }
 
         builder.setNegativeButton(
-            "Cancel"
+            getString(R.string.cancel_text)
         ) { dialog, _ -> dialog.cancel() }
 
         builder.setCancelable(false)
@@ -143,8 +118,31 @@ class MainFragment : Fragment() {
 
     private fun setDataset() {
         viewModel.allProfiles.observe(viewLifecycleOwner, {
-            recyclerProfileAdapter.dataSet = it
+            recyclerProfileAdapter.setDataset(it)
             recyclerProfileAdapter.notifyDataSetChanged()
+            controlViewItemsVisibility()
+        })
+    }
+
+    private fun showSnackbarForInputError() {
+        Snackbar.make(
+            requireContext(),
+            requireView(),
+            getString(R.string.input_error_text),
+            Snackbar.LENGTH_LONG
+        ).setAction(getString(R.string.try_again_button_text)) { addNewProfile() }
+            .show()
+    }
+
+    private fun controlViewItemsVisibility() {
+        viewModel.allProfiles.observe(viewLifecycleOwner, {
+            if (it.isNullOrEmpty()) {
+                binding.mainFragmentInformationText.visibility = View.VISIBLE
+                binding.mainFragmentRecyclerView.visibility = View.GONE
+            } else {
+                binding.mainFragmentInformationText.visibility = View.GONE
+                binding.mainFragmentRecyclerView.visibility = View.VISIBLE
+            }
         })
     }
 }
