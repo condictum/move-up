@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
 import be.condictum.move_up.database.data.Goals
@@ -29,8 +28,6 @@ class GoalScreenAdapter(private val mContext: Context, private var data: List<Go
     override fun onBindViewHolder(holder: GoalsViewHolder, position: Int) {
         holder.goalNameTextView.text = data[position].dataName
         holder.goalDateTextView.text = dateFormatter.format(data[position].dataDate)
-
-        Toast.makeText(mContext, "Data loaded", Toast.LENGTH_SHORT).show()
     }
 
     override fun getItemCount(): Int {

@@ -2,6 +2,7 @@ package be.condictum.move_up.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -74,7 +75,7 @@ class GoalScreenFragment : Fragment() {
         val profileId = sharedPreferences.getInt(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, 0)
 
         if (profileId == 0) {
-            throw Exception("Profile Id Must Not Be Zero!")
+            Log.e("Error", "Profile Id Must Not Be Zero!")
         }
 
         return profileId

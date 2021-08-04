@@ -17,6 +17,10 @@ class ProfilesViewModel(private val profilesDao: ProfilesDao) : ViewModel() {
         insertProfile(newProfile)
     }
 
+    fun getProfileById(id: Int): Profiles {
+        return profilesDao.getData(id)
+    }
+
     private fun insertProfile(data: Profiles) {
         viewModelScope.launch {
             profilesDao.insert(data)
