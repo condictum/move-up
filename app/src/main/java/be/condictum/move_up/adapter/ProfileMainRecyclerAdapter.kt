@@ -1,5 +1,6 @@
 package be.condictum.move_up.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,11 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
 import be.condictum.move_up.database.data.Profiles
+import be.condictum.move_up.fragment.MainFragment
 import be.condictum.move_up.fragment.MainFragmentDirections
 
 class ProfileMainRecyclerAdapter(
+    private val mContext: Context,
     private var dataSet: List<Profiles>
 ) :
     RecyclerView.Adapter<ProfileMainRecyclerAdapter.ProfileMainViewHolder>() {
@@ -30,13 +33,35 @@ class ProfileMainRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: ProfileMainViewHolder, position: Int) {
-        holder.profileNameText.text = dataSet[position].name
-        holder.profileSurnameText.text = dataSet[position].surname
-        holder.profileAgeText.text = dataSet[position].age.toString()
+        var name = dataSet[position].name
+        var surname = dataSet[position].surname
+        var age = dataSet[position].age.toString()
+
+        if (name.length > 16) {
+            name = name.substring(0, 16) + "..."
+        }
+
+        if (surname.length > 16) {
+            surname = surname.substring(0, 16) + "..."
+        }
+
+        if (age.length > 3) {
+            age = age.substring(0, 3) + "..."
+        }
+
+        holder.profileNameText.text = name
+        holder.profileSurnameText.text = surname
+        holder.profileAgeText.text = age
 
         holder.profilesCardView.setOnClickListener {
-            val action =
-                MainFragmentDirections.actionMainFragmentToGoalScreenFragment(dataSet[position].id)
+            val id = dataSet[position].id
+
+            val sharedPreferences =
+                mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
+            sharedPreferences.edit().putInt(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, id)
+                .apply()
+
+            val action = MainFragmentDirections.actionMainFragmentToGoalScreenFragment()
             holder.itemView.findNavController().navigate(action)
         }
     }

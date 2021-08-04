@@ -1,12 +1,12 @@
 package be.condictum.move_up.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.navArgs
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.databinding.FragmentGoalScreenBinding
@@ -16,8 +16,6 @@ import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 class GoalScreenFragment : Fragment() {
     private var _binding: FragmentGoalScreenBinding? = null
     private val binding get() = _binding!!
-
-    private val args: GoalScreenFragmentArgs by navArgs()
 
     lateinit var goals: Goals
 
@@ -39,8 +37,24 @@ class GoalScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val id = args.profileId
-        binding.goalsScreenTextView.text = "$id"
+
+        val profileId = getProfileIdFromSharedPreferences()
+
+        binding.goalsScreenTextView.text = "$profileId"
+    }
+
+    private fun getProfileIdFromSharedPreferences(): Int {
+        val mContext = requireContext()
+        val sharedPreferences =
+            mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
+        val profileId = sharedPreferences.getInt(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, 0)
+
+        if (profileId == 0) {
+            throw Exception("Profile Id Must Not Be Zero!")
+        }
+
+        return profileId
+    }
 
 /*
         binding.mainFragmentRecyclerView.adapter = GoalRecyclerAdapter(
@@ -52,7 +66,6 @@ class GoalScreenFragment : Fragment() {
             ),
         )
  */
-    }
 
     /*
     private fun isEntryValid(): Boolean {

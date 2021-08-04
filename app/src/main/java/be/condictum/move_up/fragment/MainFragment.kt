@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
@@ -15,11 +14,16 @@ import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.databinding.FragmentMainBinding
 import be.condictum.move_up.viewmodel.ProfilesViewModel
 import be.condictum.move_up.viewmodel.ProfilesViewModelFactory
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 
 
 class MainFragment : Fragment() {
+    companion object {
+        const val SHARED_PREFERENCES_KEY_PROFILE_ID = "profileId"
+    }
+
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
@@ -48,6 +52,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerProfileAdapter = ProfileMainRecyclerAdapter(
+            requireContext(),
             listOf(),
         )
 
@@ -73,7 +78,7 @@ class MainFragment : Fragment() {
     }
 
     private fun addNewProfile() {
-        val builder = AlertDialog.Builder(requireContext())
+        val builder = MaterialAlertDialogBuilder(requireContext())
         builder.setTitle(getString(R.string.create_profile_text))
 
         val view = activity?.layoutInflater?.inflate(
