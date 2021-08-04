@@ -23,6 +23,18 @@ class ProfilesViewModel(private val profilesDao: ProfilesDao) : ViewModel() {
         }
     }
 
+    fun updateProfile(data: Profiles) {
+        viewModelScope.launch {
+            profilesDao.update(data)
+        }
+    }
+
+    fun deleteProfile(data: Profiles) {
+        viewModelScope.launch {
+            profilesDao.delete(data)
+        }
+    }
+
     fun isEntryValid(name: String, surname: String, age: String): Boolean {
         if (name.isBlank() || surname.isBlank() || age.isBlank()) {
             return false

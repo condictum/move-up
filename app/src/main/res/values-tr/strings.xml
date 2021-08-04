@@ -18,4 +18,14 @@
     <string name="preparations_text">Hazırlıklar</string>
     <string name="results_text">Sonuçlar</string>
     <string name="timer_text">Zamanlayıcı</string>
+    <string name="edit_text">Düzenle</string>
+    <string name="delete_text">Sil</string>
+    <string name="profile_deleted_text">Profil silindi.</string>
+    <string name="are_you_sure_text">Emin misiniz?</string>
+    <string name="profile_is_deleting_text">Profil siliniyor…</string>
+    <string name="yes_button_text">EVET</string>
+    <string name="no_button_text">HAYIR</string>
+    <string name="profile_isnt_deleted_text">Profil silinmedi.</string>
+    <string name="save_button_text">KAYDET</string>
+    <string name="edit_button_text">DÜZENLE</string>
 </resources>

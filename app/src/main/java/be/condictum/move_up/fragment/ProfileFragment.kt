@@ -1,60 +1,87 @@
 package be.condictum.move_up.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
+import be.condictum.move_up.database.DatabaseApplication
+import be.condictum.move_up.databinding.FragmentProfileBinding
+import be.condictum.move_up.viewmodel.ProfilesViewModel
+import be.condictum.move_up.viewmodel.ProfilesViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private val viewModel: ProfilesViewModel by activityViewModels {
+        ProfilesViewModelFactory(
+            (activity?.application as DatabaseApplication).database.profilesDao(),
+        )
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.textInputLayoutName.setStartIconOnClickListener {
+            binding.profileFragmentSaveButton.text = getString(R.string.save_button_text)
+            binding.profileFragmentNameEditText.isEnabled = true
+            showKeyboard()
+            binding.profileFragmentNameEditText.requestFocus()
+        }
+
+        binding.textInputLayoutSurname.setStartIconOnClickListener {
+            binding.profileFragmentSaveButton.text = getString(R.string.save_button_text)
+            binding.profileFragmentSurnameEditText.isEnabled = true
+            showKeyboard()
+            binding.profileFragmentSurnameEditText.requestFocus()
+        }
+
+        binding.textInputLayoutAge.setStartIconOnClickListener {
+            binding.profileFragmentSaveButton.text = getString(R.string.save_button_text)
+            binding.profileFragmentAgeEditText.isEnabled = true
+            showKeyboard()
+            binding.profileFragmentAgeEditText.requestFocus()
+        }
+
+        binding.profileFragmentSaveButton.setOnClickListener {
+            binding.profileFragmentSaveButton.text = getString(R.string.edit_button_text)
+
+            binding.profileFragmentNameEditText.isEnabled = false
+            binding.profileFragmentNameEditText.clearFocus()
+
+            binding.profileFragmentSurnameEditText.isEnabled = false
+            binding.profileFragmentSurnameEditText.clearFocus()
+
+            binding.profileFragmentAgeEditText.isEnabled = false
+            binding.profileFragmentNameEditText.clearFocus()
+
+            hideKeyboard()
+        }
+    }
+
+    private fun showKeyboard() {
+        val keyboard: InputMethodManager? =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        keyboard?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+    }
+
+    private fun hideKeyboard() {
+        val keyboard: InputMethodManager? =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        keyboard?.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }
