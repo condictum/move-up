@@ -10,13 +10,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import be.condictum.move_up.R
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.database.data.Profiles
 import be.condictum.move_up.databinding.FragmentProfileBinding
 import be.condictum.move_up.viewmodel.ProfilesViewModel
 import be.condictum.move_up.viewmodel.ProfilesViewModelFactory
-
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -25,6 +26,8 @@ class ProfileFragment : Fragment() {
     private val viewModel: ProfilesViewModel by activityViewModels {
         ProfilesViewModelFactory(
             (activity?.application as DatabaseApplication).database.profilesDao(),
+            (activity?.application as DatabaseApplication).database.goalsDao(),
+            (activity?.application as DatabaseApplication).database.lessonsDao(),
         )
     }
 
@@ -88,6 +91,10 @@ class ProfileFragment : Fragment() {
         }
 
         setDataset()
+
+        binding.fragmentProfileDeleteImage.setOnClickListener {
+            showDeleteItemDialog()
+        }
     }
 
     private fun showKeyboard() {
@@ -144,5 +151,47 @@ class ProfileFragment : Fragment() {
         }
 
         return profileId
+    }
+
+    private fun showDeleteItemDialog() {
+        val mContext = requireContext()
+        val alertDialog = MaterialAlertDialogBuilder(mContext)
+        alertDialog.setCancelable(false)
+
+        alertDialog.setTitle(mContext.getString(R.string.are_you_sure_text))
+        alertDialog.setMessage(mContext.getString(R.string.profile_is_deleting_text))
+        alertDialog.setPositiveButton(mContext.getString(R.string.yes_button_text)) { _, _ ->
+            viewModel.deleteProfile(
+                viewModel.getProfileById(getProfileIdFromSharedPreferences())
+            )
+
+            val sharedPreferences =
+                mContext.getSharedPreferences(
+                    mContext.packageName,
+                    Context.MODE_PRIVATE
+                )
+
+            sharedPreferences.edit()
+                .remove(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID).apply()
+
+            val action = ProfileFragmentDirections.actionProfileFragmentToMainFragment()
+            Navigation.findNavController(requireView()).navigate(action)
+
+            Toast.makeText(
+                mContext,
+                mContext.getString(R.string.profile_deleted_text),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        alertDialog.setNegativeButton(mContext.getString(R.string.no_button_text)) { _, _ ->
+            Toast.makeText(
+                mContext,
+                mContext.getString(R.string.profile_isnt_deleted_text),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        alertDialog.show()
     }
 }

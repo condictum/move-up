@@ -69,5 +69,9 @@
         android:id="@+id/profileFragment"
         android:name="be.condictum.move_up.fragment.ProfileFragment"
         android:label="@string/profile_text"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

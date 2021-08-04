@@ -28,10 +28,24 @@
             android:paddingTop="32dp"
             android:paddingBottom="32dp">
 
+            <ImageButton
+                android:id="@+id/fragment_profile_delete_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="92dp"
+                android:layout_marginTop="72dp"
+                android:backgroundTint="@color/text_on_primary_color"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toTopOf="@+id/imageView"
+                app:srcCompat="@drawable/ic_delete_item" />
+
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="134dp"
                 android:layout_height="111dp"
+                android:focusable="false"
+                android:importantForAccessibility="no"
                 app:layout_constraintBottom_toTopOf="@+id/textInputLayoutName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

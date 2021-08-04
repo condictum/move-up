@@ -17,6 +17,12 @@ interface GoalsDao {
     @Query("SELECT * from Goals WHERE id = :id")
     fun getData(id: Int): Goals
 
+    @Query("SELECT * from Goals WHERE profiles_id = :profileId")
+    fun getDataByProfileId(profileId: Int): Goals
+
+    @Query("DELETE from Goals WHERE profiles_id = :profileId")
+    fun deleteDataByProfileId(profileId: Int)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(data: Goals)
 
