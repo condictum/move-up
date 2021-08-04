@@ -32,6 +32,8 @@ class MainFragment : Fragment() {
     private val viewModel: ProfilesViewModel by activityViewModels {
         ProfilesViewModelFactory(
             (activity?.application as DatabaseApplication).database.profilesDao(),
+            (activity?.application as DatabaseApplication).database.goalsDao(),
+            (activity?.application as DatabaseApplication).database.lessonsDao(),
         )
     }
 

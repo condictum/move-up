@@ -20,6 +20,12 @@ interface LessonsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(data: Lessons)
 
+    @Query("SELECT * from Lessons WHERE goals_id = :goalsId")
+    fun getDataByGoalsId(goalsId: Int): Lessons
+
+    @Query("DELETE from Lessons WHERE goals_id = :goalsId")
+    fun deleteDataByGoalsId(goalsId: Int)
+
     @Update
     suspend fun update(data: Lessons)
 

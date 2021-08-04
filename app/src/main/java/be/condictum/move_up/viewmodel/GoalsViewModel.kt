@@ -17,6 +17,14 @@ class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
         insertGoal(newGoal)
     }
 
+    fun getProfileById(profileId: Int): Goals {
+        return goalsDao.getDataByProfileId(profileId)
+    }
+
+    fun deleteProfileById(profileId: Int) {
+        goalsDao.deleteDataByProfileId(profileId)
+    }
+
     private fun insertGoal(data: Goals) {
         viewModelScope.launch {
             goalsDao.insert(data)

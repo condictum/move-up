@@ -4,12 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import be.condictum.move_up.database.dao.GoalsDao
+import be.condictum.move_up.database.dao.LessonsDao
 import be.condictum.move_up.database.dao.ProfilesDao
 import be.condictum.move_up.database.data.Profiles
 import kotlinx.coroutines.launch
 
 
-class ProfilesViewModel(private val profilesDao: ProfilesDao) : ViewModel() {
+class ProfilesViewModel(
+    private val profilesDao: ProfilesDao,
+    private val goalsDao: GoalsDao,
+    private val lessonsDao: LessonsDao
+) : ViewModel() {
     val allProfiles: LiveData<List<Profiles>> = profilesDao.getAllData()
 
     fun addNewProfile(name: String, surname: String, age: Int) {
@@ -35,6 +41,8 @@ class ProfilesViewModel(private val profilesDao: ProfilesDao) : ViewModel() {
 
     fun deleteProfile(data: Profiles) {
         viewModelScope.launch {
+            lessonsDao.deleteDataByGoalsId(goalsDao.getDataByProfileId(data.id).id)
+            goalsDao.deleteDataByProfileId(data.id)
             profilesDao.delete(data)
         }
     }
@@ -60,11 +68,13 @@ class ProfilesViewModel(private val profilesDao: ProfilesDao) : ViewModel() {
 
 class ProfilesViewModelFactory(
     private val profilesDao: ProfilesDao,
+    private val goalsDao: GoalsDao,
+    private val lessonsDao: LessonsDao,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ProfilesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ProfilesViewModel(profilesDao) as T
+            return ProfilesViewModel(profilesDao, goalsDao, lessonsDao) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class")
