@@ -54,6 +54,9 @@ class MainFragment : Fragment() {
         recyclerProfileAdapter = ProfileMainRecyclerAdapter(
             requireContext(),
             listOf(),
+            viewModel,
+            activity,
+            requireView()
         )
 
         binding.mainFragmentRecyclerView.adapter = recyclerProfileAdapter

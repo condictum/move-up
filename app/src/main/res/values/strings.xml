@@ -18,4 +18,12 @@
     <string name="preparations_text">Preparations</string>
     <string name="results_text">Results</string>
     <string name="timer_text">Timer</string>
+    <string name="edit_text">Edit</string>
+    <string name="delete_text">Delete</string>
+    <string name="profile_deleted_text">Profile deleted.</string>
+    <string name="are_you_sure_text">Are you sure?</string>
+    <string name="profile_is_deleting_text">Profile is deleting…</string>
+    <string name="yes_button_text">YES</string>
+    <string name="no_button_text">NO</string>
+    <string name="profile_isnt_deleted_text">Profile isn\'t deleted.</string>
 </resources>
