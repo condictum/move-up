@@ -26,4 +26,6 @@
     <string name="yes_button_text">YES</string>
     <string name="no_button_text">NO</string>
     <string name="profile_isnt_deleted_text">Profile isn\'t deleted.</string>
+    <string name="save_button_text">SAVE</string>
+    <string name="edit_button_text">EDIT</string>
 </resources>

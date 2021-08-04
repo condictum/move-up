@@ -90,9 +90,7 @@ class ProfileMainRecyclerAdapter(
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.ac_main_edit_profile -> {
-
-                        val newData = updateProfile(position)
-
+                        updateProfile(position)
                         true
                     }
                     R.id.ac_main_delete_profile -> {
@@ -159,11 +157,11 @@ class ProfileMainRecyclerAdapter(
         )
 
         val nameText =
-            view?.findViewById<TextInputEditText>(R.id.main_alert_dialog_profile_name_edit_text)
+            view?.findViewById<TextInputEditText>(R.id.profile_fragment_name_edit_text)
         val surnameText =
-            view?.findViewById<TextInputEditText>(R.id.main_alert_dialog_profile_surname_edit_text)
+            view?.findViewById<TextInputEditText>(R.id.profile_fragment_surname_edit_text)
         val ageText =
-            view?.findViewById<TextInputEditText>(R.id.main_alert_dialog_profile_age_edit_text)
+            view?.findViewById<TextInputEditText>(R.id.profile_fragment_age_edit_text)
 
         nameText?.setText(data.name)
         surnameText?.setText(data.surname)
