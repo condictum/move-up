@@ -46,19 +46,24 @@ class GoalScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = GoalScreenAdapter(requireContext(), listOf())
+        binding.button.setOnClickListener {
 
-        binding.goalScreenRecyclerView.adapter = adapter
-        setDataset()
+            adapter = GoalScreenAdapter(requireContext(), listOf())
 
-        val profileId = getProfileIdFromSharedPreferences()
-        viewModel.addNewGoal(
-            "Test Goal Name",
-            Date(dateFormatter.parse("20/01/2020").time),
-            profileId
-        )
+            binding.goalScreenRecyclerView.adapter = adapter
+            setDataset()
 
-        binding.goalsScreenTextView.text = "$profileId"
+            val profileId = getProfileIdFromSharedPreferences()
+            viewModel.addNewGoal(
+                "Test Goal Name",
+                Date(dateFormatter.parse("20/01/2020").time),
+                profileId
+            )
+
+            binding.goalsScreenTextView.text = "$profileId"
+        }
+
+
     }
 
     private fun setDataset() {
