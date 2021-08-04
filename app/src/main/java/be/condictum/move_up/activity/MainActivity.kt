@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.settingsFragment
             )
         )
-        binding.bottomNavView.setupWithNavController(navController)
 
+        binding.bottomNavView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         binding.bottomNavView.setOnItemSelectedListener { item ->
@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
                 Navigation.findNavController(this, R.id.main_nav_host_fragment)
             )
         }
-
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -61,6 +60,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 }
