@@ -7,17 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import be.condictum.move_up.adapter.GoalScreenAdapter
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.databinding.FragmentGoalScreenBinding
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import be.condictum.move_up.viewmodel.GoalsViewModelFactory
+import java.sql.Date
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
 
 class GoalScreenFragment : Fragment() {
     private var _binding: FragmentGoalScreenBinding? = null
     private val binding get() = _binding!!
 
     lateinit var goals: Goals
+
+    private lateinit var adapter: GoalScreenAdapter
+    var dateFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
 
     private val viewModel: GoalsViewModel by activityViewModels {
         GoalsViewModelFactory(
@@ -37,10 +45,26 @@ class GoalScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        adapter = GoalScreenAdapter(requireContext(), listOf())
+
+        binding.goalScreenRecyclerView.adapter = adapter
+        setDataset()
 
         val profileId = getProfileIdFromSharedPreferences()
+        viewModel.addNewGoal(
+            "Test Goal Name",
+            Date(dateFormatter.parse("20/01/2020").time),
+            profileId
+        )
 
         binding.goalsScreenTextView.text = "$profileId"
+    }
+
+    private fun setDataset() {
+        viewModel.allGoals.observe(viewLifecycleOwner, {
+            adapter.setDataset(it)
+            adapter.notifyDataSetChanged()
+        })
     }
 
     private fun getProfileIdFromSharedPreferences(): Int {

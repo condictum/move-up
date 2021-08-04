@@ -31,12 +31,12 @@ class ProfileMainRecyclerAdapter(
     RecyclerView.Adapter<ProfileMainRecyclerAdapter.ProfileMainViewHolder>() {
 
     class ProfileMainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val profileNameText: TextView = view.findViewById(R.id.row_item_profile_name_text)
-        val profileSurnameText: TextView = view.findViewById(R.id.row_item_profile_surname_text)
+        val profileNameText: TextView = view.findViewById(R.id.row_item_goals_name_text)
+        val profileSurnameText: TextView = view.findViewById(R.id.row_item_goals_date_text)
         val profileAgeText: TextView = view.findViewById(R.id.row_item_profile_age_text)
         val profilesCardView: CardView = view.findViewById(R.id.goals_list_card_view)
         val profileVerticalMenu: ImageButton =
-            view.findViewById(R.id.row_item_profile_vertical_menu)
+            view.findViewById(R.id.row_item_goals_menu)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileMainViewHolder {

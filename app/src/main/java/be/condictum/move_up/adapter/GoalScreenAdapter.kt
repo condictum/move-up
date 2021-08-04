@@ -1,54 +1,43 @@
 package be.condictum.move_up.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
 import be.condictum.move_up.database.data.Goals
-import be.condictum.move_up.fragment.GoalScreenFragment
-import be.condictum.move_up.fragment.MainFragment.Companion.SHARED_PREFERENCES_KEY_PROFILE_ID
-import java.text.FieldPosition
+import java.text.SimpleDateFormat
 
-class GoalScreenAdapter (val context, val goals:List<Goals>:RecyclerView.Adapter<GoalScreenAdapter.MyViewHolder>) {
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder{
-      val view = LayoutInflater.from(parent.context)
-          .inflate(R.layout.goals_list_row_item, parent, false)
-      return MyViewHolder(view)
+class GoalScreenAdapter(private val mContext: Context, private var data: List<Goals>) :
+    RecyclerView.Adapter<GoalScreenAdapter.GoalsViewHolder>() {
+    var dateFormatter: SimpleDateFormat = SimpleDateFormat("dd-MM-yyyy")
 
-  }
-    override  fun getItemCount():Int{
-        return goals.size
+    class GoalsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val goalNameTextView = view.findViewById<TextView>(R.id.row_item_goals_name_text)
+        val goalDateTextView = view.findViewById<TextView>(R.id.row_item_goals_date_text)
     }
 
-    override fun onBindViewHolder(holder:MyViewHolder , position: Int){
-        var name = goals[position].dataName
-        var date = goals[position].dataDate
-
-        holder.GoalsNameText.text = name
-        holder.GoalsDateText.text = date
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GoalsViewHolder {
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.goals_list_row_item, parent, false)
+        return GoalsViewHolder(view)
     }
-    inner class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        val GoalsNameText: TextView = itemView.findViewById(R.id.row_item_goals_name_text)
-        val GoalsDateText: TextView = itemView.findViewById(R.id.row_item_goals_date_text)
 
-        holder.goalsCardView.setOnClickListener {
-            val id = goals[position].id
+    override fun onBindViewHolder(holder: GoalsViewHolder, position: Int) {
+        holder.goalNameTextView.text = data[position].dataName
+        holder.goalDateTextView.text = dateFormatter.format(data[position].dataDate)
 
-            val sharedPreferences =
-                context.getSharedPreferences(context.packageName, context.MODE_PRIVATE)
-            sharedPreferences.edit().putInt(GoalScreenFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, id)
-                .apply()
+        Toast.makeText(mContext, "Data loaded", Toast.LENGTH_SHORT).show()
+    }
 
-            val action = GoalScreenFragmentDirections.actionMainFragmentToGoalScreenFragment()
-            holder.itemView.findNavController().navigate(action)
-        }
+    override fun getItemCount(): Int {
+        return data.size
+    }
 
-
-
-
+    fun setDataset(data: List<Goals>) {
+        this.data = data
     }
 }

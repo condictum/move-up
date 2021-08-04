@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import java.sql.Date
 
 class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
-    val allProfiles: LiveData<List<Goals>> = goalsDao.getAllData()
+    val allGoals: LiveData<List<Goals>> = goalsDao.getAllData()
 
     fun addNewGoal(dataName: String, dataDate: Date, profilesId: Int) {
         val newGoal = getNewGoalEntry(dataName, dataDate, profilesId)
