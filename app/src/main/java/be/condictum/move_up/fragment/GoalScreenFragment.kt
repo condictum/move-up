@@ -59,17 +59,19 @@ class GoalScreenFragment : Fragment() {
 
         val profileId = getProfileIdFromSharedPreferences()
 
-        binding.button.setOnClickListener {
+        binding.goalScreenFab.setOnClickListener {
 
-            val mDialogView = LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
+            val mDialogView =
+                LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
 
-            val mBuilder = AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals").setPositiveButton("Kaydet"){
-                    dialogInterface, i ->
-                viewModel.addNewGoal(
-                "Test Goal Name",
-                Date(dateFormatter.parse("20/01/2020").time),
-                profileId
-            )
+            val mBuilder =
+                AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals")
+                    .setPositiveButton("Kaydet") { dialogInterface, i ->
+                        viewModel.addNewGoal(
+                            "Test Goal Name",
+                            Date(dateFormatter.parse("20/01/2020").time),
+                            profileId
+                        )
 
 
             }.setNegativeButton("ÇIK"){
