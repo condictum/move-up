@@ -13,6 +13,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
 import be.condictum.move_up.database.data.Goals
+import be.condictum.move_up.fragment.GoalScreenFragment
+import be.condictum.move_up.fragment.GoalScreenFragmentDirections
 import be.condictum.move_up.fragment.MainFragment
 import be.condictum.move_up.fragment.MainFragmentDirections
 import be.condictum.move_up.viewmodel.GoalsViewModel
@@ -43,14 +45,14 @@ class GoalScreenAdapter(private val mContext: Context, private var data: List<Go
         holder.goalDateTextView.text = dateFormatter.format(data[position].dataDate)
 
         holder.goalscard.setOnClickListener {
-            val id = currentData.id
+            val id = data[position].id
 
             val sharedPreferences =
                 mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
-            sharedPreferences.edit().putInt(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, id)
+            sharedPreferences.edit().putInt(GoalScreenFragment.SHARED_PREFERENCES_KEY_GOAL_ID, id)
                 .apply()
 
-            val action = MainFragmentDirections.actionMainFragmentToGoalScreenFragment()
+            val action = GoalScreenFragmentDirections.actionGoalScreenFragmentToGoalResultFragment()
             holder.itemView.findNavController().navigate(action)
         }
 
