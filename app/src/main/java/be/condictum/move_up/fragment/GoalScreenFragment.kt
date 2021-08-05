@@ -60,7 +60,8 @@ class GoalScreenFragment : Fragment() {
 
             val mBuilder = AlertDialog.Builder(this).setView(mDialogView).setTitle("form").show()
 
-            mBuilder.btn_dialog_save.setOnClickListener {
+           //mBuilder.dialog_button.setOnClickListener {
+                mBuilder.getButton(findViewById(R.id.input))
 
                 viewModel.addNewGoal(
                     "Test Goal Name",
@@ -69,7 +70,7 @@ class GoalScreenFragment : Fragment() {
                 )
 
             }
-            mBuilder.dialogCancelBtn.setOnClickListener {
+            mBuilder.cancel_button.setOnClickListener {
                 mBuilder.dismiss()
 
             }
