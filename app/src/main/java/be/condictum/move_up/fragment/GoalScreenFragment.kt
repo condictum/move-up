@@ -52,7 +52,7 @@ class GoalScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = GoalScreenAdapter(requireContext(), listOf())
+        adapter = GoalScreenAdapter(requireContext(), listOf(),viewModel)
 
         binding.goalScreenRecyclerView.adapter = adapter
         setDataset()
@@ -60,7 +60,6 @@ class GoalScreenFragment : Fragment() {
         val profileId = getProfileIdFromSharedPreferences()
 
         binding.button.setOnClickListener {
-
 
             val mDialogView = LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
 
