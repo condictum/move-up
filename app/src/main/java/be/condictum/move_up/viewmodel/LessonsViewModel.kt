@@ -38,8 +38,8 @@ class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
         }
     }
 
-    fun isEntryValid(lessonName: String, lessonScore: String, goalsId: String): Boolean {
-        if (lessonName.isBlank() || lessonScore.isBlank() || goalsId.isBlank()) {
+    fun isEntryValid(lessonName: String, lessonScore: String): Boolean {
+        if (lessonName.isBlank() || lessonScore.isBlank()) {
             return false
         }
 
