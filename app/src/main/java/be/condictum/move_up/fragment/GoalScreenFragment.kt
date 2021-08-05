@@ -23,6 +23,10 @@ import java.text.SimpleDateFormat
 
 
 class GoalScreenFragment : Fragment() {
+
+    companion object {
+        const val SHARED_PREFERENCES_KEY_PROFILE_ID = "profileId"
+    }
     private var _binding: FragmentGoalScreenBinding? = null
     private val binding get() = _binding!!
 
