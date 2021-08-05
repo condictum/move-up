@@ -11,14 +11,30 @@ import kotlinx.coroutines.launch
 class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
     val allLessons: LiveData<List<Lessons>> = lessonsDao.getAllData()
 
-    fun addNewLesson(lessonName: String, lessonScore: Double, goalsId: Int) {
-        val newLesson = getNewLessonEntry(lessonName, lessonScore, goalsId)
+    fun addNewLesson(lessonName: String, lessonScore: String, goalsId: String) {
+        val newLesson = getNewLessonEntry(lessonName, lessonScore.toDouble(), goalsId.toInt())
         insertLesson(newLesson)
+    }
+
+    fun getLessonById(id: Int): Lessons {
+        return lessonsDao.getLesson(id)
     }
 
     private fun insertLesson(data: Lessons) {
         viewModelScope.launch {
             lessonsDao.insert(data)
+        }
+    }
+
+    fun updateLesson(data: Lessons) {
+        viewModelScope.launch {
+            lessonsDao.update(data)
+        }
+    }
+
+    fun deleteLesson(data: Lessons) {
+        viewModelScope.launch {
+            lessonsDao.delete(data)
         }
     }
 
