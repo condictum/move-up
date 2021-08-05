@@ -58,6 +58,10 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomNavView.visibility = View.GONE
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
+                R.id.goalScreenFragment -> {
+                    binding.bottomNavView.visibility = View.VISIBLE
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
                 else -> {
                     binding.bottomNavView.visibility = View.VISIBLE
                 }

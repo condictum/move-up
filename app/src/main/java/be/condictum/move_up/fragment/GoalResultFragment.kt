@@ -42,7 +42,13 @@ class GoalResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerLessonAdapter = LessonRecyclerViewAdapter(requireContext(), listOf(), viewModel)
+        recyclerLessonAdapter = LessonRecyclerViewAdapter(
+            requireContext(),
+            listOf(),
+            viewModel,
+            requireActivity(),
+            requireView()
+        )
 
         binding.goalResultLessonRecyclerView.adapter = recyclerLessonAdapter
         setDataset()
