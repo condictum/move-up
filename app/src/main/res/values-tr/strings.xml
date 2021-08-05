@@ -31,4 +31,8 @@
     <string name="lesson_edit_or_delete_menu_content_text">Ders düzenleme veya silmek için menü</string>
     <string name="formatted_score_text">Puan: %s</string>
     <string name="click_and_add_new_lesson_text">Tıkla ve yeni bir ders ekle.</string>
+    <string name="lesson_name_text">Ders adı</string>
+    <string name="lesson_score_text">Net puan</string>
+    <string name="create_lesson_text">Ders oluştur</string>
+    <string name="there_is_no_lesson_please_create_a_new_lesson">Henüz ders oluşturulmamış.\nLütfen bir tane ders oluşturun.</string>
 </resources>

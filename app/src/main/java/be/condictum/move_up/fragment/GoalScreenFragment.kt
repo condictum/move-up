@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
@@ -23,6 +22,10 @@ import java.text.SimpleDateFormat
 
 
 class GoalScreenFragment : Fragment() {
+    companion object {
+        const val SHARED_PREFERENCES_KEY_GOAL_ID = "goalId"
+    }
+
     private var _binding: FragmentGoalScreenBinding? = null
     private val binding get() = _binding!!
 

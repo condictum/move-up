@@ -148,7 +148,7 @@ class MainFragment : Fragment() {
         viewModel.allProfiles.observe(viewLifecycleOwner, {
             if (it.isNullOrEmpty()) {
                 binding.mainFragmentInformationText.visibility = View.VISIBLE
-                binding.mainFragmentRecyclerView.visibility = View.GONE
+                binding.mainFragmentRecyclerView.visibility = View.INVISIBLE
             } else {
                 binding.mainFragmentInformationText.visibility = View.GONE
                 binding.mainFragmentRecyclerView.visibility = View.VISIBLE
