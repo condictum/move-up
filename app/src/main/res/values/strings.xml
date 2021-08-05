@@ -30,9 +30,14 @@
     <string name="edit_button_text">EDIT</string>
     <string name="lesson_edit_or_delete_menu_content_text">Lesson edit or delete menu.</string>
     <string name="formatted_score_text">Score: %s</string>
+    <string name="formatted_lesson_text">Lesson: %s</string>
     <string name="click_and_add_new_lesson_text">Click and add new lesson.</string>
     <string name="lesson_name_text">Lesson name</string>
     <string name="lesson_score_text">Lesson score</string>
     <string name="create_lesson_text">Create lesson</string>
+    <string name="lesson_text">Lesson</string>
+    <string name="score_text">Score</string>
+    <string name="exit_button_text">EXIT</string>
+    <string name="details_text">Details</string>
     <string name="there_is_no_lesson_please_create_a_new_lesson">There is no lesson. Please create a new lesson.</string>
 </resources>
