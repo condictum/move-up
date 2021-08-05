@@ -1,5 +1,6 @@
 package be.condictum.move_up.fragment
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import be.condictum.move_up.R
 import be.condictum.move_up.adapter.GoalScreenAdapter
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.database.data.Goals
@@ -47,18 +49,31 @@ class GoalScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.button.setOnClickListener {
-
             adapter = GoalScreenAdapter(requireContext(), listOf())
 
             binding.goalScreenRecyclerView.adapter = adapter
             setDataset()
 
             val profileId = getProfileIdFromSharedPreferences()
-            viewModel.addNewGoal(
-                "Test Goal Name",
-                Date(dateFormatter.parse("20/01/2020").time),
-                profileId
-            )
+
+            val mDialogView = LayoutInflater.from(this).inflate(R.layout.goal_input_form, null)
+
+            val mBuilder = AlertDialog.Builder(this).setView(mDialogView).setTitle("form").show()
+
+           //mBuilder.dialog_button.setOnClickListener {
+                mBuilder.getButton(findViewById(R.id.input))
+
+                viewModel.addNewGoal(
+                    "Test Goal Name",
+                    Date(dateFormatter.parse("20/01/2020").time),
+                    profileId
+                )
+
+            }
+            mBuilder.cancel_button.setOnClickListener {
+                mBuilder.dismiss()
+
+            }
 
             binding.goalsScreenTextView.text = "$profileId"
         }
