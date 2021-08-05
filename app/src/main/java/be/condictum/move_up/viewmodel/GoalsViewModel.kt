@@ -23,6 +23,7 @@ class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
 
     fun deleteProfileById(profileId: Int) {
         goalsDao.deleteDataByProfileId(profileId)
+
     }
 
     private fun insertGoal(data: Goals) {
