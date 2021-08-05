@@ -3,11 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/ac_new_goal"
-        android:icon="@drawable/ic_add_item"
-        android:title="Add goal"
-        app:showAsAction="always" />
+        android:id="@+id/ac_main_edit_goal"
+        android:title="@string/edit_text" />
     <item
-        android:id="@+id/ac_goal_screen_settings"
-        android:title="Settings" />
+        android:id="@+id/ac_main_delete_goal"
+        android:title="@string/delete_text" />
 </menu>
