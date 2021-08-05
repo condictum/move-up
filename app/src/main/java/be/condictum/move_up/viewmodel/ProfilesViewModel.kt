@@ -45,7 +45,7 @@ class ProfilesViewModel(
 
             if (goals != null) {
                 val goalsId = goals.id
-                val lessons = lessonsDao.getDataByGoalsId(goalsId)
+                val lessons = lessonsDao.getAllDataByGoalsId(goalsId)
 
                 if (lessons != null) {
                     lessonsDao.deleteDataByGoalsId(goalsId)

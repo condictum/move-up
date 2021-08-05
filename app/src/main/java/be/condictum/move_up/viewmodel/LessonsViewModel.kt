@@ -9,7 +9,9 @@ import be.condictum.move_up.database.data.Lessons
 import kotlinx.coroutines.launch
 
 class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
-    val allLessons: LiveData<List<Lessons>> = lessonsDao.getAllData()
+    fun getAllDataByGoalsId(goalsId: Int): LiveData<List<Lessons>> {
+        return lessonsDao.getAllDataByGoalsId(goalsId)
+    }
 
     fun addNewLesson(lessonName: String, lessonScore: String, goalsId: String) {
         val newLesson = getNewLessonEntry(lessonName, lessonScore.toDouble(), goalsId.toInt())

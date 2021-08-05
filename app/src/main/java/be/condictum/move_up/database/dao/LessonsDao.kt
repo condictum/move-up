@@ -11,17 +11,14 @@ import be.condictum.move_up.database.data.Lessons
 
 @Dao
 interface LessonsDao {
-    @Query("SELECT * from Lessons ORDER BY name ASC")
-    fun getAllData(): LiveData<List<Lessons>>
+    @Query("SELECT * from Lessons WHERE goals_id = :goalsId ORDER BY name ASC")
+    fun getAllDataByGoalsId(goalsId: Int): LiveData<List<Lessons>>
 
     @Query("SELECT * from Lessons WHERE id = :id")
     fun getLesson(id: Int): Lessons
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(data: Lessons)
-
-    @Query("SELECT * from Lessons WHERE goals_id = :goalsId")
-    fun getDataByGoalsId(goalsId: Int): Lessons
 
     @Query("DELETE from Lessons WHERE goals_id = :goalsId")
     fun deleteDataByGoalsId(goalsId: Int)

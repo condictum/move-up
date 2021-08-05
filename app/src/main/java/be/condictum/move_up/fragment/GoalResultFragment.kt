@@ -62,11 +62,12 @@ class GoalResultFragment : Fragment() {
     }
 
     private fun setDataset() {
-        viewModel.allLessons.observe(viewLifecycleOwner, {
-            recyclerLessonAdapter.setDataset(it)
-            recyclerLessonAdapter.notifyDataSetChanged()
-            controlViewItemsVisibility()
-        })
+        viewModel.getAllDataByGoalsId(getGoalIdFromSharedPreferences())
+            .observe(viewLifecycleOwner, {
+                recyclerLessonAdapter.setDataset(it)
+                recyclerLessonAdapter.notifyDataSetChanged()
+                controlViewItemsVisibility()
+            })
     }
 
     private fun isEntryValid(name: String, score: String): Boolean {
@@ -138,14 +139,15 @@ class GoalResultFragment : Fragment() {
     }
 
     private fun controlViewItemsVisibility() {
-        viewModel.allLessons.observe(viewLifecycleOwner, {
-            if (it.isNullOrEmpty()) {
-                binding.goalResultNoProfileText.visibility = View.VISIBLE
-                binding.goalResultLessonRecyclerView.visibility = View.GONE
-            } else {
-                binding.goalResultNoProfileText.visibility = View.GONE
-                binding.goalResultLessonRecyclerView.visibility = View.VISIBLE
-            }
-        })
+        viewModel.getAllDataByGoalsId(getGoalIdFromSharedPreferences())
+            .observe(viewLifecycleOwner, {
+                if (it.isNullOrEmpty()) {
+                    binding.goalResultNoProfileText.visibility = View.VISIBLE
+                    binding.goalResultLessonRecyclerView.visibility = View.INVISIBLE
+                } else {
+                    binding.goalResultNoProfileText.visibility = View.GONE
+                    binding.goalResultLessonRecyclerView.visibility = View.VISIBLE
+                }
+            })
     }
 }
