@@ -61,7 +61,7 @@ class GoalScreenFragment : Fragment() {
 
             val mDialogView = LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
 
-            val mBuilder = AlertDialog.Builder(this.context).setView(mDialogView).setTitle("form").setPositiveButton("Kaydet"){
+            val mBuilder = AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals").setPositiveButton("Kaydet"){
                     dialogInterface, i ->
                 viewModel.addNewGoal(
                 "Test Goal Name",
