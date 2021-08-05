@@ -16,14 +16,17 @@ import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.fragment.GoalScreenFragment
 import be.condictum.move_up.fragment.GoalScreenFragmentDirections
 import be.condictum.move_up.fragment.MainFragment
-import be.condictum.move_up.fragment.MainFragmentDirections
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.SimpleDateFormat
 
-class GoalScreenAdapter(private val mContext: Context, private var data: List<Goals>, private val viewModel: GoalsViewModel,) :
+class GoalScreenAdapter(
+    private val mContext: Context,
+    private var data: List<Goals>,
+    private val viewModel: GoalsViewModel,
+) :
     RecyclerView.Adapter<GoalScreenAdapter.GoalsViewHolder>() {
-    var dateFormatter: SimpleDateFormat = SimpleDateFormat("dd-MM-yyyy")
+    var dateFormatter: SimpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
 
     class GoalsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val goalNameTextView = view.findViewById<TextView>(R.id.row_item_goals_name_text)
@@ -115,6 +118,7 @@ class GoalScreenAdapter(private val mContext: Context, private var data: List<Go
         }
         alertDialog.show()
     }
+
     private fun updateProfile(position: Int) {
 
     }

@@ -1,6 +1,7 @@
 package be.condictum.move_up.fragment
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 import java.sql.Date
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class GoalScreenFragment : Fragment() {
@@ -53,7 +55,7 @@ class GoalScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = GoalScreenAdapter(requireContext(), listOf(),viewModel)
+        adapter = GoalScreenAdapter(requireContext(), listOf(), viewModel)
 
         binding.goalScreenRecyclerView.adapter = adapter
         setDataset()
@@ -61,26 +63,46 @@ class GoalScreenFragment : Fragment() {
         val profileId = getProfileIdFromSharedPreferences()
 
         binding.goalScreenFab.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+            val month = calendar.get(Calendar.MONTH)
+            val year = calendar.get(Calendar.YEAR)
 
-            val mDialogView = LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
-            val name = mDialogView.findViewById<EditText>(R.id.editText).toString()
-            val date = mDialogView.findViewById<EditText>(R.id.editTextDate2).toString()
-            val mBuilder = AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals").setPositiveButton("Kaydet"){
-                    dialogInterface, i ->
-                viewModel.addNewGoal(
-                name,
-                Date(dateFormatter.parse(date).time),
-                profileId
+            val datePicker = DatePickerDialog(
+                requireContext(),
+                { view, year, month, dayOfMonth ->
+
+                }, year, month, dayOfMonth
             )
 
+            val mDialogView =
+                LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
+            val nameText = mDialogView.findViewById<EditText>(R.id.editText)
+            val dateText = mDialogView.findViewById<EditText>(R.id.editTextDate2)
 
-            }.setNegativeButton("ÇIK"){
-                    dialogInterface, i ->
+            dateText.setOnClickListener {
+                // show date picker
+            }
+
+            val mBuilder =
+                AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals")
+                    .setPositiveButton("Kaydet") { dialogInterface, i ->
+
+                        val name = nameText.text.toString()
+                        val date = dateText.text.toString()
+
+                        viewModel.addNewGoal(
+                            name,
+                            Date(dateFormatter.parse(date).time),
+                            profileId
+                        )
+
+                    }.setNegativeButton("ÇIK") { dialogInterface, i ->
 
 
-            }.show()
+                    }
 
-
+            mBuilder.show()
 
             binding.goalsScreenTextView.text = "$profileId"
         }
