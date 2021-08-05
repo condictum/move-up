@@ -41,8 +41,19 @@ class ProfilesViewModel(
 
     fun deleteProfile(data: Profiles) {
         viewModelScope.launch {
-            lessonsDao.deleteDataByGoalsId(goalsDao.getDataByProfileId(data.id).id)
-            goalsDao.deleteDataByProfileId(data.id)
+            val goals = goalsDao.getDataByProfileId(data.id)
+
+            if (goals != null) {
+                val goalsId = goals.id
+                val lessons = lessonsDao.getDataByGoalsId(goalsId)
+
+                if (lessons != null) {
+                    lessonsDao.deleteDataByGoalsId(goalsId)
+                }
+
+                goalsDao.deleteDataByProfileId(data.id)
+            }
+
             profilesDao.delete(data)
         }
     }
