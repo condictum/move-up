@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
@@ -56,12 +57,15 @@ class GoalScreenFragment : Fragment() {
 
             val profileId = getProfileIdFromSharedPreferences()
 
-            val mDialogView = LayoutInflater.from(this).inflate(R.layout.goal_input_form, null)
+            val mDialogView = LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
 
-            val mBuilder = AlertDialog.Builder(this).setView(mDialogView).setTitle("form").show()
+            val mBuilder = AlertDialog.Builder(this.context).setView(mDialogView).setTitle("form").show()
 
-           //mBuilder.dialog_button.setOnClickListener {
-                mBuilder.getButton(findViewById(R.id.input))
+            val  yesbutton = view.findViewById<Button>(R.id.dialog_button)
+
+            val  nobutton = view.findViewById<Button>(R.id.cancel_button)
+
+            yesbutton.setOnClickListener {
 
                 viewModel.addNewGoal(
                     "Test Goal Name",
@@ -70,7 +74,7 @@ class GoalScreenFragment : Fragment() {
                 )
 
             }
-            mBuilder.cancel_button.setOnClickListener {
+            nobutton.setOnClickListener {
                 mBuilder.dismiss()
 
             }
