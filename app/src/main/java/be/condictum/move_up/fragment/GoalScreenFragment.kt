@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
@@ -66,12 +65,9 @@ class GoalScreenFragment : Fragment() {
 
             val mBuilder = AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals").setPositiveButton("Kaydet"){
                     dialogInterface, i ->
-                val name = mDialogView.findViewById<EditText>(R.id.editText)
-                val date = mDialogView.findViewById<EditText>(R.id.editTextDate2)
                 viewModel.addNewGoal(
-
-                name.toString(),
-                Date(dateFormatter.parse(date.toString()).time),
+                "Test Goal Name",
+                Date(dateFormatter.parse("20/01/2020").time),
                 profileId
             )
 
