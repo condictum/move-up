@@ -49,35 +49,34 @@ class GoalScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        adapter = GoalScreenAdapter(requireContext(), listOf())
+
+        binding.goalScreenRecyclerView.adapter = adapter
+        setDataset()
+
+        val profileId = getProfileIdFromSharedPreferences()
+
         binding.button.setOnClickListener {
-            adapter = GoalScreenAdapter(requireContext(), listOf())
 
-            binding.goalScreenRecyclerView.adapter = adapter
-            setDataset()
-
-            val profileId = getProfileIdFromSharedPreferences()
 
             val mDialogView = LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
 
-            val mBuilder = AlertDialog.Builder(this.context).setView(mDialogView).setTitle("form").show()
-
-            val  yesbutton = view.findViewById<Button>(R.id.dialog_button)
-
-            val  nobutton = view.findViewById<Button>(R.id.cancel_button)
-
-            yesbutton.setOnClickListener {
-
+            val mBuilder = AlertDialog.Builder(this.context).setView(mDialogView).setTitle("form").setPositiveButton("Kaydet"){
+                    dialogInterface, i ->
                 viewModel.addNewGoal(
-                    "Test Goal Name",
-                    Date(dateFormatter.parse("20/01/2020").time),
-                    profileId
-                )
+                "Test Goal Name",
+                Date(dateFormatter.parse("20/01/2020").time),
+                profileId
+            )
 
-            }
-            nobutton.setOnClickListener {
-                mBuilder.dismiss()
 
-            }
+            }.setNegativeButton("ÇIK"){
+                    dialogInterface, i ->
+
+
+            }.show()
+
+
 
             binding.goalsScreenTextView.text = "$profileId"
         }
