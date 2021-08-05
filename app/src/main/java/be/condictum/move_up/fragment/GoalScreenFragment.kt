@@ -59,7 +59,7 @@ class GoalScreenFragment : Fragment() {
 
         val profileId = getProfileIdFromSharedPreferences()
 
-        binding.button.setOnClickListener {
+        binding.goalScreenFab.setOnClickListener {
 
             val mDialogView = LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
 
