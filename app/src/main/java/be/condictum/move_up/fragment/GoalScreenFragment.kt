@@ -1,6 +1,7 @@
 package be.condictum.move_up.fragment
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 import java.sql.Date
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class GoalScreenFragment : Fragment() {
@@ -49,23 +51,39 @@ class GoalScreenFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = GoalScreenAdapter(requireContext(), listOf(), viewModel)
-
         binding.goalScreenRecyclerView.adapter = adapter
-        setDataset()
 
         val profileId = getProfileIdFromSharedPreferences()
 
         binding.goalScreenFab.setOnClickListener {
-
             val mDialogView =
                 LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
-            val nameText = mDialogView.findViewById<EditText>(R.id.editText)
-            val dateText = mDialogView.findViewById<EditText>(R.id.editTextDate2)
+            val nameText = mDialogView.findViewById<EditText>(R.id.goal_input_name_edit_text)
+            val dateText = mDialogView.findViewById<EditText>(R.id.goal_input_date_edit_text)
+
+            dateText.setOnClickListener {
+                val calendar = Calendar.getInstance()
+
+                val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+                val month = calendar.get(Calendar.MONTH)
+                val year = calendar.get(Calendar.YEAR)
+
+                val datePickerDialog = DatePickerDialog(
+                    requireContext(),
+                    { view, year, month, dayOfMonth ->
+                        dateText.setText("$dayOfMonth/$month/$year")
+                    },
+                    year,
+                    month,
+                    dayOfMonth
+                )
+
+                datePickerDialog.show()
+            }
 
             val mBuilder =
                 AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals")
@@ -80,18 +98,12 @@ class GoalScreenFragment : Fragment() {
                             profileId
                         )
 
-                    }.setNegativeButton("ÇIK") { dialogInterface, i ->
-
-
-                    }
+                    }.setNegativeButton("ÇIK") { _, _ -> }
 
             mBuilder.show()
-
-
-            binding.goalsScreenTextView.text = "$profileId"
         }
 
-
+        setDataset()
     }
 
     private fun setDataset() {
@@ -114,47 +126,4 @@ class GoalScreenFragment : Fragment() {
 
         return profileId
     }
-
-/*
-        binding.mainFragmentRecyclerView.adapter = GoalRecyclerAdapter(
-            view.context,
-            arrayListOf(
-                Goals(1, "YKS", Date(System.currentTimeMillis())),
-                Goals(2, "KPSS", Date(System.currentTimeMillis())),
-                Goals(3, "TUS", Date(System.currentTimeMillis())),
-            ),
-        )
- */
-
-    /*
-    private fun isEntryValid(): Boolean {
-        return viewModel.isEntryValid(
-                binding.dataName.text.toString(),
-                binding.dataPrice.text.toString(),
-                binding.dataCount.text.toString(),
-
-        )
-    }
-
-    private fun addNewGoal() {
-        if (isEntryValid()) {
-            viewModel.addNewGoal(
-                    binding.dataName.text.toString(),
-                    binding.dataPrice.text.toString(),
-                    binding.dataCount.text.toString(),
-            )
-            val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
-            findNavController().navigate(action)
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
-                InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
-        _binding = null
-    }
- */
 }

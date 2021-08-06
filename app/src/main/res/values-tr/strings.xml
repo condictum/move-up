@@ -49,4 +49,5 @@
     <string name="there_is_no_lesson_for_chart_text">Grafik için yeterli sayıda ders yok.</string>
     <string name="scores_text">Puanlar</string>
     <string name="total_scores_text">Toplam Puanlar</string>
+    <string name="last_date_of_goal_text">Hedef son tarih</string>
 </resources>

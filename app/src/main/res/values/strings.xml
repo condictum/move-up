@@ -49,4 +49,5 @@
     <string name="there_is_no_lesson_for_chart_text">There is no lesson for chart.</string>
     <string name="scores_text">Scores</string>
     <string name="total_scores_text">Total Scores</string>
+    <string name="last_date_of_goal_text">Last date of goal</string>
 </resources>

@@ -1,8 +1,8 @@
 package be.condictum.move_up.adapter
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +23,7 @@ import be.condictum.move_up.viewmodel.GoalsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.sql.Date
 import java.text.SimpleDateFormat
+import java.util.*
 
 class GoalScreenAdapter(
     private val mContext: Context,
@@ -123,8 +124,31 @@ class GoalScreenAdapter(
         val data = data[position]
         val mDialogView =
             LayoutInflater.from(this.mContext).inflate(R.layout.goal_input_form, null)
-        val nameText = mDialogView.findViewById<EditText>(R.id.editText)
-        val dateText = mDialogView.findViewById<EditText>(R.id.editTextDate2)
+        val nameText = mDialogView.findViewById<EditText>(R.id.goal_input_name_edit_text)
+        val dateText = mDialogView.findViewById<EditText>(R.id.goal_input_date_edit_text)
+
+        nameText.setText(data.dataName)
+        dateText.setText(dateFormatter.format(data.dataDate))
+
+        dateText.setOnClickListener {
+            val calendar = Calendar.getInstance()
+
+            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+            val month = calendar.get(Calendar.MONTH)
+            val year = calendar.get(Calendar.YEAR)
+
+            val datePickerDialog = DatePickerDialog(
+                mContext,
+                { view, year, month, dayOfMonth ->
+                    dateText.setText("$dayOfMonth/$month/$year")
+                },
+                year,
+                month,
+                dayOfMonth
+            )
+
+            datePickerDialog.show()
+        }
 
         val mBuilder =
             AlertDialog.Builder(this.mContext).setView(mDialogView).setTitle("Add Goals")
@@ -132,30 +156,16 @@ class GoalScreenAdapter(
 
                     val name = nameText.text.toString()
                     val date = dateText.text.toString()
-                    val profileId = getProfileIdFromSharedPreferences()
+                    val profileId = data.profilesId
 
                     viewModel.updateProfile(
                         Goals(data.id, name, Date(dateFormatter.parse(date).time), profileId)
                     )
 
-                }.setNegativeButton("ÇIK") { dialogInterface, i ->
+                }.setNegativeButton("ÇIK") { _, _ -> }
 
-
-                }
-
+        mBuilder.setCancelable(false)
         mBuilder.show()
-    }
-
-    private fun getProfileIdFromSharedPreferences(): Int {
-        val sharedPreferences =
-            mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
-        val profileId = sharedPreferences.getInt(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, 0)
-
-        if (profileId == 0) {
-            Log.e("Error", "Profile Id Must Not Be Zero!")
-        }
-
-        return profileId
     }
 
     override fun getItemCount(): Int {
