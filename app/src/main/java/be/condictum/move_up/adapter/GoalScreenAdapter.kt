@@ -93,7 +93,7 @@ class GoalScreenAdapter(
         alertDialog.setTitle(mContext.getString(R.string.are_you_sure_text))
         alertDialog.setMessage(mContext.getString(R.string.profile_is_deleting_text))
         alertDialog.setPositiveButton(mContext.getString(R.string.yes_button_text)) { _, _ ->
-            viewModel.deleteProfileById(currentData.id)
+            viewModel.deleteProfileById(currentData)
 
             val sharedPreferences =
                 mContext.getSharedPreferences(
