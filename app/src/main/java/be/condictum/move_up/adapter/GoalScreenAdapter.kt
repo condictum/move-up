@@ -1,23 +1,29 @@
 package be.condictum.move_up.adapter
 
+import android.app.AlertDialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
 import be.condictum.move_up.database.data.Goals
+import be.condictum.move_up.database.data.Profiles
 import be.condictum.move_up.fragment.GoalScreenFragment
 import be.condictum.move_up.fragment.GoalScreenFragmentDirections
 import be.condictum.move_up.fragment.MainFragment
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.sql.Date
 import java.text.SimpleDateFormat
 
 class GoalScreenAdapter(
@@ -120,7 +126,43 @@ class GoalScreenAdapter(
     }
 
     private fun updateProfile(position: Int) {
+        val data = data[position]
+        val mDialogView =
+            LayoutInflater.from(this.mContext).inflate(R.layout.goal_input_form, null)
+        val nameText = mDialogView.findViewById<EditText>(R.id.editText)
+        val dateText = mDialogView.findViewById<EditText>(R.id.editTextDate2)
 
+        val mBuilder =
+            AlertDialog.Builder(this.mContext).setView(mDialogView).setTitle("Add Goals")
+                .setPositiveButton("Kaydet") { dialogInterface, i ->
+
+                    val name = nameText.text.toString()
+                    val date = dateText.text.toString()
+                    val profileId = getProfileIdFromSharedPreferences()
+
+                    viewModel.updateProfile(
+                        Goals(data.id, name, Date(dateFormatter.parse(date).time), profileId as Int)
+                    )
+
+                }.setNegativeButton("ÇIK") { dialogInterface, i ->
+
+
+                }
+
+        mBuilder.show()
+
+    }
+
+    private fun getProfileIdFromSharedPreferences(): Any {
+        val sharedPreferences =
+            mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
+        val profileId = sharedPreferences.getInt(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, 0)
+
+        if (profileId == 0) {
+            Log.e("Error", "Profile Id Must Not Be Zero!")
+        }
+
+        return profileId
     }
 
     override fun getItemCount(): Int {

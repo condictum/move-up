@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import be.condictum.move_up.database.dao.GoalsDao
 import be.condictum.move_up.database.data.Goals
+import be.condictum.move_up.database.data.Profiles
 import kotlinx.coroutines.launch
 import java.sql.Date
 
@@ -30,6 +31,12 @@ class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
     private fun insertGoal(data: Goals) {
         viewModelScope.launch {
             goalsDao.insert(data)
+        }
+    }
+
+    fun updateProfile(data: Goals) {
+        viewModelScope.launch {
+            goalsDao.update(data)
         }
     }
 
