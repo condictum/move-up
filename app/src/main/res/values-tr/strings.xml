@@ -37,11 +37,13 @@
     <string name="formatted_lesson_text">Ders: %s</string>
     <string name="click_and_add_new_lesson_text">Tıkla ve yeni bir ders ekle.</string>
     <string name="lesson_name_text">Ders adı</string>
-    <string name="lesson_score_text">Net puan</string>
+    <string name="lesson_score_text">Ders puanı</string>
     <string name="lesson_text">Ders</string>
-    <string name="score_text">Net puan</string>
+    <string name="score_text">Puan</string>
     <string name="exit_button_text">ÇIK</string>
     <string name="details_text">Ayrıntılar</string>
     <string name="create_lesson_text">Ders oluştur</string>
     <string name="there_is_no_lesson_please_create_a_new_lesson">Henüz ders oluşturulmamış.\nLütfen bir tane ders oluşturun.</string>
+    <string name="total_score_text">Toplam puan</string>
+    <string name="formatted_total_score_text">Toplam Puan: %s</string>
 </resources>

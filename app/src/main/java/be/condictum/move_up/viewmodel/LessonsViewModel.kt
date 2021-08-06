@@ -13,8 +13,18 @@ class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
         return lessonsDao.getAllDataByGoalsId(goalsId)
     }
 
-    fun addNewLesson(lessonName: String, lessonScore: String, goalsId: String) {
-        val newLesson = getNewLessonEntry(lessonName, lessonScore.toDouble(), goalsId.toInt())
+    fun addNewLesson(
+        lessonName: String,
+        lessonScore: String,
+        lessonTotalScore: String,
+        goalsId: String
+    ) {
+        val newLesson = getNewLessonEntry(
+            lessonName,
+            lessonScore.toDouble(),
+            lessonTotalScore.toDouble(),
+            goalsId.toInt()
+        )
         insertLesson(newLesson)
     }
 
@@ -40,18 +50,24 @@ class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
         }
     }
 
-    fun isEntryValid(lessonName: String, lessonScore: String): Boolean {
-        if (lessonName.isBlank() || lessonScore.isBlank()) {
+    fun isEntryValid(lessonName: String, lessonScore: String, lessonTotalScore: String): Boolean {
+        if (lessonName.isBlank() || lessonScore.isBlank() || lessonTotalScore.isBlank()) {
             return false
         }
 
         return true
     }
 
-    private fun getNewLessonEntry(lessonName: String, lessonScore: Double, goalsId: Int): Lessons {
+    private fun getNewLessonEntry(
+        lessonName: String,
+        lessonScore: Double,
+        lessonTotalScore: Double,
+        goalsId: Int
+    ): Lessons {
         return Lessons(
             lessonName = lessonName,
             lessonScore = lessonScore,
+            lessonTotalScore = lessonTotalScore,
             goalsId = goalsId
         )
     }

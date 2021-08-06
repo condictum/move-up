@@ -48,6 +48,7 @@ class LessonRecyclerViewAdapter(
 
         var lessonName = lesson.lessonName
         var lessonScore = lesson.lessonScore.toString()
+        var lessonTotalScore = lesson.lessonTotalScore.toString()
 
         if (lessonName.length > 8) {
             lessonName = lessonName.substring(0, 8) + "..."
@@ -77,6 +78,8 @@ class LessonRecyclerViewAdapter(
                         R.string.formatted_score_text,
                         lesson.lessonScore.toString()
                     )
+                }\n${
+                    mContext.getString(R.string.formatted_total_score_text, lessonTotalScore)
                 }"
             )
             dialog.setNegativeButton(mContext.getString(R.string.exit_button_text)) { _, _ -> }
@@ -164,9 +167,12 @@ class LessonRecyclerViewAdapter(
             view?.findViewById<TextInputEditText>(R.id.goal_result_lesson_name_edit_text)
         val scoreText =
             view?.findViewById<TextInputEditText>(R.id.goal_result_lesson_score_edit_text)
+        val totalScoreText =
+            view?.findViewById<TextInputEditText>(R.id.goal_result_lesson_total_score_edit_text)
 
         nameText?.setText(lesson.lessonName)
         scoreText?.setText(lesson.lessonScore.toString())
+        totalScoreText?.setText(lesson.lessonTotalScore.toString())
 
         builder.setView(view)
 
@@ -175,9 +181,16 @@ class LessonRecyclerViewAdapter(
         ) { _, _ ->
             val name = nameText?.text.toString()
             val score = scoreText?.text.toString()
+            val totalScore = totalScoreText?.text.toString()
 
-            if (isEntryValid(name, score)) {
-                val updatedLesson = Lessons(lesson.id, name, score.toDouble(), lesson.goalsId)
+            if (isEntryValid(name, score, totalScore)) {
+                val updatedLesson = Lessons(
+                    lesson.id,
+                    name,
+                    score.toDouble(),
+                    totalScore.toDouble(),
+                    lesson.goalsId
+                )
                 viewModel.updateLesson(updatedLesson)
             } else {
                 showSnackbarForInputError(lesson)
@@ -202,7 +215,7 @@ class LessonRecyclerViewAdapter(
             .show()
     }
 
-    private fun isEntryValid(name: String, score: String): Boolean {
-        return viewModel.isEntryValid(name, score)
+    private fun isEntryValid(name: String, score: String, totalScore: String): Boolean {
+        return viewModel.isEntryValid(name, score, totalScore)
     }
 }

@@ -76,8 +76,8 @@ class GoalResultFragment : Fragment() {
             })
     }
 
-    private fun isEntryValid(name: String, score: String): Boolean {
-        return viewModel.isEntryValid(name, score)
+    private fun isEntryValid(name: String, score: String, totalScore: String): Boolean {
+        return viewModel.isEntryValid(name, score, totalScore)
     }
 
     private fun addNewLesson() {
@@ -93,6 +93,8 @@ class GoalResultFragment : Fragment() {
             view?.findViewById<TextInputEditText>(R.id.goal_result_lesson_name_edit_text)
         val scoreText =
             view?.findViewById<TextInputEditText>(R.id.goal_result_lesson_score_edit_text)
+        val totalScoreText =
+            view?.findViewById<TextInputEditText>(R.id.goal_result_lesson_total_score_edit_text)
 
         builder.setView(view)
 
@@ -101,10 +103,11 @@ class GoalResultFragment : Fragment() {
         ) { _, _ ->
             val name = nameText?.text.toString()
             val score = scoreText?.text.toString()
+            val totalScore = totalScoreText?.text.toString()
 
-            if (isEntryValid(name, score)) {
+            if (isEntryValid(name, score, totalScore)) {
                 viewModel.addNewLesson(
-                    name, score, getGoalIdFromSharedPreferences().toString()
+                    name, score, totalScore, getGoalIdFromSharedPreferences().toString()
                 )
 
                 setDataset()
