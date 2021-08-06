@@ -15,4 +15,5 @@
     <color name="secondary_light">#4c8c4a</color>
     <color name="secondary_dark">#003300</color>
     <color name="text_on_secondary_color">#ffffff</color>
+    <color name="windowBackgroundColorLight">#FFF5F2</color>
 </resources>
