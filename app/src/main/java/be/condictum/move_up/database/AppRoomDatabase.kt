@@ -14,7 +14,7 @@ import be.condictum.move_up.database.data.Profiles
 
 @Database(
     entities = [Profiles::class, Goals::class, Lessons::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)
