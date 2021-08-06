@@ -46,4 +46,7 @@
     <string name="there_is_no_lesson_please_create_a_new_lesson">Henüz ders oluşturulmamış.\nLütfen bir tane ders oluşturun.</string>
     <string name="total_score_text">Toplam puan</string>
     <string name="formatted_total_score_text">Toplam Puan: %s</string>
+    <string name="there_is_no_lesson_for_chart_text">Grafik için yeterli sayıda ders yok.</string>
+    <string name="scores_text">Puanlar</string>
+    <string name="total_scores_text">Toplam Puanlar</string>
 </resources>

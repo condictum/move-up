@@ -46,4 +46,7 @@
     <string name="there_is_no_lesson_please_create_a_new_lesson">There is no lesson. Please create a new lesson.</string>
     <string name="total_score_text">Total score</string>
     <string name="formatted_total_score_text">Total Score: %s</string>
+    <string name="there_is_no_lesson_for_chart_text">There is no lesson for chart.</string>
+    <string name="scores_text">Scores</string>
+    <string name="total_scores_text">Total Scores</string>
 </resources>
