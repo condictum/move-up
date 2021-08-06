@@ -60,6 +60,13 @@ class GoalResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         lessonChart = binding.goalResultCombinedChart
+        lessonChart.setNoDataText(requireContext().getString(R.string.there_is_no_lesson_for_chart_text))
+        lessonChart.setNoDataTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.secondary_dark
+            )
+        )
 
         recyclerLessonAdapter = LessonRecyclerViewAdapter(
             requireContext(),
@@ -91,8 +98,7 @@ class GoalResultFragment : Fragment() {
             .observe(viewLifecycleOwner, {
                 recyclerLessonAdapter.setDataset(it)
                 recyclerLessonAdapter.notifyDataSetChanged()
-                controlViewItemsVisibility()
-                setChart(it)
+                controlViewItemsVisibility(it)
             })
     }
 
@@ -167,15 +173,18 @@ class GoalResultFragment : Fragment() {
         return goalId
     }
 
-    private fun controlViewItemsVisibility() {
+    private fun controlViewItemsVisibility(lessons: List<Lessons>) {
         viewModel.getAllDataByGoalsId(getGoalIdFromSharedPreferences())
             .observe(viewLifecycleOwner, {
                 if (it.isNullOrEmpty()) {
                     binding.goalResultNoProfileText.visibility = View.VISIBLE
                     binding.goalResultLessonRecyclerView.visibility = View.INVISIBLE
+                    binding.goalResultCombinedChart.visibility = View.INVISIBLE
                 } else {
                     binding.goalResultNoProfileText.visibility = View.GONE
                     binding.goalResultLessonRecyclerView.visibility = View.VISIBLE
+                    binding.goalResultCombinedChart.visibility = View.VISIBLE
+                    setChart(lessons)
                 }
             })
     }
@@ -215,8 +224,6 @@ class GoalResultFragment : Fragment() {
         chartData.setData(setLineChartData(lessons))
         chartData.setData(setBarChartData(lessons))
 
-        xAxis.axisMaximum = chartData.xMax + 0.25f
-
         lessonChart.data = chartData
         lessonChart.invalidate()
     }
@@ -224,14 +231,14 @@ class GoalResultFragment : Fragment() {
     private fun setLineChartData(lessons: List<Lessons>): LineData? {
         val data = LineData()
         val entries: ArrayList<Entry> = ArrayList()
-        for (index in lessons.indices) entries.add(
+        for ((counter, index) in lessons.indices.withIndex()) entries.add(
             Entry(
-                index.toFloat() + barWidth / 7f,
+                counter / 3f + barWidth / 15f,
                 lessons[index].lessonScore.toFloat()
             )
         )
 
-        val set = LineDataSet(entries, "Scores")
+        val set = LineDataSet(entries, requireContext().getString(R.string.scores_text))
 
         set.color = ContextCompat.getColor(requireContext(), R.color.primary_light)
         set.lineWidth = 5f
@@ -242,7 +249,7 @@ class GoalResultFragment : Fragment() {
         set.fillColor = ContextCompat.getColor(requireContext(), R.color.secondary_light)
         set.valueTextColor = ContextCompat.getColor(requireContext(), R.color.secondary_dark)
 
-        set.mode = LineDataSet.Mode.LINEAR
+        set.mode = LineDataSet.Mode.HORIZONTAL_BEZIER
         set.setDrawValues(true)
         set.valueTextSize = 15f
 
@@ -253,15 +260,14 @@ class GoalResultFragment : Fragment() {
 
     private fun setBarChartData(lessons: List<Lessons>): BarData? {
         val data: ArrayList<BarEntry> = ArrayList()
-        for (index in lessons.indices) {
-            data.add(BarEntry(index.toFloat(), lessons[index].lessonTotalScore.toFloat()))
+        for ((counter, index) in lessons.indices.withIndex()) {
+            data.add(BarEntry(counter / 3f, lessons[index].lessonTotalScore.toFloat()))
         }
 
-        val set = BarDataSet(data, "Total Scores")
+        val set = BarDataSet(data, requireContext().getString(R.string.total_scores_text))
 
         set.color = Color.rgb(60, 220, 78)
-        set.valueTextColor = ContextCompat.getColor(requireContext(), R.color.teal_700)
-        set.valueTextSize = 15f
+        set.valueTextSize = 0f
 
         val barWidth = barWidth
         val barData = BarData(set)
