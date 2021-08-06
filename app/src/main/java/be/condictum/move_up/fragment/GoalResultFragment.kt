@@ -1,25 +1,41 @@
 package be.condictum.move_up.fragment
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
 import be.condictum.move_up.adapter.LessonRecyclerViewAdapter
 import be.condictum.move_up.database.DatabaseApplication
+import be.condictum.move_up.database.data.Lessons
 import be.condictum.move_up.databinding.FragmentGoalResultBinding
 import be.condictum.move_up.viewmodel.LessonsViewModel
 import be.condictum.move_up.viewmodel.LessonsViewModelFactory
+import com.github.mikephil.charting.charts.CombinedChart
+import com.github.mikephil.charting.charts.CombinedChart.DrawOrder
+import com.github.mikephil.charting.components.XAxis.XAxisPosition
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.CombinedData
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 
+
 class GoalResultFragment : Fragment() {
+    private lateinit var lessonChart: CombinedChart
+
     private var _binding: FragmentGoalResultBinding? = null
     private val binding get() = _binding!!
 
@@ -41,6 +57,8 @@ class GoalResultFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        lessonChart = binding.goalResultCombinedChart
 
         recyclerLessonAdapter = LessonRecyclerViewAdapter(
             requireContext(),
@@ -73,6 +91,7 @@ class GoalResultFragment : Fragment() {
                 recyclerLessonAdapter.setDataset(it)
                 recyclerLessonAdapter.notifyDataSetChanged()
                 controlViewItemsVisibility()
+                setChart(it)
             })
     }
 
@@ -158,5 +177,95 @@ class GoalResultFragment : Fragment() {
                     binding.goalResultLessonRecyclerView.visibility = View.VISIBLE
                 }
             })
+    }
+
+    private fun setChart(lessons: List<Lessons>) {
+        lessonChart.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.windowBackgroundColorLight
+            )
+        )
+
+        lessonChart.description.isEnabled = false
+        lessonChart.setDrawGridBackground(false)
+        lessonChart.setDrawBarShadow(false)
+        lessonChart.isHighlightFullBarEnabled = false
+
+        lessonChart.drawOrder = arrayOf(
+            DrawOrder.BAR, DrawOrder.LINE
+        )
+
+        val rightAxis = lessonChart.axisRight
+        rightAxis.axisMinimum = 0f
+        rightAxis.setDrawGridLines(false)
+
+        val leftAxis = lessonChart.axisLeft
+        leftAxis.axisMinimum = 0f
+        leftAxis.setDrawGridLines(false)
+
+        val xAxis = lessonChart.xAxis
+        xAxis.position = XAxisPosition.BOTH_SIDED
+        xAxis.axisMinimum = 0f
+        xAxis.granularity = 1f
+
+        val chartData = CombinedData()
+
+        chartData.setData(setLineChartData(lessons))
+        chartData.setData(setBarChartData(lessons))
+
+        xAxis.axisMaximum = chartData.xMax + 0.25f
+
+        lessonChart.data = chartData
+        lessonChart.invalidate()
+    }
+
+    private fun setLineChartData(lessons: List<Lessons>): LineData? {
+        val data = LineData()
+        val entries: ArrayList<Entry> = ArrayList()
+        for (index in lessons.indices) entries.add(
+            Entry(
+                index.toFloat() + 0.125f,
+                lessons[index].lessonScore.toFloat()
+            )
+        )
+
+        val set = LineDataSet(entries, "Scores")
+
+        set.color = ContextCompat.getColor(requireContext(), R.color.primary_light)
+        set.lineWidth = 5f
+
+        set.setCircleColor(ContextCompat.getColor(requireContext(), R.color.secondary_dark))
+        set.circleRadius = 7f
+
+        set.fillColor = ContextCompat.getColor(requireContext(), R.color.secondary_light)
+        set.valueTextColor = ContextCompat.getColor(requireContext(), R.color.secondary_dark)
+
+        set.mode = LineDataSet.Mode.LINEAR
+        set.setDrawValues(true)
+        set.valueTextSize = 15f
+
+        data.addDataSet(set)
+
+        return data
+    }
+
+    private fun setBarChartData(lessons: List<Lessons>): BarData? {
+        val data: ArrayList<BarEntry> = ArrayList()
+        for (index in lessons.indices) {
+            data.add(BarEntry(index.toFloat(), lessons[index].lessonTotalScore.toFloat()))
+        }
+
+        val set = BarDataSet(data, "Total Scores")
+
+        set.color = Color.rgb(60, 220, 78)
+        set.valueTextColor = ContextCompat.getColor(requireContext(), R.color.teal_700)
+        set.valueTextSize = 15f
+
+        val barWidth = 0.1f
+        val barData = BarData(set)
+        barData.barWidth = barWidth
+
+        return barData
     }
 }
