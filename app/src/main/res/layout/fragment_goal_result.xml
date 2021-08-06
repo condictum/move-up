@@ -23,14 +23,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
-            android:id="@+id/goal_result_graphic_area_text"
+        <com.github.mikephil.charting.charts.CombinedChart
+            android:id="@+id/goal_result_combined_chart"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="center"
-            android:text="Grafik Alanı"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/goal_result_lesson_recycler_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.75"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/goal_result_graphic_area_text" />
+            app:layout_constraintTop_toBottomOf="@id/goal_result_combined_chart" />
 
         <TextView
             android:id="@+id/goal_result_no_profile_text"

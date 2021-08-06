@@ -21,6 +21,8 @@ data class Lessons(
     val lessonName: String,
     @ColumnInfo(name = "score")
     val lessonScore: Double,
+    @ColumnInfo(name = "total_score")
+    val lessonTotalScore: Double,
     @ColumnInfo(name = "goals_id")
     val goalsId: Int,
 )

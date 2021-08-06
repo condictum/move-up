@@ -1,5 +1,6 @@
 package be.condictum.move_up.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +15,15 @@ import be.condictum.move_up.R
 import be.condictum.move_up.database.data.Lessons
 import be.condictum.move_up.viewmodel.LessonsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 
 class LessonRecyclerViewAdapter(
     private val mContext: Context,
     private var data: List<Lessons>,
-    private val viewModel: LessonsViewModel
+    private val viewModel: LessonsViewModel,
+    private val activity: Activity,
+    private val requiredView: View
 ) :
     RecyclerView.Adapter<LessonRecyclerViewAdapter.LessonsViewHolder>() {
 
@@ -43,6 +48,7 @@ class LessonRecyclerViewAdapter(
 
         var lessonName = lesson.lessonName
         var lessonScore = lesson.lessonScore.toString()
+        var lessonTotalScore = lesson.lessonTotalScore.toString()
 
         if (lessonName.length > 8) {
             lessonName = lessonName.substring(0, 8) + "..."
@@ -72,6 +78,8 @@ class LessonRecyclerViewAdapter(
                         R.string.formatted_score_text,
                         lesson.lessonScore.toString()
                     )
+                }\n${
+                    mContext.getString(R.string.formatted_total_score_text, lessonTotalScore)
                 }"
             )
             dialog.setNegativeButton(mContext.getString(R.string.exit_button_text)) { _, _ -> }
@@ -104,7 +112,7 @@ class LessonRecyclerViewAdapter(
         menu.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.ac_main_edit_profile -> {
-
+                    updateLesson(data)
                     true
                 }
                 R.id.ac_main_delete_profile -> {
@@ -145,49 +153,69 @@ class LessonRecyclerViewAdapter(
 
         dialog.show()
     }
-/*
-    private fun updateLesson() {
+
+    private fun updateLesson(lesson: Lessons) {
         val builder = MaterialAlertDialogBuilder(mContext)
         builder.setTitle(mContext.getString(R.string.update_lesson_text))
 
-        val view = ?.layoutInflater?.inflate(
-            R.layout.custom_create_profile_alert_dialog,
+        val view = activity.layoutInflater.inflate(
+            R.layout.custom_create_lesson_alert_dialog,
             null
         )
 
         val nameText =
-            view?.findViewById<TextInputEditText>(R.id.profile_fragment_name_edit_text)
-        val surnameText =
-            view?.findViewById<TextInputEditText>(R.id.profile_fragment_surname_edit_text)
-        val ageText =
-            view?.findViewById<TextInputEditText>(R.id.profile_fragment_age_edit_text)
+            view?.findViewById<TextInputEditText>(R.id.goal_result_lesson_name_edit_text)
+        val scoreText =
+            view?.findViewById<TextInputEditText>(R.id.goal_result_lesson_score_edit_text)
+        val totalScoreText =
+            view?.findViewById<TextInputEditText>(R.id.goal_result_lesson_total_score_edit_text)
+
+        nameText?.setText(lesson.lessonName)
+        scoreText?.setText(lesson.lessonScore.toString())
+        totalScoreText?.setText(lesson.lessonTotalScore.toString())
 
         builder.setView(view)
 
         builder.setPositiveButton(
-            getString(R.string.save_text)
+            mContext.getString(R.string.save_text)
         ) { _, _ ->
             val name = nameText?.text.toString()
-            val surname = surnameText?.text.toString()
-            val age = ageText?.text.toString()
+            val score = scoreText?.text.toString()
+            val totalScore = totalScoreText?.text.toString()
 
-            if (isEntryValid(name, surname, age)) {
-                viewModel.addNewProfile(
-                    name, surname, age.toInt()
+            if (isEntryValid(name, score, totalScore)) {
+                val updatedLesson = Lessons(
+                    lesson.id,
+                    name,
+                    score.toDouble(),
+                    totalScore.toDouble(),
+                    lesson.goalsId
                 )
-
-                setDataset()
+                viewModel.updateLesson(updatedLesson)
             } else {
-                showSnackbarForInputError()
+                showSnackbarForInputError(lesson)
             }
         }
 
         builder.setNegativeButton(
-            getString(R.string.cancel_text)
+            mContext.getString(R.string.cancel_text)
         ) { dialog, _ -> dialog.cancel() }
 
         builder.setCancelable(false)
         builder.show()
     }
- */
+
+    private fun showSnackbarForInputError(lesson: Lessons) {
+        Snackbar.make(
+            mContext,
+            requiredView,
+            mContext.getString(R.string.input_error_text),
+            Snackbar.LENGTH_LONG
+        ).setAction(mContext.getString(R.string.try_again_button_text)) { updateLesson(lesson) }
+            .show()
+    }
+
+    private fun isEntryValid(name: String, score: String, totalScore: String): Boolean {
+        return viewModel.isEntryValid(name, score, totalScore)
+    }
 }
