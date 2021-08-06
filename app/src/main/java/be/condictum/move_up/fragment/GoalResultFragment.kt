@@ -35,6 +35,7 @@ import com.google.android.material.textfield.TextInputEditText
 
 class GoalResultFragment : Fragment() {
     private lateinit var lessonChart: CombinedChart
+    private val barWidth: Float = 0.25f
 
     private var _binding: FragmentGoalResultBinding? = null
     private val binding get() = _binding!!
@@ -225,7 +226,7 @@ class GoalResultFragment : Fragment() {
         val entries: ArrayList<Entry> = ArrayList()
         for (index in lessons.indices) entries.add(
             Entry(
-                index.toFloat() + 0.125f,
+                index.toFloat() + barWidth / 7f,
                 lessons[index].lessonScore.toFloat()
             )
         )
@@ -262,7 +263,7 @@ class GoalResultFragment : Fragment() {
         set.valueTextColor = ContextCompat.getColor(requireContext(), R.color.teal_700)
         set.valueTextSize = 15f
 
-        val barWidth = 0.1f
+        val barWidth = barWidth
         val barData = BarData(set)
         barData.barWidth = barWidth
 

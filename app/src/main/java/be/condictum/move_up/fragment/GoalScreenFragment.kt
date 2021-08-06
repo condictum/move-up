@@ -62,24 +62,30 @@ class GoalScreenFragment : Fragment() {
 
         binding.goalScreenFab.setOnClickListener {
 
-            val mDialogView = LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
-            val name = mDialogView.findViewById<EditText>(R.id.editText).toString()
-            val date = mDialogView.findViewById<EditText>(R.id.editTextDate2).toString()
-            val mBuilder = AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals").setPositiveButton("Kaydet"){
-                    dialogInterface, i ->
-                viewModel.addNewGoal(
-                name,
-                Date(dateFormatter.parse(date).time),
-                profileId
-            )
+            val mDialogView =
+                LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
+            val nameText = mDialogView.findViewById<EditText>(R.id.editText)
+            val dateText = mDialogView.findViewById<EditText>(R.id.editTextDate2)
+
+            val mBuilder =
+                AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals")
+                    .setPositiveButton("Kaydet") { dialogInterface, i ->
+
+                        val name = nameText.text.toString()
+                        val date = dateText.text.toString()
+
+                        viewModel.addNewGoal(
+                            name,
+                            Date(dateFormatter.parse(date).time),
+                            profileId
+                        )
+
+                    }.setNegativeButton("ÇIK") { dialogInterface, i ->
 
 
-            }.setNegativeButton("ÇIK"){
-                    dialogInterface, i ->
+                    }
 
-
-            }.show()
-
+            mBuilder.show()
 
 
             binding.goalsScreenTextView.text = "$profileId"
