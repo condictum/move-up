@@ -6,23 +6,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import be.condictum.move_up.database.dao.GoalsDao
 import be.condictum.move_up.database.data.Goals
-import be.condictum.move_up.database.data.Profiles
 import kotlinx.coroutines.launch
 import java.sql.Date
 
 class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
-    val allGoals: LiveData<List<Goals>> = goalsDao.getAllData()
+    fun getAllLiveDataByProfileId(profileId: Int): LiveData<List<Goals>> {
+        return goalsDao.getAllLiveDataByProfileId(profileId)
+    }
+
+    fun getAllDataByProfileId(profileId: Int): List<Goals> {
+        return goalsDao.getAllDataByProfileId(profileId)
+    }
 
     fun addNewGoal(dataName: String, dataDate: Date, profilesId: Int) {
         val newGoal = getNewGoalEntry(dataName, dataDate, profilesId)
         insertGoal(newGoal)
     }
 
-    fun getProfileById(profileId: Int): Goals {
-        return goalsDao.getDataByProfileId(profileId)
-    }
-
-    fun deleteProfileById(data:Goals) {
+    fun deleteProfileById(data: Goals) {
         viewModelScope.launch {
             goalsDao.delete(data)
         }

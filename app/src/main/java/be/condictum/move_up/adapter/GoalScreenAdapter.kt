@@ -12,12 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
 import be.condictum.move_up.database.data.Goals
-import be.condictum.move_up.database.data.Profiles
 import be.condictum.move_up.fragment.GoalScreenFragment
 import be.condictum.move_up.fragment.GoalScreenFragmentDirections
 import be.condictum.move_up.fragment.MainFragment
@@ -66,10 +64,6 @@ class GoalScreenAdapter(
         }
 
         holder.profileVerticalMenu.setOnClickListener {
-            val sharedPreferences =
-                mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
-            sharedPreferences.edit().remove(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID).apply()
-
             val popupMenu = PopupMenu(mContext, it)
             popupMenu.menuInflater.inflate(R.menu.goal_screen_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { item ->
@@ -141,7 +135,7 @@ class GoalScreenAdapter(
                     val profileId = getProfileIdFromSharedPreferences()
 
                     viewModel.updateProfile(
-                        Goals(data.id, name, Date(dateFormatter.parse(date).time), profileId as Int)
+                        Goals(data.id, name, Date(dateFormatter.parse(date).time), profileId)
                     )
 
                 }.setNegativeButton("ÇIK") { dialogInterface, i ->
@@ -150,10 +144,9 @@ class GoalScreenAdapter(
                 }
 
         mBuilder.show()
-
     }
 
-    private fun getProfileIdFromSharedPreferences(): Any {
+    private fun getProfileIdFromSharedPreferences(): Int {
         val sharedPreferences =
             mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
         val profileId = sharedPreferences.getInt(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, 0)

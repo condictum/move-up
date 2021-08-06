@@ -81,11 +81,7 @@ class ProfileMainRecyclerAdapter(
         }
 
         holder.profileVerticalMenu.setOnClickListener {
-            val sharedPreferences =
-                mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
-            sharedPreferences.edit().remove(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID).apply()
-
-            val popupMenu = PopupMenu(mContext, it)
+           val popupMenu = PopupMenu(mContext, it)
             popupMenu.menuInflater.inflate(R.menu.main_profiles_edit_menu, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {

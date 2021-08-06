@@ -41,14 +41,16 @@ class ProfilesViewModel(
 
     fun deleteProfile(data: Profiles) {
         viewModelScope.launch {
-            val goals = goalsDao.getDataByProfileId(data.id)
+            val goals = goalsDao.getAllDataByProfileId(data.id)
 
             if (goals != null) {
-                val goalsId = goals.id
-                val lessons = lessonsDao.getAllDataByGoalsId(goalsId)
+                for (goal in goals) {
+                    val goalsId = goal.id
+                    val lessons = lessonsDao.getAllDataByGoalsId(goalsId)
 
-                if (lessons != null) {
-                    lessonsDao.deleteDataByGoalsId(goalsId)
+                    if (lessons != null) {
+                        lessonsDao.deleteDataByGoalsId(goalsId)
+                    }
                 }
 
                 goalsDao.deleteDataByProfileId(data.id)

@@ -53,7 +53,7 @@ class GoalScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = GoalScreenAdapter(requireContext(), listOf(),viewModel)
+        adapter = GoalScreenAdapter(requireContext(), listOf(), viewModel)
 
         binding.goalScreenRecyclerView.adapter = adapter
         setDataset()
@@ -95,10 +95,11 @@ class GoalScreenFragment : Fragment() {
     }
 
     private fun setDataset() {
-        viewModel.allGoals.observe(viewLifecycleOwner, {
-            adapter.setDataset(it)
-            adapter.notifyDataSetChanged()
-        })
+        viewModel.getAllLiveDataByProfileId(getProfileIdFromSharedPreferences())
+            .observe(viewLifecycleOwner, {
+                adapter.setDataset(it)
+                adapter.notifyDataSetChanged()
+            })
     }
 
     private fun getProfileIdFromSharedPreferences(): Int {
