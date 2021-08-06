@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -12,6 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import be.condictum.move_up.R
 import be.condictum.move_up.databinding.ActivityMainBinding
+import be.condictum.move_up.fragment.GoalResultFragmentDirections
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -72,5 +74,23 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onBackPressed() {
+        val navController = this.findNavController(R.id.main_nav_host_fragment)
+        when (navController.currentDestination?.id) {
+            R.id.goalResultFragment -> {
+                val action =
+                    GoalResultFragmentDirections.actionGoalResultFragmentToGoalScreenFragment()
+                findNavController(R.id.main_nav_host_fragment).navigate(action)
+            }
+            R.id.mainFragment -> {
+                finish()
+            }
+            R.id.splashScreenFragment -> {
+                finish()
+            }
+            else -> navController.navigateUp()
+        }
     }
 }
