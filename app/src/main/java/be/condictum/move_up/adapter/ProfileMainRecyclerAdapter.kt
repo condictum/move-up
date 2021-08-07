@@ -1,13 +1,12 @@
 package be.condictum.move_up.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.PopupMenu
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
@@ -21,12 +20,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 
 class ProfileMainRecyclerAdapter(
-    private val mContext: Context,
+    private val mFragment: Fragment,
     private var dataSet: List<Profiles>,
-    private val viewModel: ProfilesViewModel,
-    private val activity: Activity?,
-    private val requiredView: View
+    private val viewModel: ProfilesViewModel
 ) : RecyclerView.Adapter<ProfileMainRecyclerAdapter.ProfileMainViewHolder>() {
+
+    private val mContext = mFragment.requireContext()
+    private val mActivity = mFragment.requireActivity()
+    private val mRequiredView = mFragment.requireView()
 
     class ProfileMainViewHolder(val binding: ProfilesListRowItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -66,7 +67,7 @@ class ProfileMainRecyclerAdapter(
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.ac_main_edit_profile -> {
-                        updateProfile(position)
+                        showAlertDialogForUpdateProfile(position)
                         true
                     }
                     R.id.ac_main_delete_profile -> {
@@ -87,7 +88,10 @@ class ProfileMainRecyclerAdapter(
 
     private fun putProfileIdKeyToSharedPreferences(id: Int) {
         val sharedPreferences =
-            mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
+            mContext.getSharedPreferences(
+                mFragment.requireContext().packageName,
+                Context.MODE_PRIVATE
+            )
         sharedPreferences.edit().putInt(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, id)
             .apply()
     }
@@ -96,27 +100,31 @@ class ProfileMainRecyclerAdapter(
         val alertDialog = MaterialAlertDialogBuilder(mContext)
         alertDialog.setCancelable(false)
 
-        alertDialog.setTitle(mContext.getString(R.string.are_you_sure_text))
-        alertDialog.setMessage(mContext.getString(R.string.profile_is_deleting_text))
+        alertDialog.setTitle(getStringFromResources(R.string.are_you_sure_text))
+        alertDialog.setMessage(getStringFromResources(R.string.profile_is_deleting_text))
 
-        alertDialog.setPositiveButton(mContext.getString(R.string.yes_button_text)) { _, _ ->
+        alertDialog.setPositiveButton(getStringFromResources(R.string.yes_button_text)) { _, _ ->
             viewModel.deleteProfile(currentData)
 
             removeProfileIdKeyFromSharedPreferences()
             showToastMessage(R.string.profile_deleted_text)
         }
 
-        alertDialog.setNegativeButton(mContext.getString(R.string.no_button_text)) { _, _ ->
+        alertDialog.setNegativeButton(getStringFromResources(R.string.no_button_text)) { _, _ ->
             showToastMessage(R.string.profile_isnt_deleted_text)
         }
 
         alertDialog.show()
     }
 
+    private fun getStringFromResources(@StringRes stringId: Int): String {
+        return mContext.getString(stringId)
+    }
+
     private fun showToastMessage(@StringRes message: Int) {
         Toast.makeText(
             mContext,
-            mContext.getString(message),
+            getStringFromResources(message),
             Toast.LENGTH_SHORT
         ).show()
     }
@@ -135,23 +143,23 @@ class ProfileMainRecyclerAdapter(
         dataSet = data
     }
 
-    private fun updateProfile(position: Int) {
+    private fun showAlertDialogForUpdateProfile(position: Int) {
         val data = dataSet[position]
-
         val builder = MaterialAlertDialogBuilder(mContext)
-        builder.setTitle(mContext.getString(R.string.create_profile_text))
 
-        val view = activity?.layoutInflater?.inflate(
+        builder.setTitle(getStringFromResources(R.string.create_profile_text))
+
+        val view = mActivity.layoutInflater.inflate(
             R.layout.custom_create_profile_alert_dialog,
             null
         )
 
         val nameText =
-            view?.findViewById<TextInputEditText>(R.id.profile_fragment_name_edit_text)
+            view?.findViewById<TextInputEditText>(R.id.custom_main_profile_fragment_name_edit_text)
         val surnameText =
-            view?.findViewById<TextInputEditText>(R.id.profile_fragment_surname_edit_text)
+            view?.findViewById<TextInputEditText>(R.id.custom_main_profile_surname_edit_text)
         val ageText =
-            view?.findViewById<TextInputEditText>(R.id.profile_fragment_age_edit_text)
+            view?.findViewById<TextInputEditText>(R.id.custom_main_profile_age_edit_text)
 
         nameText?.setText(data.name)
         surnameText?.setText(data.surname)
@@ -160,7 +168,7 @@ class ProfileMainRecyclerAdapter(
         builder.setView(view)
 
         builder.setPositiveButton(
-            mContext.getString(R.string.save_text)
+            getStringFromResources(R.string.save_text)
         ) { _, _ ->
             val name = nameText?.text.toString()
             val surname = surnameText?.text.toString()
@@ -177,7 +185,7 @@ class ProfileMainRecyclerAdapter(
         }
 
         builder.setNegativeButton(
-            mContext.getString(R.string.cancel_text)
+            getStringFromResources(R.string.cancel_text)
         ) { dialog, _ -> dialog.cancel() }
 
         builder.setCancelable(false)
@@ -189,13 +197,18 @@ class ProfileMainRecyclerAdapter(
     }
 
     private fun showSnackbarForInputError(position: Int) {
-        Snackbar.make(
+        val snackbar = Snackbar.make(
             mContext,
-            requiredView,
-            mContext.getString(R.string.input_error_text),
+            mRequiredView,
+            getStringFromResources(R.string.input_error_text),
             Snackbar.LENGTH_LONG
-        ).setAction(mContext.getString(R.string.try_again_button_text)) { updateProfile(position) }
-            .show()
+        )
+
+        snackbar.setAction(getStringFromResources(R.string.try_again_button_text)) {
+            showAlertDialogForUpdateProfile(position)
+        }
+
+        snackbar.show()
     }
 }
 

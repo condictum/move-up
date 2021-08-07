@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutName"
+        android:id="@+id/custom_main_profile_textInputLayoutName"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/profile_fragment_name_edit_text"
+            android:id="@+id/custom_main_profile_fragment_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name_text"
@@ -23,17 +23,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutSurname"
+        android:id="@+id/custom_main_profile_textInputLayoutSurname"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutName">
+        app:layout_constraintTop_toBottomOf="@+id/custom_main_profile_textInputLayoutName">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/profile_fragment_surname_edit_text"
+            android:id="@+id/custom_main_profile_surname_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/surname_text"
@@ -41,17 +41,19 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutAge"
+        android:id="@+id/custom_main_profile_textInputLayoutAge"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutSurname">
+        app:layout_constraintTop_toBottomOf="@+id/custom_main_profile_textInputLayoutSurname">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/profile_fragment_age_edit_text"
+            android:id="@+id/custom_main_profile_age_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/age_text"
