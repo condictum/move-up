@@ -5,15 +5,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.PopupMenu
-import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
 import be.condictum.move_up.database.data.Profiles
+import be.condictum.move_up.databinding.ProfilesListRowItemBinding
 import be.condictum.move_up.fragment.MainFragment
 import be.condictum.move_up.fragment.MainFragmentDirections
 import be.condictum.move_up.viewmodel.ProfilesViewModel
@@ -27,22 +26,15 @@ class ProfileMainRecyclerAdapter(
     private val viewModel: ProfilesViewModel,
     private val activity: Activity?,
     private val requiredView: View
-) :
-    RecyclerView.Adapter<ProfileMainRecyclerAdapter.ProfileMainViewHolder>() {
+) : RecyclerView.Adapter<ProfileMainRecyclerAdapter.ProfileMainViewHolder>() {
 
-    class ProfileMainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val profileNameText: TextView = view.findViewById(R.id.row_item_goals_name_text)
-        val profileSurnameText: TextView = view.findViewById(R.id.row_item_goals_date_text)
-        val profileAgeText: TextView = view.findViewById(R.id.row_item_profile_age_text)
-        val profilesCardView: CardView = view.findViewById(R.id.goals_list_card_view)
-        val profileVerticalMenu: ImageButton =
-            view.findViewById(R.id.row_item_goals_menu)
-    }
+    class ProfileMainViewHolder(val binding: ProfilesListRowItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileMainViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.profiles_list_row_item, parent, false)
-        return ProfileMainViewHolder(view)
+        val itemBinding =
+            ProfilesListRowItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ProfileMainViewHolder(itemBinding)
     }
 
     override fun onBindViewHolder(holder: ProfileMainViewHolder, position: Int) {
@@ -52,37 +44,25 @@ class ProfileMainRecyclerAdapter(
         var surname = currentData.surname
         var age = currentData.age.toString()
 
-        if (name.length > 16) {
-            name = name.substring(0, 16) + "..."
-        }
+        name = if (name.length > 16) name.substring(0, 16) + "..." else name
+        surname = if (surname.length > 16) surname.substring(0, 16) + "..." else surname
+        age = if (age.length > 3) age.substring(0, 3) + "..." else age
 
-        if (surname.length > 16) {
-            surname = surname.substring(0, 16) + "..."
-        }
+        holder.binding.profileListRowItemNameText.text = name
+        holder.binding.profileListRowItemSurnameText.text = surname
+        holder.binding.profileListRowItemProfileAgeText.text = age
 
-        if (age.length > 3) {
-            age = age.substring(0, 3) + "..."
-        }
-
-        holder.profileNameText.text = name
-        holder.profileSurnameText.text = surname
-        holder.profileAgeText.text = age
-
-        holder.profilesCardView.setOnClickListener {
-            val id = currentData.id
-
-            val sharedPreferences =
-                mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
-            sharedPreferences.edit().putInt(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, id)
-                .apply()
+        holder.binding.profileListRowItemCardView.setOnClickListener {
+            putProfileIdKeyToSharedPreferences(currentData.id)
 
             val action = MainFragmentDirections.actionMainFragmentToGoalScreenFragment()
             holder.itemView.findNavController().navigate(action)
         }
 
-        holder.profileVerticalMenu.setOnClickListener {
-           val popupMenu = PopupMenu(mContext, it)
+        holder.binding.profileListRowItemVerticalMenu.setOnClickListener {
+            val popupMenu = PopupMenu(mContext, it)
             popupMenu.menuInflater.inflate(R.menu.main_profiles_edit_menu, popupMenu.menu)
+
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.ac_main_edit_profile -> {
@@ -98,8 +78,18 @@ class ProfileMainRecyclerAdapter(
                     }
                 }
             }
+
             popupMenu.show()
         }
+    }
+
+    override fun getItemCount(): Int = dataSet.size
+
+    private fun putProfileIdKeyToSharedPreferences(id: Int) {
+        val sharedPreferences =
+            mContext.getSharedPreferences(mContext.packageName, Context.MODE_PRIVATE)
+        sharedPreferences.edit().putInt(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID, id)
+            .apply()
     }
 
     private fun showDeleteItemDialog(currentData: Profiles) {
@@ -108,34 +98,38 @@ class ProfileMainRecyclerAdapter(
 
         alertDialog.setTitle(mContext.getString(R.string.are_you_sure_text))
         alertDialog.setMessage(mContext.getString(R.string.profile_is_deleting_text))
+
         alertDialog.setPositiveButton(mContext.getString(R.string.yes_button_text)) { _, _ ->
             viewModel.deleteProfile(currentData)
 
-            val sharedPreferences =
-                mContext.getSharedPreferences(
-                    mContext.packageName,
-                    Context.MODE_PRIVATE
-                )
-            sharedPreferences.edit()
-                .remove(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID).apply()
+            removeProfileIdKeyFromSharedPreferences()
+            showToastMessage(R.string.profile_deleted_text)
+        }
 
-            Toast.makeText(
-                mContext,
-                mContext.getString(R.string.profile_deleted_text),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
         alertDialog.setNegativeButton(mContext.getString(R.string.no_button_text)) { _, _ ->
-            Toast.makeText(
-                mContext,
-                mContext.getString(R.string.profile_isnt_deleted_text),
-                Toast.LENGTH_SHORT
-            ).show()
+            showToastMessage(R.string.profile_isnt_deleted_text)
         }
+
         alertDialog.show()
     }
 
-    override fun getItemCount(): Int = dataSet.size
+    private fun showToastMessage(@StringRes message: Int) {
+        Toast.makeText(
+            mContext,
+            mContext.getString(message),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun removeProfileIdKeyFromSharedPreferences() {
+        val sharedPreferences =
+            mContext.getSharedPreferences(
+                mContext.packageName,
+                Context.MODE_PRIVATE
+            )
+        sharedPreferences.edit()
+            .remove(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID).apply()
+    }
 
     fun setDataset(data: List<Profiles>) {
         dataSet = data

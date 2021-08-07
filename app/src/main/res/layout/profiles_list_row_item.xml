@@ -8,7 +8,7 @@
     android:padding="2dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/goals_list_card_view"
+        android:id="@+id/profile_list_row_item_card_view"
         android:layout_width="193dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="24dp"
@@ -26,40 +26,40 @@
             android:layout_margin="8dp">
 
             <TextView
-                android:id="@+id/row_item_goals_name_text"
+                android:id="@+id/profile_list_row_item_name_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/profiles_list_row_profile_photo"
                 tools:text="Name" />
 
             <TextView
-                android:id="@+id/row_item_goals_date_text"
+                android:id="@+id/profile_list_row_item_surname_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/row_item_goals_name_text"
+                app:layout_constraintTop_toBottomOf="@+id/profile_list_row_item_name_text"
                 tools:text="Surname" />
 
             <TextView
-                android:id="@+id/row_item_profile_age_text"
+                android:id="@+id/profile_list_row_item_profile_age_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/row_item_goals_date_text"
+                app:layout_constraintTop_toBottomOf="@+id/profile_list_row_item_surname_text"
                 tools:text="Age" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/profiles_list_row_profile_photo"
                 android:layout_width="134dp"
                 android:layout_height="111dp"
                 android:layout_marginTop="8dp"
@@ -70,7 +70,7 @@
                 app:srcCompat="@drawable/ic_profile" />
 
             <ImageButton
-                android:id="@+id/row_item_goals_menu"
+                android:id="@+id/profile_list_row_item_vertical_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/text_on_primary_color"
