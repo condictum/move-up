@@ -127,6 +127,8 @@ class ProfileFragment : Fragment() {
                 getString(R.string.input_error_text),
                 Toast.LENGTH_SHORT
             ).show()
+
+            setDataset()
         }
     }
 
