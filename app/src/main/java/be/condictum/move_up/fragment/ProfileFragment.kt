@@ -42,10 +42,11 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.profileFragmentSaveButton.isEnabled = false
+        binding.profileFragmentSaveButton.visibility = View.INVISIBLE
 
         binding.textInputLayoutName.setStartIconOnClickListener {
             binding.profileFragmentSaveButton.isEnabled = true
+            binding.profileFragmentSaveButton.visibility = View.VISIBLE
 
             binding.profileFragmentSaveButton.text = getString(R.string.save_button_text)
             binding.profileFragmentNameEditText.isEnabled = true
@@ -55,6 +56,7 @@ class ProfileFragment : Fragment() {
 
         binding.textInputLayoutSurname.setStartIconOnClickListener {
             binding.profileFragmentSaveButton.isEnabled = true
+            binding.profileFragmentSaveButton.visibility = View.VISIBLE
 
             binding.profileFragmentSaveButton.text = getString(R.string.save_button_text)
             binding.profileFragmentSurnameEditText.isEnabled = true
@@ -64,6 +66,7 @@ class ProfileFragment : Fragment() {
 
         binding.textInputLayoutAge.setStartIconOnClickListener {
             binding.profileFragmentSaveButton.isEnabled = true
+            binding.profileFragmentSaveButton.visibility = View.VISIBLE
 
             binding.profileFragmentSaveButton.text = getString(R.string.save_button_text)
             binding.profileFragmentAgeEditText.isEnabled = true
@@ -72,8 +75,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.profileFragmentSaveButton.setOnClickListener {
-            binding.profileFragmentSaveButton.isEnabled = false
-
+            binding.profileFragmentSaveButton.visibility = View.INVISIBLE
             binding.profileFragmentSaveButton.text = getString(R.string.edit_button_text)
 
             binding.profileFragmentNameEditText.isEnabled = false

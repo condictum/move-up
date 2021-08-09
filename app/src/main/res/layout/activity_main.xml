@@ -23,12 +23,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:itemBackground="@color/secondary_dark"
+        app:itemBackground="@color/primary_dark"
         app:itemIconTint="@drawable/bottom_nav_view_colors"
-        app:itemTextColor="@color/white"
+        app:itemTextColor="@color/windowBackgroundColorLight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_app_bar" />
+        app:menu="@menu/bottom_app_bar"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

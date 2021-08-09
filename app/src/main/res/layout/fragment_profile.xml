@@ -10,6 +10,7 @@
         android:id="@+id/goals_list_card_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="24dp"
         app:cardElevation="5dp"
         app:cardPreventCornerOverlap="false"
@@ -22,8 +23,8 @@
         app:layout_constraintVertical_bias="0.3">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="304dp"
+            android:layout_height="484dp"
             android:layout_margin="8dp"
             android:paddingTop="32dp"
             android:paddingBottom="32dp">
@@ -32,10 +33,9 @@
                 android:id="@+id/fragment_profile_delete_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="92dp"
-                android:layout_marginTop="72dp"
-                android:backgroundTint="@color/text_on_primary_color"
-                android:scaleType="centerCrop"
+                android:layout_marginStart="108dp"
+                android:layout_marginTop="68dp"
+                android:backgroundTint="@color/white"
                 app:layout_constraintStart_toStartOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="@+id/imageView"
                 app:srcCompat="@drawable/ic_delete_item" />
@@ -51,7 +51,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_profile" />
+                app:srcCompat="@drawable/ic_profile_changed_color" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutName"
@@ -121,7 +121,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:backgroundTint="@color/primary_dark"
                 android:text="@string/edit_button_text"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
