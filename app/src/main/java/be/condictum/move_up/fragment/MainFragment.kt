@@ -90,11 +90,11 @@ class MainFragment : Fragment() {
         )
 
         val nameText =
-            view?.findViewById<TextInputEditText>(R.id.profile_fragment_name_edit_text)
+            view?.findViewById<TextInputEditText>(R.id.custom_main_profile_fragment_name_edit_text)
         val surnameText =
-            view?.findViewById<TextInputEditText>(R.id.profile_fragment_surname_edit_text)
+            view?.findViewById<TextInputEditText>(R.id.custom_main_profile_surname_edit_text)
         val ageText =
-            view?.findViewById<TextInputEditText>(R.id.profile_fragment_age_edit_text)
+            view?.findViewById<TextInputEditText>(R.id.custom_main_profile_age_edit_text)
 
         builder.setView(view)
 
