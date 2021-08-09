@@ -61,7 +61,12 @@ class ProfilesViewModel(
     }
 
     fun isEntryValid(name: String, surname: String, age: String): Boolean {
-        if (name.isBlank() || surname.isBlank() || age.isBlank()) {
+        if (name.isBlank() || surname.isBlank() || age.isBlank() || age.length > 3) {
+            return false
+        }
+
+        val ageInt = age.toIntOrNull()
+        if (ageInt == null || ageInt <= 0) {
             return false
         }
 

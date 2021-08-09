@@ -2,6 +2,7 @@ package be.condictum.move_up.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -60,27 +61,13 @@ class ProfileMainRecyclerAdapter(
             holder.itemView.findNavController().navigate(action)
         }
 
+        holder.binding.profileListRowItemCardView.setOnLongClickListener {
+            showPopupMenu(holder.binding.profileListRowItemCardView, position)
+            true
+        }
+
         holder.binding.profileListRowItemVerticalMenu.setOnClickListener {
-            val popupMenu = PopupMenu(mContext, it)
-            popupMenu.menuInflater.inflate(R.menu.main_profiles_edit_menu, popupMenu.menu)
-
-            popupMenu.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.ac_main_edit_profile -> {
-                        showAlertDialogForUpdateProfile(position)
-                        true
-                    }
-                    R.id.ac_main_delete_profile -> {
-                        showDeleteItemDialog(currentData)
-                        true
-                    }
-                    else -> {
-                        false
-                    }
-                }
-            }
-
-            popupMenu.show()
+            showPopupMenu(holder.binding.profileListRowItemVerticalMenu, position)
         }
     }
 
@@ -210,5 +197,27 @@ class ProfileMainRecyclerAdapter(
 
         snackbar.show()
     }
-}
 
+    private fun showPopupMenu(anchor: View, position: Int) {
+        val popupMenu = PopupMenu(mContext, anchor)
+        popupMenu.menuInflater.inflate(R.menu.main_profiles_edit_menu, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.ac_main_edit_profile -> {
+                    showAlertDialogForUpdateProfile(position)
+                    true
+                }
+                R.id.ac_main_delete_profile -> {
+                    showDeleteItemDialog(dataSet[position])
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+
+        popupMenu.show()
+    }
+}
