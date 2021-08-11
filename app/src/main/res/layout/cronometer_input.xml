@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="60dp"
+        android:height="100dp"
+        android:background="@drawable/custom_btn"
+        android:hint="hour"
+        android:inputType="number"
+        android:minHeight="60dp" />
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/minute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="60dp"
+        android:height="100dp"
+        android:background="@drawable/custom_btn"
+        android:hint="minute"
+        android:inputType="number"
+        android:minHeight="60dp"
+        />
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="60dp"
+        android:height="100dp"
+        android:background="@drawable/custom_btn"
+        android:hint="second"
+        android:inputType="number"
+        android:minHeight="60dp"
+        />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

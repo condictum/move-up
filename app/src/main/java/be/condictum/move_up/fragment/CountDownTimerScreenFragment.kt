@@ -1,16 +1,30 @@
 package be.condictum.move_up.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.renderscript.ScriptGroup
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.Button
+import android.widget.EditText
 import androidx.fragment.app.Fragment
-import be.condictum.move_up.databinding.FragmentCountDownTimerScreenBinding
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.paperdb.Paper
 
+import android.widget.Toast
+import be.condictum.move_up.R
+import be.condictum.move_up.databinding.FragmentCountDownTimerScreenBinding
+import cn.iwgang.countdownview.CountdownView
+import com.google.android.material.textfield.TextInputEditText
+import java.sql.Date
+import kotlin.concurrent.timer
+
+
 class CountDownTimerScreenFragment : Fragment() {
+
     companion object {
         private const val IS_START_KEY = "IS_START"
         private const val LAST_TIME_SAVED_KEY = "LAST_TIME_SAVED"
@@ -20,7 +34,7 @@ class CountDownTimerScreenFragment : Fragment() {
     private var _binding: FragmentCountDownTimerScreenBinding? = null
     private val binding get() = _binding!!
 
-    private val LIMIT_TIME: Long = 10000
+    private var LIMIT_TIME: Long = 10000
     var isStart = false
 
     override fun onCreateView(
@@ -52,10 +66,29 @@ class CountDownTimerScreenFragment : Fragment() {
         }
 
         btn.setOnClickListener {
-            if (!isStart) {
-                countdownView.start(LIMIT_TIME)
-                Paper.book().write(IS_START_KEY, true)
-            }
+
+            val mDialogView =
+                LayoutInflater.from(this.context).inflate(R.layout.cronometer_input, null)
+            val mBuilder =
+                AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals")
+                    .setPositiveButton("Kaydet") { dialogInterface, i ->
+
+                        val hour = mDialogView.findViewById<EditText>(R.id.hour).text.toString()
+                        val minute = mDialogView.findViewById<EditText>(R.id.minute).text.toString()
+                        val second = mDialogView.findViewById<EditText>(R.id.second).text.toString()
+
+                        LIMIT_TIME = ((hour.toLong()*6000000)+(minute.toLong()*60000)+(second.toLong()*1000))
+
+                        if (!isStart) {
+                            countdownView.start(LIMIT_TIME)
+                            Paper.book().write(IS_START_KEY, true)
+                        }
+
+                    }.setNegativeButton("ÇIK") { _, _ -> }
+
+            mBuilder.show()
+
+
         }
 
         countdownView.setOnCountdownEndListener {
