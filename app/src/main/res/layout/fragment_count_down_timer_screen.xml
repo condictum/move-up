@@ -11,16 +11,36 @@
         android:layout_height="match_parent">
 
 
-        <Button
-            android:id="@+id/timerBtn"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/custom_btn"
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/cronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isHideTimeBackground="false"
+            app:timeBgRadius="40dp"
+            app:timeBgSize="80dp"
+            app:isSuffixTextBold="true"
+            app:isShowHour="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:timeTextSize="32dp"
+            app:suffixHour=":"
+            app:suffixMinute=":"
+            app:suffixSecond=":"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:icon="@drawable/ic_baseline_timer_24"
-            android:drawableTop="@drawable/ic_baseline_timer_24"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/cronoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:src="@drawable/ic_baseline_timer_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
