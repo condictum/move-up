@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import be.condictum.move_up.R
 import be.condictum.move_up.databinding.FragmentPreparationScreenBinding
 import com.github.mikephil.charting.charts.LineChart
@@ -45,7 +46,9 @@ class PreparationScreenFragment : Fragment() {
     }
 
     private fun addNewLesson() {
-
+        val action =
+            PreparationScreenFragmentDirections.actionPreparationScreenFragment2ToCountDownTimerScreenFragment()
+        Navigation.findNavController(requireView()).navigate(action)
     }
 
     private fun controlViewItemsVisibility() {
