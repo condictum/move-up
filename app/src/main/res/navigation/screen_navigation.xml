@@ -36,7 +36,7 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_goalScreenFragment_to_preparationScreenFragment22"
-            app:destination="@id/preparationScreenFragment" />
+            app:destination="@id/preparationsFragment" />
         <action
             android:id="@+id/action_goalScreenFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -47,7 +47,7 @@
         android:label="@string/timer_text"
         tools:layout="@layout/fragment_count_down_timer_screen" />
     <fragment
-        android:id="@+id/preparationScreenFragment"
+        android:id="@+id/preparationsFragment"
         android:name="be.condictum.move_up.fragment.PreparationScreenFragment"
         android:label="@string/preparations_text">
         <action

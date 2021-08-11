@@ -13,6 +13,11 @@
         android:title="@string/profile_text"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/preparationsFragment"
+        android:icon="@drawable/ic_work"
+        android:title="@string/preparations_text"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings_text"

@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.goalScreenFragment,
                 R.id.profileFragment,
-                R.id.settingsFragment
+                R.id.preparationsFragment,
+                R.id.settingsFragment,
             )
         )
 
