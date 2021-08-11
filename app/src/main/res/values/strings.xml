@@ -50,4 +50,5 @@
     <string name="scores_text">Scores</string>
     <string name="total_scores_text">Total Scores</string>
     <string name="last_date_of_goal_text">Last date of goal</string>
+    <string name="there_is_no_time_data_for_lessons_chart_text">There is no time data for lessons.</string>
 </resources>
