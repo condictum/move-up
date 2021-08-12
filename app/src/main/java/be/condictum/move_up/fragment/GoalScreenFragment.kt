@@ -114,8 +114,6 @@ class GoalScreenFragment : Fragment() {
 
             mBuilder.show()
         }
-
-
     }
     private fun isEntryValid(name: String, date: String): Boolean {
         return viewModel.isEntryValid(name, date)

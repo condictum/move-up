@@ -157,15 +157,26 @@ class GoalScreenAdapter(
                     val name = nameText.text.toString()
                     val date = dateText.text.toString()
                     val profileId = data.profilesId
-
-                    viewModel.updateProfile(
-                        Goals(data.id, name, Date(dateFormatter.parse(date).time), profileId)
-                    )
+                    if (isEntryValid(name, date)) {
+                        viewModel.updateProfile(
+                            Goals(data.id, name, Date(dateFormatter.parse(date).time), profileId)
+                        )
+                    } else {
+                        Toast.makeText(
+                            mContext,
+                            (R.string.input_error_text),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
                 }.setNegativeButton("ÇIK") { _, _ -> }
 
         mBuilder.setCancelable(false)
         mBuilder.show()
+    }
+
+    private fun isEntryValid(name: String, date: String): Boolean {
+        return viewModel.isEntryValid(name, date)
     }
 
     override fun getItemCount(): Int {
