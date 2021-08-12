@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
@@ -47,15 +48,17 @@ class GoalScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = FragmentGoalScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         adapter = GoalScreenAdapter(requireContext(), listOf(), viewModel)
         binding.goalScreenRecyclerView.adapter = adapter
+        setDataset()
+
 
         val profileId = getProfileIdFromSharedPreferences()
 
@@ -91,19 +94,31 @@ class GoalScreenFragment : Fragment() {
 
                         val name = nameText.text.toString()
                         val date = dateText.text.toString()
+                      if(isEntryValid(name, date)) {
 
-                        viewModel.addNewGoal(
-                            name,
-                            Date(dateFormatter.parse(date).time),
-                            profileId
-                        )
-
+                          viewModel.addNewGoal(
+                              name,
+                              Date(dateFormatter.parse(date).time),
+                              profileId
+                          )
+                      }
+                        else{
+                          Toast.makeText(
+                              requireContext(),
+                              getString(R.string.input_error_text),
+                              Toast.LENGTH_SHORT
+                          ).show()
+                            setDataset()
+                        }
                     }.setNegativeButton("ÇIK") { _, _ -> }
 
             mBuilder.show()
         }
 
-        setDataset()
+
+    }
+    private fun isEntryValid(name: String, date: String): Boolean {
+        return viewModel.isEntryValid(name, date)
     }
 
     private fun setDataset() {
