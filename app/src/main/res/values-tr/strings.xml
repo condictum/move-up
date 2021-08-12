@@ -51,4 +51,8 @@
     <string name="total_scores_text">Toplam Puanlar</string>
     <string name="last_date_of_goal_text">Hedef son tarih</string>
     <string name="there_is_no_time_data_for_lessons_chart_text">Dersler için zaman bilgisi bulunmamaktadır.</string>
+    <string name="goal_deleted_text">Hedef silindi.</string>
+    <string name="goal_isnt_deleted_text">Hedef silinmedi.</string>
+    <string name="goal_is_deleting_text">Hedef siliniyor.</string>
+    <string name="add_goal_text">Hedef Ekle</string>
 </resources>

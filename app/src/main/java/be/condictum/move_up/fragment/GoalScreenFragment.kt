@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
@@ -19,6 +18,7 @@ import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.databinding.FragmentGoalScreenBinding
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import be.condictum.move_up.viewmodel.GoalsViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 import java.sql.Date
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -48,75 +48,81 @@ class GoalScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentGoalScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = GoalScreenAdapter(requireContext(), listOf(), viewModel)
+
+        adapter = GoalScreenAdapter(requireContext(), requireView(), listOf(), viewModel)
         binding.goalScreenRecyclerView.adapter = adapter
-        setDataset()
-
-
-        val profileId = getProfileIdFromSharedPreferences()
 
         binding.goalScreenFab.setOnClickListener {
-            val mDialogView =
-                LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
-            val nameText = mDialogView.findViewById<EditText>(R.id.goal_input_name_edit_text)
-            val dateText = mDialogView.findViewById<EditText>(R.id.goal_input_date_edit_text)
-
-            dateText.setOnClickListener {
-                val calendar = Calendar.getInstance()
-
-                val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-                val month = calendar.get(Calendar.MONTH)
-                val year = calendar.get(Calendar.YEAR)
-
-                val datePickerDialog = DatePickerDialog(
-                    requireContext(),
-                    { view, year, month, dayOfMonth ->
-                        dateText.setText("$dayOfMonth/$month/$year")
-                    },
-                    year,
-                    month,
-                    dayOfMonth
-                )
-
-                datePickerDialog.show()
-            }
-
-            val mBuilder =
-                AlertDialog.Builder(this.context).setView(mDialogView).setTitle("Add Goals")
-                    .setPositiveButton("Kaydet") { dialogInterface, i ->
-
-                        val name = nameText.text.toString()
-                        val date = dateText.text.toString()
-                      if(isEntryValid(name, date)) {
-
-                          viewModel.addNewGoal(
-                              name,
-                              Date(dateFormatter.parse(date).time),
-                              profileId
-                          )
-                      }
-                        else{
-                          Toast.makeText(
-                              requireContext(),
-                              getString(R.string.input_error_text),
-                              Toast.LENGTH_SHORT
-                          ).show()
-                            setDataset()
-                        }
-                    }.setNegativeButton("ÇIK") { _, _ -> }
-
-            mBuilder.show()
+            addNewGoal()
         }
+
+        setDataset()
     }
-    private fun isEntryValid(name: String, date: String): Boolean {
-        return viewModel.isEntryValid(name, date)
+
+    private fun addNewGoal() {
+        val mDialogView =
+            LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
+        val nameText = mDialogView.findViewById<EditText>(R.id.goal_input_name_edit_text)
+        val dateText = mDialogView.findViewById<EditText>(R.id.goal_input_date_edit_text)
+
+        dateText.setOnClickListener {
+            val calendar = Calendar.getInstance()
+
+            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+            val month = calendar.get(Calendar.MONTH)
+            val year = calendar.get(Calendar.YEAR)
+
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
+                { view, year, month, dayOfMonth ->
+                    dateText.setText("$dayOfMonth/$month/$year")
+                },
+                year,
+                month,
+                dayOfMonth
+            )
+
+            datePickerDialog.show()
+        }
+
+        val mBuilder =
+            AlertDialog.Builder(this.context).setView(mDialogView)
+                .setTitle(getString(R.string.add_goal_text))
+                .setPositiveButton(getString(R.string.save_button_text)) { dialogInterface, i ->
+
+                    val name = nameText.text.toString()
+                    val date = dateText.text.toString()
+
+                    if (viewModel.isEntryValid(name, date)) {
+                        viewModel.addNewGoal(
+                            name,
+                            Date(dateFormatter.parse(date).time),
+                            getProfileIdFromSharedPreferences()
+                        )
+
+                        setDataset()
+                    } else {
+                        showSnackbarForInputError()
+                    }
+                }.setNegativeButton(getString(R.string.exit_button_text)) { _, _ -> }
+
+        mBuilder.show()
+    }
+
+    private fun showSnackbarForInputError() {
+        Snackbar.make(
+            requireContext(),
+            requireView(),
+            getString(R.string.input_error_text),
+            Snackbar.LENGTH_LONG
+        ).setAction(getString(R.string.try_again_button_text)) { addNewGoal() }
+            .show()
     }
 
     private fun setDataset() {

@@ -51,4 +51,8 @@
     <string name="total_scores_text">Total Scores</string>
     <string name="last_date_of_goal_text">Last date of goal</string>
     <string name="there_is_no_time_data_for_lessons_chart_text">There is no time data for lessons.</string>
+    <string name="goal_deleted_text">Goal deleted.</string>
+    <string name="goal_isnt_deleted_text">Goal isn\'t deleted.</string>
+    <string name="goal_is_deleting_text">Goal is deleting.</string>
+    <string name="add_goal_text">Add Goal</string>
 </resources>

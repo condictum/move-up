@@ -35,7 +35,7 @@ class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
         }
     }
 
-    fun updateProfile(data: Goals) {
+    fun updateGoal(data: Goals) {
         viewModelScope.launch {
             goalsDao.update(data)
         }

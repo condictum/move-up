@@ -21,12 +21,14 @@ import be.condictum.move_up.fragment.GoalScreenFragmentDirections
 import be.condictum.move_up.fragment.MainFragment
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.*
 
 class GoalScreenAdapter(
     private val mContext: Context,
+    private val requiredView: View,
     private var data: List<Goals>,
     private val viewModel: GoalsViewModel,
 ) :
@@ -70,7 +72,7 @@ class GoalScreenAdapter(
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.ac_main_edit_goal -> {
-                        updateProfile(position)
+                        updateGoal(position)
                         true
                     }
                     R.id.ac_main_delete_goal -> {
@@ -92,7 +94,7 @@ class GoalScreenAdapter(
         alertDialog.setCancelable(false)
 
         alertDialog.setTitle(mContext.getString(R.string.are_you_sure_text))
-        alertDialog.setMessage(mContext.getString(R.string.profile_is_deleting_text))
+        alertDialog.setMessage(mContext.getString(R.string.goal_is_deleting_text))
         alertDialog.setPositiveButton(mContext.getString(R.string.yes_button_text)) { _, _ ->
             viewModel.deleteProfileById(currentData)
 
@@ -106,21 +108,21 @@ class GoalScreenAdapter(
 
             Toast.makeText(
                 mContext,
-                mContext.getString(R.string.profile_deleted_text),
+                mContext.getString(R.string.goal_deleted_text),
                 Toast.LENGTH_SHORT
             ).show()
         }
         alertDialog.setNegativeButton(mContext.getString(R.string.no_button_text)) { _, _ ->
             Toast.makeText(
                 mContext,
-                mContext.getString(R.string.profile_isnt_deleted_text),
+                mContext.getString(R.string.goal_isnt_deleted_text),
                 Toast.LENGTH_SHORT
             ).show()
         }
         alertDialog.show()
     }
 
-    private fun updateProfile(position: Int) {
+    private fun updateGoal(position: Int) {
         val data = data[position]
         val mDialogView =
             LayoutInflater.from(this.mContext).inflate(R.layout.goal_input_form, null)
@@ -151,32 +153,34 @@ class GoalScreenAdapter(
         }
 
         val mBuilder =
-            AlertDialog.Builder(this.mContext).setView(mDialogView).setTitle("Add Goals")
-                .setPositiveButton("Kaydet") { dialogInterface, i ->
+            AlertDialog.Builder(this.mContext).setView(mDialogView)
+                .setTitle(mContext.getString(R.string.add_goal_text))
+                .setPositiveButton(mContext.getString(R.string.save_button_text)) { dialogInterface, i ->
 
                     val name = nameText.text.toString()
                     val date = dateText.text.toString()
                     val profileId = data.profilesId
-                    if (isEntryValid(name, date)) {
-                        viewModel.updateProfile(
+
+                    if (viewModel.isEntryValid(name, date)) {
+                        viewModel.updateGoal(
                             Goals(data.id, name, Date(dateFormatter.parse(date).time), profileId)
                         )
                     } else {
-                        Toast.makeText(
-                            mContext,
-                            (R.string.input_error_text),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showSnackbarForInputError(position)
                     }
-
-                }.setNegativeButton("ÇIK") { _, _ -> }
+                }.setNegativeButton(mContext.getString(R.string.exit_button_text)) { _, _ -> }
 
         mBuilder.setCancelable(false)
         mBuilder.show()
     }
 
-    private fun isEntryValid(name: String, date: String): Boolean {
-        return viewModel.isEntryValid(name, date)
+    private fun showSnackbarForInputError(position: Int) {
+        Snackbar.make(
+            requiredView,
+            mContext.getString(R.string.input_error_text),
+            Snackbar.LENGTH_LONG
+        ).setAction(mContext.getString(R.string.try_again_button_text)) { updateGoal(position) }
+            .show()
     }
 
     override fun getItemCount(): Int {
