@@ -42,7 +42,7 @@ class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
     }
 
     fun isEntryValid(dataName: String, dataDate: String): Boolean {
-        if (dataName.isBlank() || dataDate.isBlank() || dataName is String) {
+        if (dataName.isBlank() || dataDate.isBlank() || dataName !is String ) {
             return false
         }
 
