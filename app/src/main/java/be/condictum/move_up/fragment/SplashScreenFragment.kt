@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import be.condictum.move_up.R
 import be.condictum.move_up.databinding.FragmentSplashScreenBinding
@@ -57,12 +58,13 @@ class SplashScreenFragment : Fragment() {
         }
 
         val c = Runnable {
-            val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
-            view.findNavController().navigate(action)
+            val action =
+                SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
+            getView()?.let { Navigation.findNavController(it).navigate(action) }
         }
 
         val textc = Runnable {
-            binding.textView2.text = getString(R.string.condictum_text)
+            binding.textView2.text = context?.getString(R.string.condictum_text)
         }
 
         val hand = Handler(Looper.getMainLooper())
