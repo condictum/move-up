@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import be.condictum.move_up.database.data.Settings
 
+@Dao
+
 interface SettingsDao {
     @Query("SELECT * from Settings ORDER BY alarmType ASC")
     fun getAllData(): LiveData<List<Settings>>
