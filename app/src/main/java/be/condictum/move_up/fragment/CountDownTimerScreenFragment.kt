@@ -61,7 +61,7 @@ class CountDownTimerScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        alarmService= AlarmService(this?.requireContext())
+        alarmService= AlarmService(this.requireContext())
 
         initTimer()
     }
