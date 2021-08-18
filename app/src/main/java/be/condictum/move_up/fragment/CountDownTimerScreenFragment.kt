@@ -1,7 +1,16 @@
 package be.condictum.move_up.fragment
 
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.media.RingtoneManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
+import android.provider.AlarmClock
 import android.renderscript.ScriptGroup
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,8 +24,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.paperdb.Paper
 
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import be.condictum.move_up.R
 import be.condictum.move_up.databinding.FragmentCountDownTimerScreenBinding
+import be.condictum.move_up.service.AlarmService
 import cn.iwgang.countdownview.CountdownView
 import com.google.android.material.textfield.TextInputEditText
 import java.sql.Date
@@ -25,10 +36,13 @@ import kotlin.concurrent.timer
 
 class CountDownTimerScreenFragment : Fragment() {
 
+    lateinit var alarmService: AlarmService
+
     companion object {
         private const val IS_START_KEY = "IS_START"
         private const val LAST_TIME_SAVED_KEY = "LAST_TIME_SAVED"
         private const val TIME_REMAIN = "TIME_REMAIN"
+
     }
 
     private var _binding: FragmentCountDownTimerScreenBinding? = null
@@ -47,6 +61,7 @@ class CountDownTimerScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        alarmService= AlarmService(this?.requireContext())
 
         initTimer()
     }
@@ -80,6 +95,7 @@ class CountDownTimerScreenFragment : Fragment() {
                         LIMIT_TIME = ((hour.toLong()*6000000)+(minute.toLong()*60000)+(second.toLong()*1000))
 
                         if (!isStart) {
+
                             countdownView.start(LIMIT_TIME)
                             Paper.book().write(IS_START_KEY, true)
                         }
@@ -93,13 +109,24 @@ class CountDownTimerScreenFragment : Fragment() {
 
         countdownView.setOnCountdownEndListener {
             Toast.makeText(this.context, "finished", Toast.LENGTH_LONG).show()
+            alarmService.setExactAlarm(LIMIT_TIME)
+            var alarmUri: Uri? = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+
+            if (alarmUri == null) {
+                alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            }
+            val ringtone = RingtoneManager.getRingtone(context, alarmUri)
+            ringtone.setLooping(false)
+            ringtone.play()
         }
 
         countdownView.setOnCountdownIntervalListener(1000) { cv, remainTime ->
             Log.d("Tımer", "" + remainTime)
+
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onStop() {
         super.onStop()
 
@@ -107,6 +134,12 @@ class CountDownTimerScreenFragment : Fragment() {
 
         Paper.book().write(LAST_TIME_SAVED_KEY, System.currentTimeMillis())
         Paper.book().write(TIME_REMAIN, countdownView.remainTime)
+
+
+
+
+
+
     }
 
     private fun checktime() {
@@ -120,6 +153,7 @@ class CountDownTimerScreenFragment : Fragment() {
         if (result > 0) {
             countdownView.start(result)
         } else {
+
             countdownView.stop()
             reset()
         }
@@ -134,4 +168,7 @@ class CountDownTimerScreenFragment : Fragment() {
         Paper.book().delete(TIME_REMAIN)
         Paper.book().delete(LAST_TIME_SAVED_KEY)
     }
+
+
+
 }
