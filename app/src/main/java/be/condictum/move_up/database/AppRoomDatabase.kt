@@ -8,12 +8,14 @@ import androidx.room.TypeConverters
 import be.condictum.move_up.database.dao.GoalsDao
 import be.condictum.move_up.database.dao.LessonsDao
 import be.condictum.move_up.database.dao.ProfilesDao
+import be.condictum.move_up.database.dao.SettingsDao
 import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.database.data.Lessons
 import be.condictum.move_up.database.data.Profiles
+import be.condictum.move_up.database.data.Settings
 
 @Database(
-    entities = [Profiles::class, Goals::class, Lessons::class],
+    entities = [Profiles::class, Goals::class, Lessons::class,Settings::class],
     version = 2,
     exportSchema = false
 )
@@ -22,6 +24,7 @@ abstract class AppRoomDatabase : RoomDatabase() {
     abstract fun profilesDao(): ProfilesDao
     abstract fun goalsDao(): GoalsDao
     abstract fun lessonsDao(): LessonsDao
+    abstract fun settingsDao():SettingsDao
 
     companion object {
         @Volatile
