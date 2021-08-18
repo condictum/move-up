@@ -8,7 +8,7 @@ interface SettingsDao {
     @Query("SELECT * from Settings ORDER BY alarmType ASC")
     fun getAllData(): LiveData<List<Settings>>
 
-    @Query("SELECT * from Profiles WHERE id = :id")
+    @Query("SELECT * from Settings WHERE id = :id")
     fun getData(id: Int): Settings
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
