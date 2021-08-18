@@ -116,7 +116,9 @@ class CountDownTimerScreenFragment : Fragment() {
                 alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
             }
             val ringtone = RingtoneManager.getRingtone(context, alarmUri)
-            ringtone.setLooping(false)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                ringtone.setLooping(false)
+            }
             ringtone.play()
         }
 
