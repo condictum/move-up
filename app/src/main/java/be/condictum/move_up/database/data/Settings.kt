@@ -8,5 +8,5 @@ import androidx.room.PrimaryKey
 class Settings(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "alarmType")
-    val alarmType: String
+    val alarmType: String,
 )
