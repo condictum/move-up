@@ -13,6 +13,7 @@ import android.media.RingtoneManager
 
 import android.media.Ringtone
 import android.net.Uri
+import android.widget.Toast
 
 
 class AlarmService(private val context: Context) {
@@ -20,7 +21,6 @@ class AlarmService(private val context: Context) {
 
 
     fun setExactAlarm(timeInMillis:Long){
-
         setAlarm(timeInMillis,
             getPendingIntent(getIntent().apply { action= Constants.ACTION_SET_EXACT_ALARM
             putExtra(Constants.EXTRA_EXACT_ALARM_TIME,timeInMillis)
