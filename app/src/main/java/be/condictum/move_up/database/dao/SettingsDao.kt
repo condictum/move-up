@@ -1,9 +1,15 @@
 package be.condictum.move_up.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import be.condictum.move_up.database.data.Settings
+import androidx.room.Dao as Dao
 
+@Dao
 interface SettingsDao {
     @Query("SELECT * from Settings ORDER BY alarmType ASC")
     fun getAllData(): LiveData<List<Settings>>
