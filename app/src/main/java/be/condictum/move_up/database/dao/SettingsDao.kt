@@ -10,6 +10,7 @@ import be.condictum.move_up.database.data.Settings
 import androidx.room.Dao as Dao
 
 @Dao
+
 interface SettingsDao {
     @Query("SELECT * from Settings ORDER BY alarmType ASC")
     fun getAllData(): LiveData<List<Settings>>
