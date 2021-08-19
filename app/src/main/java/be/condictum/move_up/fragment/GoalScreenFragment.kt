@@ -2,13 +2,16 @@ package be.condictum.move_up.fragment
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
@@ -16,6 +19,7 @@ import be.condictum.move_up.adapter.GoalScreenAdapter
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.databinding.FragmentGoalScreenBinding
+import be.condictum.move_up.service.AlarmService
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 import com.google.android.material.snackbar.Snackbar
@@ -34,10 +38,12 @@ class GoalScreenFragment : Fragment() {
     private val binding get() = _binding!!
 
     lateinit var goals: Goals
+    lateinit var alarmService: AlarmService
 
     private lateinit var adapter: GoalScreenAdapter
     var dateFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
 
+    private var alarmtime:Long =0
     private val viewModel: GoalsViewModel by activityViewModels {
         GoalsViewModelFactory(
             (activity?.application as DatabaseApplication).database.goalsDao(),
@@ -49,6 +55,7 @@ class GoalScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentGoalScreenBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -61,7 +68,6 @@ class GoalScreenFragment : Fragment() {
         binding.goalScreenFab.setOnClickListener {
             addNewGoal()
         }
-
         setDataset()
     }
 
@@ -70,26 +76,58 @@ class GoalScreenFragment : Fragment() {
             LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
         val nameText = mDialogView.findViewById<EditText>(R.id.goal_input_name_edit_text)
         val dateText = mDialogView.findViewById<EditText>(R.id.goal_input_date_edit_text)
-
+        val calendar:Calendar = Calendar.getInstance()
         dateText.setOnClickListener {
-            val calendar = Calendar.getInstance()
+
 
             val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
             val month = calendar.get(Calendar.MONTH)
             val year = calendar.get(Calendar.YEAR)
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val minute= calendar.get(Calendar.MINUTE)
+                calendar.apply {
+                this.set(Calendar.SECOND,0)
+                this.set(Calendar.MILLISECOND,0)
 
             val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { view, year, month, dayOfMonth ->
+                    this.set(Calendar.DAY_OF_MONTH,dayOfMonth)
+                    this.set(Calendar.MONTH,month)
+                    this.set(Calendar.YEAR,year)
+
                     dateText.setText("$dayOfMonth/$month/$year")
+
+                    TimePickerDialog(
+                        requireContext(),
+                        0,
+                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                            this.set(Calendar.HOUR_OF_DAY,hour)
+                            this.set(Calendar.MINUTE,minute)
+                            if (Build.VERSION.SDK_INT >= 30) {
+                                alarmtime = this.timeInMillis
+                            }
+                        },
+                        hour,
+                        minute,
+                        true
+
+                    ).show()
                 },
                 year,
                 month,
-                dayOfMonth
-            )
+                dayOfMonth,
 
-            datePickerDialog.show()
+            ).show()
+
+
+
+            }
+
         }
+
+
+
 
         val mBuilder =
             AlertDialog.Builder(this.context).setView(mDialogView)
@@ -107,10 +145,14 @@ class GoalScreenFragment : Fragment() {
                         )
 
                         setDataset()
+                        alarmService = AlarmService(this.requireContext())
+                        alarmService.setExactAlarm(alarmtime)
+                        Toast.makeText(this.context, alarmtime.toString(), Toast.LENGTH_SHORT).show()
                     } else {
                         showSnackbarForInputError()
                     }
-                }.setNegativeButton(getString(R.string.exit_button_text)) { _, _ -> }
+                }.setNegativeButton(getString(R.string.exit_button_text)) { _, _ ->
+                }
 
         mBuilder.show()
     }
@@ -131,6 +173,9 @@ class GoalScreenFragment : Fragment() {
                 adapter.setDataset(it)
                 adapter.notifyDataSetChanged()
             })
+
+
+
     }
 
     private fun getProfileIdFromSharedPreferences(): Int {
