@@ -6,7 +6,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Settings")
 class Settings(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @ColumnInfo(name = "alarmType")
-    val alarmType: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    @ColumnInfo(name = "alarmSound")
+    val alarmSound: Boolean,
+    @ColumnInfo(name = "alarmVibrate")
+    val alarmVibrate: Boolean,
+
 )

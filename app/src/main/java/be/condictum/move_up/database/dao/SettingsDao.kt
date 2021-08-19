@@ -11,7 +11,7 @@ import androidx.room.Dao as Dao
 
 @Dao
 interface SettingsDao {
-    @Query("SELECT * from Settings ORDER BY alarmType ASC")
+    @Query("SELECT * from Settings ORDER BY alarmSound ASC")
     fun getAllData(): LiveData<List<Settings>>
 
     @Query("SELECT * from Settings WHERE id = :id")
