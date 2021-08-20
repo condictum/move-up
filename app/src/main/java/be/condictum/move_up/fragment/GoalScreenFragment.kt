@@ -43,7 +43,7 @@ class GoalScreenFragment : Fragment() {
     var dateFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
     var dateTimeFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm")
 
-    private var alarmtime:Long =0
+    private var alarmtime: Long = 0
     private val viewModel: GoalsViewModel by activityViewModels {
         GoalsViewModelFactory(
             (activity?.application as DatabaseApplication).database.goalsDao(),
@@ -76,36 +76,27 @@ class GoalScreenFragment : Fragment() {
             LayoutInflater.from(this.context).inflate(R.layout.goal_input_form, null)
         val nameText = mDialogView.findViewById<EditText>(R.id.goal_input_name_edit_text)
         val dateText = mDialogView.findViewById<EditText>(R.id.goal_input_date_edit_text)
-        val calendar:Calendar = Calendar.getInstance()
-        dateText.setOnClickListener {
 
+        dateText.setOnClickListener {
+            val calendar: Calendar = Calendar.getInstance()
 
             val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
             val month = calendar.get(Calendar.MONTH)
             val year = calendar.get(Calendar.YEAR)
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
-            val minute= calendar.get(Calendar.MINUTE)
-                calendar.apply {
-                this.set(Calendar.SECOND,0)
-                this.set(Calendar.MILLISECOND,0)
+            val minute = calendar.get(Calendar.MINUTE)
 
             val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { view, year, month, dayOfMonth ->
-                    this.set(Calendar.DAY_OF_MONTH,dayOfMonth)
-                    this.set(Calendar.MONTH,month)
-                    this.set(Calendar.YEAR,year)
+                    val month = month + 1
 
-                    dateText.setText("$dayOfMonth/$month/$year")
+                    dateText.setText("$dayOfMonth/${month}/$year")
 
                     TimePickerDialog(
                         requireContext(),
                         0,
                         TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                            this.set(Calendar.HOUR_OF_DAY, hour)
-                            this.set(Calendar.MINUTE, minute)
-                            alarmtime = this.timeInMillis
-
                             val allDate = "$dayOfMonth/$month/$year $hourOfDay:$minute"
                             val endDate: java.util.Date = dateTimeFormatter.parse(allDate)
                             val endDateInMillis = endDate.time
@@ -117,6 +108,8 @@ class GoalScreenFragment : Fragment() {
                                 millisDifference.toString(),
                                 Toast.LENGTH_SHORT
                             ).show()
+
+                            alarmtime = millisDifference
                         },
                         hour,
                         minute,
@@ -127,7 +120,6 @@ class GoalScreenFragment : Fragment() {
                 month,
                 dayOfMonth,
             ).show()
-            }
         }
 
         val mBuilder =
@@ -173,7 +165,6 @@ class GoalScreenFragment : Fragment() {
                 adapter.setDataset(it)
                 adapter.notifyDataSetChanged()
             })
-
 
 
     }
