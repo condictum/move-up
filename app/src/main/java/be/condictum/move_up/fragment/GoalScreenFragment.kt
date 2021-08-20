@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -42,6 +41,7 @@ class GoalScreenFragment : Fragment() {
 
     private lateinit var adapter: GoalScreenAdapter
     var dateFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+    var dateTimeFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm")
 
     private var alarmtime:Long =0
     private val viewModel: GoalsViewModel by activityViewModels {
@@ -102,32 +102,33 @@ class GoalScreenFragment : Fragment() {
                         requireContext(),
                         0,
                         TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                            this.set(Calendar.HOUR_OF_DAY,hour)
-                            this.set(Calendar.MINUTE,minute)
-                            if (Build.VERSION.SDK_INT >= 30) {
-                                alarmtime = this.timeInMillis
-                            }
+                            this.set(Calendar.HOUR_OF_DAY, hour)
+                            this.set(Calendar.MINUTE, minute)
+                            alarmtime = this.timeInMillis
+
+                            val allDate = "$dayOfMonth/$month/$year $hourOfDay:$minute"
+                            val endDate: java.util.Date = dateTimeFormatter.parse(allDate)
+                            val endDateInMillis = endDate.time
+                            val currentTimeMillis = System.currentTimeMillis()
+
+                            val millisDifference = endDateInMillis - currentTimeMillis
+                            Toast.makeText(
+                                requireContext(),
+                                millisDifference.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         },
                         hour,
                         minute,
                         true
-
                     ).show()
                 },
                 year,
                 month,
                 dayOfMonth,
-
             ).show()
-
-
-
             }
-
         }
-
-
-
 
         val mBuilder =
             AlertDialog.Builder(this.context).setView(mDialogView)
@@ -147,7 +148,6 @@ class GoalScreenFragment : Fragment() {
                         setDataset()
                         alarmService = AlarmService(this.requireContext())
                         alarmService.setExactAlarm(alarmtime)
-                        Toast.makeText(this.context, alarmtime.toString(), Toast.LENGTH_SHORT).show()
                     } else {
                         showSnackbarForInputError()
                     }
