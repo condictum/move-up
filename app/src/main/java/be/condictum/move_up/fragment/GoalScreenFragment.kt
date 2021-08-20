@@ -43,7 +43,7 @@ class GoalScreenFragment : Fragment() {
     var dateFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
     var dateTimeFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm")
 
-    private var alarmtime: Long = 0
+    private var alarmtime:Long =0
     private val viewModel: GoalsViewModel by activityViewModels {
         GoalsViewModelFactory(
             (activity?.application as DatabaseApplication).database.goalsDao(),
@@ -165,6 +165,7 @@ class GoalScreenFragment : Fragment() {
                 adapter.setDataset(it)
                 adapter.notifyDataSetChanged()
             })
+
 
 
     }
