@@ -100,7 +100,7 @@ class GoalScreenFragment : Fragment() {
                             val allDate = "$dayOfMonth/$month/$year $hourOfDay:$minute"
                             val endDate: java.util.Date = dateTimeFormatter.parse(allDate)
                             val endDateInMillis = endDate.time
-                            val currentTimeMillis = System.currentTimeMillis()
+                            val currentTimeMillis = calendar.timeInMillis
 
                             val millisDifference = endDateInMillis - currentTimeMillis
                             Toast.makeText(
