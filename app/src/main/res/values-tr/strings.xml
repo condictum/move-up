@@ -56,4 +56,5 @@
     <string name="goal_is_deleting_text">Hedef siliniyor.</string>
     <string name="add_goal_text">Hedef Ekle</string>
     <string name="about_botton_text">Hakkında</string>
+    <string name="notifications_button_text">Bildirimler</string>
 </resources>
