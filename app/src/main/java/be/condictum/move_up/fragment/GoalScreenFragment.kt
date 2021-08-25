@@ -2,7 +2,6 @@ package be.condictum.move_up.fragment
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -10,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
@@ -18,7 +16,6 @@ import be.condictum.move_up.adapter.GoalScreenAdapter
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.databinding.FragmentGoalScreenBinding
-import be.condictum.move_up.service.AlarmService
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 import com.google.android.material.snackbar.Snackbar
@@ -37,13 +34,10 @@ class GoalScreenFragment : Fragment() {
     private val binding get() = _binding!!
 
     lateinit var goals: Goals
-    lateinit var alarmService: AlarmService
 
     private lateinit var adapter: GoalScreenAdapter
     var dateFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
-    var dateTimeFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm")
 
-    private var alarmtime:Long =0
     private val viewModel: GoalsViewModel by activityViewModels {
         GoalsViewModelFactory(
             (activity?.application as DatabaseApplication).database.goalsDao(),
@@ -83,38 +77,12 @@ class GoalScreenFragment : Fragment() {
             val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
             val month = calendar.get(Calendar.MONTH)
             val year = calendar.get(Calendar.YEAR)
-            val hour = calendar.get(Calendar.HOUR_OF_DAY)
-            val minute = calendar.get(Calendar.MINUTE)
 
-            val datePickerDialog = DatePickerDialog(
+            DatePickerDialog(
                 requireContext(),
                 { view, year, month, dayOfMonth ->
                     val month = month + 1
-
                     dateText.setText("$dayOfMonth/${month}/$year")
-
-                    TimePickerDialog(
-                        requireContext(),
-                        0,
-                        TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-                            val allDate = "$dayOfMonth/$month/$year $hourOfDay:$minute"
-                            val endDate: java.util.Date = dateTimeFormatter.parse(allDate)
-                            val endDateInMillis = endDate.time
-                            val currentTimeMillis = calendar.timeInMillis
-
-                            val millisDifference = endDateInMillis - currentTimeMillis
-                            Toast.makeText(
-                                requireContext(),
-                                millisDifference.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                            alarmtime = millisDifference
-                        },
-                        hour,
-                        minute,
-                        true
-                    ).show()
                 },
                 year,
                 month,
@@ -138,8 +106,6 @@ class GoalScreenFragment : Fragment() {
                         )
 
                         setDataset()
-                        alarmService = AlarmService(this.requireContext())
-                        alarmService.setExactAlarm(alarmtime)
                     } else {
                         showSnackbarForInputError()
                     }
@@ -165,9 +131,6 @@ class GoalScreenFragment : Fragment() {
                 adapter.setDataset(it)
                 adapter.notifyDataSetChanged()
             })
-
-
-
     }
 
     private fun getProfileIdFromSharedPreferences(): Int {
