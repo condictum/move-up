@@ -56,12 +56,16 @@ class GoalScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.goalScreenRecyclerView.visibility = View.GONE
+        binding.goalScreenNoGoalText.visibility = View.VISIBLE
+
         adapter = GoalScreenAdapter(requireContext(), requireView(), listOf(), viewModel)
         binding.goalScreenRecyclerView.adapter = adapter
 
         binding.goalScreenFab.setOnClickListener {
             addNewGoal()
         }
+
         setDataset()
     }
 
@@ -81,8 +85,7 @@ class GoalScreenFragment : Fragment() {
             DatePickerDialog(
                 requireContext(),
                 { view, year, month, dayOfMonth ->
-                    val month = month + 1
-                    dateText.setText("$dayOfMonth/${month}/$year")
+                    dateText.setText("$dayOfMonth/${month + 1}/$year")
                 },
                 year,
                 month,
@@ -128,6 +131,14 @@ class GoalScreenFragment : Fragment() {
     private fun setDataset() {
         viewModel.getAllLiveDataByProfileId(getProfileIdFromSharedPreferences())
             .observe(viewLifecycleOwner, {
+                if (it.isNullOrEmpty()) {
+                    binding.goalScreenRecyclerView.visibility = View.GONE
+                    binding.goalScreenNoGoalText.visibility = View.VISIBLE
+                } else {
+                    binding.goalScreenRecyclerView.visibility = View.VISIBLE
+                    binding.goalScreenNoGoalText.visibility = View.GONE
+                }
+
                 adapter.setDataset(it)
                 adapter.notifyDataSetChanged()
             })

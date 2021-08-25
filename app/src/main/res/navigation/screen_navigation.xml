@@ -35,24 +35,8 @@
             app:popUpTo="@id/goalScreenFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_goalScreenFragment_to_preparationScreenFragment22"
-            app:destination="@id/preparationsFragment" />
-        <action
             android:id="@+id/action_goalScreenFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/countDownTimerScreenFragment"
-        android:name="be.condictum.move_up.fragment.CountDownTimerScreenFragment"
-        android:label="@string/timer_text"
-        tools:layout="@layout/fragment_count_down_timer_screen" />
-    <fragment
-        android:id="@+id/preparationsFragment"
-        android:name="be.condictum.move_up.fragment.PreparationScreenFragment"
-        android:label="@string/preparations_text">
-        <action
-            android:id="@+id/action_preparationScreenFragment2_to_countDownTimerScreenFragment"
-            app:destination="@id/countDownTimerScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

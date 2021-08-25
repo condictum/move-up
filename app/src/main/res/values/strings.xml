@@ -8,6 +8,7 @@
     <string name="input_error_text">Error! Check the inputs.</string>
     <string name="try_again_button_text">TRY AGAIN</string>
     <string name="there_is_no_profile_please_create_a_new_profile">There is no profile. Please create a new profile.</string>
+    <string name="there_is_no_goal_please_create_a_new_goal">There is no goal. Please create a new goal.</string>
     <string name="settings_text">Settings</string>
     <string name="profile_text">Profile</string>
     <string name="goals_text">Goals</string>
@@ -15,7 +16,6 @@
     <string name="surname_text">Surname</string>
     <string name="age_text">Age</string>
     <string name="profiles_text">Profiles</string>
-    <string name="preparations_text">Preparations</string>
     <string name="results_text">Results</string>
     <string name="timer_text">Timer</string>
     <string name="edit_text">Edit</string>

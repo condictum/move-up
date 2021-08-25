@@ -18,7 +18,6 @@ import be.condictum.move_up.R
 import be.condictum.move_up.database.data.Goals
 import be.condictum.move_up.fragment.GoalScreenFragment
 import be.condictum.move_up.fragment.GoalScreenFragmentDirections
-import be.condictum.move_up.fragment.MainFragment
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -96,15 +95,7 @@ class GoalScreenAdapter(
         alertDialog.setTitle(mContext.getString(R.string.are_you_sure_text))
         alertDialog.setMessage(mContext.getString(R.string.goal_is_deleting_text))
         alertDialog.setPositiveButton(mContext.getString(R.string.yes_button_text)) { _, _ ->
-            viewModel.deleteProfileById(currentData)
-
-            val sharedPreferences =
-                mContext.getSharedPreferences(
-                    mContext.packageName,
-                    Context.MODE_PRIVATE
-                )
-            sharedPreferences.edit()
-                .remove(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID).apply()
+            viewModel.deleteGoal(currentData)
 
             Toast.makeText(
                 mContext,
@@ -142,7 +133,7 @@ class GoalScreenAdapter(
             val datePickerDialog = DatePickerDialog(
                 mContext,
                 { view, year, month, dayOfMonth ->
-                    dateText.setText("$dayOfMonth/$month/$year")
+                    dateText.setText("$dayOfMonth/${month + 1}/$year")
                 },
                 year,
                 month,

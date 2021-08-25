@@ -5,13 +5,9 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import be.condictum.move_up.R
-import be.condictum.move_up.database.DatabaseApplication
-import be.condictum.move_up.database.data.Settings
 import be.condictum.move_up.databinding.FragmentSettingsBinding
-import be.condictum.move_up.viewmodel.SettingsViewModel
 
 
 class SettingsFragment : Fragment() {
@@ -20,14 +16,6 @@ class SettingsFragment : Fragment() {
 
     companion object {
         const val SHARED_PREFERENCES_KEY_NOTIFICATION_IS_OPEN = "notificationIsOpen"
-    }
-
-    private lateinit var data: List<Settings>
-
-    private val viewModel: SettingsViewModel by activityViewModels {
-        SettingsViewModel.SettingsViewModelFactory(
-            (activity?.application as DatabaseApplication).database.settingsDao()
-        )
     }
 
     override fun onCreateView(
