@@ -55,4 +55,7 @@
     <string name="goal_isnt_deleted_text">Goal isn\'t deleted.</string>
     <string name="goal_is_deleting_text">Goal is deleting.</string>
     <string name="add_goal_text">Add Goal</string>
+    <string name="about_botton_text">About</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
