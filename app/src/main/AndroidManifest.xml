@@ -3,13 +3,16 @@
     package="be.condictum.move_up">
 
     <application
-        android:name="be.condictum.move_up.database.DatabaseApplication"
+        android:name=".database.DatabaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Moveup">
+        <activity
+            android:name=".activity.GoalDateNotificationActivity"
+            android:exported="true" />
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait">
@@ -23,6 +26,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <receiver android:name=".receiver.AlarmReceiver" />
     </application>
 

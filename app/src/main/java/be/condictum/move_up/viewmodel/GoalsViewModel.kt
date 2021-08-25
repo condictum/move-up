@@ -14,6 +14,10 @@ class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
         return goalsDao.getAllLiveDataByProfileId(profileId)
     }
 
+    fun getAllGoals(): List<Goals> {
+        return goalsDao.getAllGoals()
+    }
+
     fun getAllDataByProfileId(profileId: Int): List<Goals> {
         return goalsDao.getAllDataByProfileId(profileId)
     }

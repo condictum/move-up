@@ -57,4 +57,5 @@
     <string name="add_goal_text">Hedef Ekle</string>
     <string name="about_botton_text">Hakkında</string>
     <string name="notifications_button_text">Bildirimler</string>
+    <string name="goal_date_notification_message_formatted_text">Uyarı! Sınava %s gün kaldı.</string>
 </resources>

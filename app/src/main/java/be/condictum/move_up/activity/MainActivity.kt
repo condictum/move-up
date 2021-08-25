@@ -1,7 +1,9 @@
 package be.condictum.move_up.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.Navigation
@@ -12,20 +14,73 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import be.condictum.move_up.R
+import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.databinding.ActivityMainBinding
 import be.condictum.move_up.fragment.GoalResultFragmentDirections
+import be.condictum.move_up.fragment.SettingsFragment
+import be.condictum.move_up.notification.receiver.ResultReceiver
+import be.condictum.move_up.notification.util.NotificationUtil
+import be.condictum.move_up.viewmodel.GoalsViewModel
+import be.condictum.move_up.viewmodel.GoalsViewModelFactory
+import java.sql.Date
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+    private val viewModel: GoalsViewModel by viewModels {
+        GoalsViewModelFactory(
+            (this.application as DatabaseApplication).database.goalsDao(),
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        startBottomNavigationView()
+        showNotificationIfRequired()
+    }
+
+    private fun showNotificationIfRequired() {
+        if (notificationShouldShow()) {
+            val goalList = viewModel.getAllGoals()
+            val nowDate = Date(System.currentTimeMillis())
+
+            val upcomingDates = goalList.filter {
+                it.dataDate.after(nowDate) && (TimeUnit.DAYS.convert(
+                    it.dataDate.time - nowDate.time,
+                    TimeUnit.MILLISECONDS
+                ) + 1 <= 7)
+            }
+
+            upcomingDates.forEach {
+                val dayDifference = TimeUnit.DAYS.convert(
+                    it.dataDate.time - nowDate.time,
+                    TimeUnit.MILLISECONDS
+                ) + 1
+                val title = it.dataName
+                val message = resources.getString(
+                    R.string.goal_date_notification_message_formatted_text,
+                    dayDifference.toString()
+                )
+
+                val intent = Intent(applicationContext, ResultReceiver::class.java)
+                intent.action = ResultReceiver.ACTION_CLICK
+                NotificationUtil.with(applicationContext).showNotification(
+                    title,
+                    message,
+                    R.drawable.ic_app_icon,
+                    intent
+                )
+            }
+        }
+    }
+
+    private fun startBottomNavigationView() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
@@ -92,5 +147,13 @@ class MainActivity : AppCompatActivity() {
             }
             else -> navController.navigateUp()
         }
+    }
+
+    private fun notificationShouldShow(): Boolean {
+        val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
+        return sharedPreferences.getBoolean(
+            SettingsFragment.SHARED_PREFERENCES_KEY_NOTIFICATION_IS_OPEN,
+            false
+        )
     }
 }

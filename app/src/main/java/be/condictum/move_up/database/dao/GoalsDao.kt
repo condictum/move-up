@@ -1,18 +1,16 @@
 package be.condictum.move_up.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import be.condictum.move_up.database.data.Goals
 
 @Dao
 interface GoalsDao {
     @Query("SELECT * from Goals WHERE profiles_id = :profileId ORDER BY name ASC")
     fun getAllLiveDataByProfileId(profileId: Int): LiveData<List<Goals>>
+
+    @Query("SELECT * from Goals ORDER BY date ASC")
+    fun getAllGoals(): List<Goals>
 
     @Query("SELECT * from Goals WHERE profiles_id = :profileId ORDER BY name ASC")
     fun getAllDataByProfileId(profileId: Int): List<Goals>
