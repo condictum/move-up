@@ -43,18 +43,29 @@ class SettingsFragment : Fragment() {
             binding.bildirimSwitch.isChecked = true
         }
 
+        binding.ayarlarBildirim.setOnClickListener {
+            val isSwitchBildirimChecked = binding.bildirimSwitch.isChecked
+
+            createNotificationSetting(isSwitchBildirimChecked)
+            binding.bildirimSwitch.isChecked = !isSwitchBildirimChecked
+        }
+
         binding.bildirimSwitch.setOnCheckedChangeListener { _, b ->
-            val sharedPreferences = requireActivity().getSharedPreferences(
-                requireActivity().packageName,
-                Context.MODE_PRIVATE
-            )
-            if (b) {
-                sharedPreferences.edit()
-                    .putBoolean(SHARED_PREFERENCES_KEY_NOTIFICATION_IS_OPEN, true).apply()
-            } else {
-                sharedPreferences.edit()
-                    .putBoolean(SHARED_PREFERENCES_KEY_NOTIFICATION_IS_OPEN, false).apply()
-            }
+            createNotificationSetting(b)
+        }
+    }
+
+    private fun createNotificationSetting(b: Boolean) {
+        val sharedPreferences = requireActivity().getSharedPreferences(
+            requireActivity().packageName,
+            Context.MODE_PRIVATE
+        )
+        if (b) {
+            sharedPreferences.edit()
+                .putBoolean(SHARED_PREFERENCES_KEY_NOTIFICATION_IS_OPEN, true).apply()
+        } else {
+            sharedPreferences.edit()
+                .putBoolean(SHARED_PREFERENCES_KEY_NOTIFICATION_IS_OPEN, false).apply()
         }
     }
 
