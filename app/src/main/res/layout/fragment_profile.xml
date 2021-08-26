@@ -8,8 +8,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/goals_list_card_view"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="24dp"
         app:cardElevation="5dp"
@@ -22,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="304dp"
+            android:layout_width="match_parent"
             android:layout_height="484dp"
             android:layout_margin="8dp"
             android:paddingTop="32dp"
@@ -54,7 +56,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutName"
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +77,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutSurname"
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +98,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutAge"
-                android:layout_width="300dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -47,16 +47,6 @@ class SplashScreenFragment : Fragment() {
             start()
         }
 
-        ObjectAnimator.ofFloat(binding.imageView2, "translationY", -100f).apply {
-            duration = 2000
-            start()
-        }
-
-        ObjectAnimator.ofFloat(binding.imageView2, "translationX", 100f).apply {
-            duration = 2000
-            start()
-        }
-
         val c = Runnable {
             val action =
                 SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
