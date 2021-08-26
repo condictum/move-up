@@ -25,12 +25,15 @@ class AboutFragment : Fragment() {
     }
 
     private fun setScreenTexts() {
-        binding.aboutFragmentOtherTexts.text = "MIT License\n" +
-                "\n" +
-                "Copyright (c) 2021 condictum"
-                "\n" +
-                "\n" +
-                        "Third party licences:\n"+
-                        "- MPAndroidChart Copyright 2020 Philipp Jahoda\n"
+        binding.aboutFragmentOtherTexts.text = """MIT License
+
+Copyright (c) 2021 condictum
+
+Android Studio - Apache License Version 2.0, January 2004
+
+Third party licences:
+- Android Studio Vector Icons  
+- MPAndroidChart Copyright 2020 Philipp Jahoda
+"""
     }
 }
