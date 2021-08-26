@@ -25,6 +25,12 @@ class AboutFragment : Fragment() {
     }
 
     private fun setScreenTexts() {
-
+        binding.aboutFragmentOtherTexts.text = "MIT License\n" +
+                "\n" +
+                "Copyright (c) 2021 condictum"
+                "\n" +
+                "\n" +
+                        "Third party licences:\n"+
+                        "- MPAndroidChart Copyright 2020 Philipp Jahoda\n"
     }
 }

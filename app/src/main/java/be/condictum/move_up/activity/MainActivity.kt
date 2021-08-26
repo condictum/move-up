@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                 NotificationUtil.with(applicationContext).showNotification(
                     title,
                     message,
-                    R.drawable.ic_app_icon,
+                    R.drawable.ic_baseline_warning_24,
                     intent
                 )
             }
