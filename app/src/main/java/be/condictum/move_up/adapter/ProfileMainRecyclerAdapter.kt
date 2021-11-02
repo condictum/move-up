@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
 import be.condictum.move_up.database.data.Profiles
 import be.condictum.move_up.databinding.ProfilesListRowItemBinding
-import be.condictum.move_up.fragment.MainFragment
-import be.condictum.move_up.fragment.MainFragmentDirections
+import be.condictum.move_up.view.fragment.MainFragment
+import be.condictum.move_up.view.fragment.MainFragmentDirections
 import be.condictum.move_up.viewmodel.ProfilesViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar

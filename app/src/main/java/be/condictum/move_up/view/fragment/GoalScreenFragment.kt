@@ -1,4 +1,4 @@
-package be.condictum.move_up.fragment
+package be.condictum.move_up.view.fragment
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -20,7 +20,6 @@ import be.condictum.move_up.viewmodel.GoalsViewModel
 import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import java.sql.Date
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,7 +35,8 @@ class GoalScreenFragment : Fragment() {
     lateinit var goals: Goals
 
     private lateinit var adapter: GoalScreenAdapter
-    var dateFormatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+    private var dateFormatter: SimpleDateFormat =
+        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     private val viewModel: GoalsViewModel by activityViewModels {
         GoalsViewModelFactory(
@@ -59,7 +59,7 @@ class GoalScreenFragment : Fragment() {
         binding.goalScreenRecyclerView.visibility = View.GONE
         binding.goalScreenNoGoalText.visibility = View.VISIBLE
 
-        adapter = GoalScreenAdapter(requireContext(), requireView(), listOf(), viewModel)
+        adapter = GoalScreenAdapter(requireView(), listOf(), viewModel)
         binding.goalScreenRecyclerView.adapter = adapter
 
         binding.goalScreenFab.setOnClickListener {
@@ -84,8 +84,12 @@ class GoalScreenFragment : Fragment() {
 
             DatePickerDialog(
                 requireContext(),
-                { view, year, month, dayOfMonth ->
-                    dateText.setText("$dayOfMonth/${month + 1}/$year")
+                { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+                    dateText.setText(
+                        String.format(
+                            "%d/%d/%d", selectedDayOfMonth, (selectedMonth + 1), selectedYear
+                        )
+                    )
                 },
                 year,
                 month,
@@ -96,7 +100,7 @@ class GoalScreenFragment : Fragment() {
         val mBuilder =
             AlertDialog.Builder(this.context).setView(mDialogView)
                 .setTitle(getString(R.string.add_goal_text))
-                .setPositiveButton(getString(R.string.save_button_text)) { dialogInterface, i ->
+                .setPositiveButton(getString(R.string.save_button_text)) { _, _ ->
 
                     val name = nameText.text.toString()
                     val date = dateText.text.toString()
@@ -104,7 +108,7 @@ class GoalScreenFragment : Fragment() {
                     if (viewModel.isEntryValid(name, date)) {
                         viewModel.addNewGoal(
                             name,
-                            Date(dateFormatter.parse(date).time),
+                            Date(dateFormatter.parse(date)!!.time),
                             getProfileIdFromSharedPreferences()
                         )
 

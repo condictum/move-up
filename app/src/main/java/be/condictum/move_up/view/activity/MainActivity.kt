@@ -1,4 +1,4 @@
-package be.condictum.move_up.activity
+package be.condictum.move_up.view.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,8 +16,8 @@ import androidx.navigation.ui.setupWithNavController
 import be.condictum.move_up.R
 import be.condictum.move_up.database.DatabaseApplication
 import be.condictum.move_up.databinding.ActivityMainBinding
-import be.condictum.move_up.fragment.GoalResultFragmentDirections
-import be.condictum.move_up.fragment.SettingsFragment
+import be.condictum.move_up.view.fragment.GoalResultFragmentDirections
+import be.condictum.move_up.view.fragment.SettingsFragment
 import be.condictum.move_up.notification.receiver.ResultReceiver
 import be.condictum.move_up.notification.util.NotificationUtil
 import be.condictum.move_up.viewmodel.GoalsViewModel

@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Moveup">
         <activity
-            android:name=".activity.MainActivity"
+            android:name="be.condictum.move_up.view.activity.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

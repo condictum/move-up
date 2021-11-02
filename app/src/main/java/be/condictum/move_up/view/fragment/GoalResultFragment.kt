@@ -1,4 +1,4 @@
-package be.condictum.move_up.fragment
+package be.condictum.move_up.view.fragment
 
 import android.content.Context
 import android.graphics.Color
