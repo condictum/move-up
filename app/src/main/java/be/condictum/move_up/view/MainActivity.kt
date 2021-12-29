@@ -1,4 +1,4 @@
-package be.condictum.move_up.view.activity
+package be.condictum.move_up.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,12 +16,12 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import be.condictum.move_up.R
-import be.condictum.move_up.database.DatabaseApplication
+import be.condictum.move_up.data.local.DatabaseApplication
 import be.condictum.move_up.databinding.ActivityMainBinding
-import be.condictum.move_up.view.fragment.GoalResultFragmentDirections
-import be.condictum.move_up.view.fragment.SettingsFragment
-import be.condictum.move_up.notification.receiver.ResultReceiver
-import be.condictum.move_up.notification.util.NotificationUtil
+import be.condictum.move_up.view.ui.settings.SettingsFragment
+import be.condictum.move_up.util.notification.receiver.ResultReceiver
+import be.condictum.move_up.util.notification.NotificationUtil
+import be.condictum.move_up.view.ui.goalresult.GoalResultFragmentDirections
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 import java.sql.Date
@@ -50,33 +52,35 @@ class MainActivity : AppCompatActivity() {
             val goalList = viewModel.getAllGoals()
             val nowDate = Date(System.currentTimeMillis())
 
-            val upcomingDates = goalList.filter {
-                it.dataDate.after(nowDate) && (TimeUnit.DAYS.convert(
-                    it.dataDate.time - nowDate.time,
-                    TimeUnit.MILLISECONDS
-                ) + 1 <= 7)
-            }
+            goalList?.observe(this, Observer { listOfGoals ->
+                val upcomingDates = listOfGoals.filter {
+                    it.dataDate.after(nowDate) && (TimeUnit.DAYS.convert(
+                        it.dataDate.time - nowDate.time,
+                        TimeUnit.MILLISECONDS
+                    ) + 1 <= 7)
+                }
 
-            upcomingDates.forEach {
-                val dayDifference = TimeUnit.DAYS.convert(
-                    it.dataDate.time - nowDate.time,
-                    TimeUnit.MILLISECONDS
-                ) + 1
-                val title = it.dataName
-                val message = resources.getString(
-                    R.string.goal_date_notification_message_formatted_text,
-                    dayDifference.toString()
-                )
+                upcomingDates?.forEach {
+                    val dayDifference = TimeUnit.DAYS.convert(
+                        it.dataDate.time - nowDate.time,
+                        TimeUnit.MILLISECONDS
+                    ) + 1
+                    val title = it.dataName
+                    val message = resources.getString(
+                        R.string.goal_date_notification_message_formatted_text,
+                        dayDifference.toString()
+                    )
 
-                val intent = Intent(applicationContext, ResultReceiver::class.java)
-                intent.action = ResultReceiver.ACTION_CLICK
-                NotificationUtil.with(applicationContext).showNotification(
-                    title,
-                    message,
-                    R.drawable.ic_baseline_warning_24,
-                    intent
-                )
-            }
+                    val intent = Intent(applicationContext, ResultReceiver::class.java)
+                    intent.action = ResultReceiver.ACTION_CLICK
+                    NotificationUtil.with(applicationContext).showNotification(
+                        title,
+                        message,
+                        R.drawable.ic_baseline_warning_24,
+                        intent
+                    )
+                }
+            })
         }
     }
 

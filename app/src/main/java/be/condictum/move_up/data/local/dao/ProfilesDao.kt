@@ -1,4 +1,4 @@
-package be.condictum.move_up.database.dao
+package be.condictum.move_up.data.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -7,7 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import be.condictum.move_up.database.data.Profiles
+import be.condictum.move_up.data.local.model.Profiles
 
 @Dao
 interface ProfilesDao {
@@ -15,7 +15,7 @@ interface ProfilesDao {
     fun getAllData(): LiveData<List<Profiles>>
 
     @Query("SELECT * from Profiles WHERE id = :id")
-    fun getData(id: Int): Profiles
+    fun getData(id: Int): LiveData<Profiles>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(data: Profiles)

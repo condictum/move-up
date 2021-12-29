@@ -1,4 +1,4 @@
-package be.condictum.move_up.view.fragment
+package be.condictum.move_up.view.ui.goalresult
 
 import android.content.Context
 import android.graphics.Color
@@ -13,9 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
 import be.condictum.move_up.adapter.LessonRecyclerViewAdapter
-import be.condictum.move_up.database.DatabaseApplication
-import be.condictum.move_up.database.data.Lessons
+import be.condictum.move_up.data.local.DatabaseApplication
+import be.condictum.move_up.data.local.model.Lessons
 import be.condictum.move_up.databinding.FragmentGoalResultBinding
+import be.condictum.move_up.view.ui.goalscreen.GoalScreenFragment
 import be.condictum.move_up.viewmodel.LessonsViewModel
 import be.condictum.move_up.viewmodel.LessonsViewModelFactory
 import com.github.mikephil.charting.charts.CombinedChart

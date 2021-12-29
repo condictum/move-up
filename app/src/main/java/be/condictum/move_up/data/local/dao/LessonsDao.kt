@@ -1,4 +1,4 @@
-package be.condictum.move_up.database.dao
+package be.condictum.move_up.data.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -7,7 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import be.condictum.move_up.database.data.Lessons
+import be.condictum.move_up.data.local.model.Lessons
 
 @Dao
 interface LessonsDao {
@@ -15,13 +15,13 @@ interface LessonsDao {
     fun getAllDataByGoalsId(goalsId: Int): LiveData<List<Lessons>>
 
     @Query("SELECT * from Lessons WHERE id = :id")
-    fun getLesson(id: Int): Lessons
+    fun getLesson(id: Int): LiveData<Lessons>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(data: Lessons)
 
     @Query("DELETE from Lessons WHERE goals_id = :goalsId")
-    fun deleteDataByGoalsId(goalsId: Int)
+    suspend fun deleteDataByGoalsId(goalsId: Int)
 
     @Update
     suspend fun update(data: Lessons)

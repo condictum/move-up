@@ -1,4 +1,4 @@
-package be.condictum.move_up.view.fragment
+package be.condictum.move_up.view.ui.goalscreen
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -13,9 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
 import be.condictum.move_up.adapter.GoalScreenAdapter
-import be.condictum.move_up.database.DatabaseApplication
-import be.condictum.move_up.database.data.Goals
+import be.condictum.move_up.data.local.DatabaseApplication
+import be.condictum.move_up.data.local.model.Goals
 import be.condictum.move_up.databinding.FragmentGoalScreenBinding
+import be.condictum.move_up.view.ui.main.MainFragment
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 import com.google.android.material.snackbar.Snackbar
@@ -59,7 +60,7 @@ class GoalScreenFragment : Fragment() {
         binding.goalScreenRecyclerView.visibility = View.GONE
         binding.goalScreenNoGoalText.visibility = View.VISIBLE
 
-        adapter = GoalScreenAdapter(requireView(), listOf(), viewModel)
+        adapter = GoalScreenAdapter(listOf(), viewModel)
         binding.goalScreenRecyclerView.adapter = adapter
 
         binding.goalScreenFab.setOnClickListener {

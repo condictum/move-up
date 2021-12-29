@@ -1,4 +1,4 @@
-package be.condictum.move_up.database.data
+package be.condictum.move_up.data.local.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

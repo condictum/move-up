@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import be.condictum.move_up.database.dao.GoalsDao
-import be.condictum.move_up.database.data.Goals
+import be.condictum.move_up.data.local.dao.GoalsDao
+import be.condictum.move_up.data.local.model.Goals
 import kotlinx.coroutines.launch
 import java.sql.Date
 
@@ -14,11 +14,11 @@ class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
         return goalsDao.getAllLiveDataByProfileId(profileId)
     }
 
-    fun getAllGoals(): List<Goals> {
+    fun getAllGoals(): LiveData<List<Goals>> {
         return goalsDao.getAllGoals()
     }
 
-    fun getAllDataByProfileId(profileId: Int): List<Goals> {
+    fun getAllDataByProfileId(profileId: Int): LiveData<List<Goals>> {
         return goalsDao.getAllDataByProfileId(profileId)
     }
 

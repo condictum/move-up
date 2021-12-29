@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import be.condictum.move_up.database.dao.GoalsDao
-import be.condictum.move_up.database.dao.LessonsDao
-import be.condictum.move_up.database.dao.ProfilesDao
-import be.condictum.move_up.database.data.Profiles
+import be.condictum.move_up.data.local.dao.GoalsDao
+import be.condictum.move_up.data.local.dao.LessonsDao
+import be.condictum.move_up.data.local.dao.ProfilesDao
+import be.condictum.move_up.data.local.model.Profiles
 import kotlinx.coroutines.launch
 
 
@@ -23,7 +23,7 @@ class ProfilesViewModel(
         insertProfile(newProfile)
     }
 
-    fun getProfileById(id: Int): Profiles {
+    fun getProfileById(id: Int): LiveData<Profiles> {
         return profilesDao.getData(id)
     }
 
@@ -43,12 +43,12 @@ class ProfilesViewModel(
         viewModelScope.launch {
             val goals = goalsDao.getAllDataByProfileId(data.id)
 
-            if (goals != null) {
-                for (goal in goals) {
+            if (goals?.value != null) {
+                for (goal in goals.value!!) {
                     val goalsId = goal.id
                     val lessons = lessonsDao.getAllDataByGoalsId(goalsId)
 
-                    if (lessons != null) {
+                    if (lessons?.value != null) {
                         lessonsDao.deleteDataByGoalsId(goalsId)
                     }
                 }

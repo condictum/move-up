@@ -1,4 +1,4 @@
-package be.condictum.move_up.notification.receiver
+package be.condictum.move_up.util.notification.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

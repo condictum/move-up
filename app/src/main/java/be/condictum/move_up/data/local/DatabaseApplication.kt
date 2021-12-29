@@ -1,4 +1,4 @@
-package be.condictum.move_up.database
+package be.condictum.move_up.data.local
 
 import android.app.Application
 

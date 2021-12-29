@@ -12,7 +12,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
-import be.condictum.move_up.database.data.Lessons
+import be.condictum.move_up.data.local.model.Lessons
 import be.condictum.move_up.viewmodel.LessonsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar

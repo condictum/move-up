@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="be.condictum.move_up.view.fragment.MainFragment"
+        android:name="be.condictum.move_up.view.ui.main.MainFragment"
         android:label="@string/profiles_text"
         tools:layout="@layout/fragment_main">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="be.condictum.move_up.view.fragment.SplashScreenFragment"
+        android:name="be.condictum.move_up.view.ui.splashscreen.SplashScreenFragment"
         tools:layout="@layout/fragment_splash_screen">
         <action
             android:id="@+id/action_splashScreenFragment_to_mainFragment"
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/goalScreenFragment"
-        android:name="be.condictum.move_up.view.fragment.GoalScreenFragment"
+        android:name="be.condictum.move_up.view.ui.goalscreen.GoalScreenFragment"
         android:label="@string/goals_text"
         tools:layout="@layout/fragment_goal_screen">
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="be.condictum.move_up.view.fragment.SettingsFragment"
+        android:name="be.condictum.move_up.view.ui.settings.SettingsFragment"
         android:label="@string/settings_text"
         tools:layout="@layout/fragment_settings">
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/goalResultFragment"
-        android:name="be.condictum.move_up.view.fragment.GoalResultFragment"
+        android:name="be.condictum.move_up.view.ui.goalresult.GoalResultFragment"
         android:label="@string/results_text">
         <action
             android:id="@+id/action_goalResultFragment_to_goalScreenFragment"
@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="be.condictum.move_up.view.fragment.ProfileFragment"
+        android:name="be.condictum.move_up.view.ui.profile.ProfileFragment"
         android:label="@string/profile_text"
         tools:layout="@layout/fragment_profile">
         <action
@@ -73,7 +73,7 @@
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="be.condictum.move_up.view.fragment.AboutFragment"
+        android:name="be.condictum.move_up.view.ui.about.AboutFragment"
         android:label="@string/about_botton_text"
         tools:layout="@layout/fragment_about" />
 </navigation>

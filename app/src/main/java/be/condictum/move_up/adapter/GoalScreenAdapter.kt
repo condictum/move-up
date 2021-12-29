@@ -12,19 +12,19 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import be.condictum.move_up.R
-import be.condictum.move_up.database.data.Goals
+import be.condictum.move_up.data.local.model.Goals
 import be.condictum.move_up.databinding.GoalsListRowItemBinding
-import be.condictum.move_up.view.fragment.GoalScreenFragment
-import be.condictum.move_up.view.fragment.GoalScreenFragmentDirections
+import be.condictum.move_up.view.ui.goalscreen.GoalScreenFragment
+import be.condictum.move_up.view.ui.goalscreen.GoalScreenFragmentDirections
 import be.condictum.move_up.viewmodel.GoalsViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import java.sql.Date
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.Calendar
 
 class GoalScreenAdapter(
-    private val requiredView: View,
     private var data: List<Goals>,
     private val viewModel: GoalsViewModel,
 ) : RecyclerView.Adapter<GoalScreenAdapter.GoalsViewHolder>() {

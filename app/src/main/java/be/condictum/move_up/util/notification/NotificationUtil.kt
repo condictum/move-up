@@ -1,4 +1,4 @@
-package be.condictum.move_up.notification.util
+package be.condictum.move_up.util.notification
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -9,10 +9,10 @@ import android.content.Intent
 import android.os.Build
 
 class NotificationUtil(private var context: Context?) {
-    private val CHANNEL_ID = "ID"
-    private val CHANNEL_NAME = "NAME"
-
     companion object {
+        private const val CHANNEL_ID = "ID"
+        private const val CHANNEL_NAME = "NAME"
+
         fun with(context: Context?): NotificationUtil {
             return NotificationUtil(context)
         }

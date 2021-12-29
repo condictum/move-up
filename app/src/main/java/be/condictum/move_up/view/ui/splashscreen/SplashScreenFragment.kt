@@ -1,4 +1,4 @@
-package be.condictum.move_up.view.fragment
+package be.condictum.move_up.view.ui.splashscreen
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -35,7 +35,8 @@ class SplashScreenFragment : Fragment() {
         super.onResume()
 
         if (!isFirstOpening) {
-            val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
+            val action =
+                SplashScreenFragmentDirections.actionSplashScreenFragmentToMainFragment()
             view?.findNavController()?.navigate(action)
 
             isFirstOpening = false

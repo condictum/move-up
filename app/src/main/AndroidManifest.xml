@@ -3,7 +3,7 @@
     package="be.condictum.move_up">
 
     <application
-        android:name=".database.DatabaseApplication"
+        android:name=".data.local.DatabaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Moveup">
         <activity
-            android:name="be.condictum.move_up.view.activity.MainActivity"
+            android:name="be.condictum.move_up.view.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

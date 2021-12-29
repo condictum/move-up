@@ -1,4 +1,4 @@
-package be.condictum.move_up.view.fragment
+package be.condictum.move_up.view.ui.about
 
 import android.os.Bundle
 import android.view.LayoutInflater

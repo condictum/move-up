@@ -1,4 +1,4 @@
-package be.condictum.move_up.view.fragment
+package be.condictum.move_up.view.ui.settings
 
 import android.content.Context
 import android.os.Bundle

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import be.condictum.move_up.database.dao.LessonsDao
-import be.condictum.move_up.database.data.Lessons
+import be.condictum.move_up.data.local.dao.LessonsDao
+import be.condictum.move_up.data.local.model.Lessons
 import kotlinx.coroutines.launch
 
 class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
@@ -28,7 +28,7 @@ class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
         insertLesson(newLesson)
     }
 
-    fun getLessonById(id: Int): Lessons {
+    fun getLessonById(id: Int):  LiveData<Lessons> {
         return lessonsDao.getLesson(id)
     }
 

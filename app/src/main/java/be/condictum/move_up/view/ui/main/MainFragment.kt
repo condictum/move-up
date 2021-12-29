@@ -1,4 +1,4 @@
-package be.condictum.move_up.view.fragment
+package be.condictum.move_up.view.ui.main
 
 import android.content.Context
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import be.condictum.move_up.R
 import be.condictum.move_up.adapter.ProfileMainRecyclerAdapter
-import be.condictum.move_up.database.DatabaseApplication
+import be.condictum.move_up.data.local.DatabaseApplication
 import be.condictum.move_up.databinding.FragmentMainBinding
 import be.condictum.move_up.viewmodel.ProfilesViewModel
 import be.condictum.move_up.viewmodel.ProfilesViewModelFactory
