@@ -8,6 +8,7 @@ import be.condictum.move_up.data.local.dao.GoalsDao
 import be.condictum.move_up.data.local.dao.LessonsDao
 import be.condictum.move_up.data.local.dao.ProfilesDao
 import be.condictum.move_up.data.local.model.Profiles
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -28,27 +29,27 @@ class ProfilesViewModel(
     }
 
     private fun insertProfile(data: Profiles) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             profilesDao.insert(data)
         }
     }
 
     fun updateProfile(data: Profiles) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             profilesDao.update(data)
         }
     }
 
     fun deleteProfile(data: Profiles) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val goals = goalsDao.getAllDataByProfileId(data.id)
 
-            if (goals?.value != null) {
+            if (goals.value != null) {
                 for (goal in goals.value!!) {
                     val goalsId = goal.id
                     val lessons = lessonsDao.getAllDataByGoalsId(goalsId)
 
-                    if (lessons?.value != null) {
+                    if (lessons.value != null) {
                         lessonsDao.deleteDataByGoalsId(goalsId)
                     }
                 }

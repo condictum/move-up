@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import be.condictum.move_up.data.local.dao.LessonsDao
 import be.condictum.move_up.data.local.model.Lessons
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
@@ -33,19 +34,19 @@ class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
     }
 
     private fun insertLesson(data: Lessons) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             lessonsDao.insert(data)
         }
     }
 
     fun updateLesson(data: Lessons) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             lessonsDao.update(data)
         }
     }
 
     fun deleteLesson(data: Lessons) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             lessonsDao.delete(data)
         }
     }
