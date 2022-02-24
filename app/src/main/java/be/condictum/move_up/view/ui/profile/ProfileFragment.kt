@@ -9,29 +9,23 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import be.condictum.move_up.R
-import be.condictum.move_up.data.local.DatabaseApplication
 import be.condictum.move_up.data.local.model.Profiles
 import be.condictum.move_up.databinding.FragmentProfileBinding
 import be.condictum.move_up.view.ui.main.MainFragment
 import be.condictum.move_up.viewmodel.ProfilesViewModel
-import be.condictum.move_up.viewmodel.ProfilesViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ProfilesViewModel by activityViewModels {
-        ProfilesViewModelFactory(
-            (activity?.application as DatabaseApplication).database.profilesDao(),
-            (activity?.application as DatabaseApplication).database.goalsDao(),
-            (activity?.application as DatabaseApplication).database.lessonsDao(),
-        )
-    }
+    private val viewModel: ProfilesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -141,7 +135,7 @@ class ProfileFragment : Fragment() {
     private fun setDataset() {
         val profileFromDb = viewModel.getProfileById(getProfileIdFromSharedPreferences())
 
-        profileFromDb?.observe(viewLifecycleOwner, Observer {
+        profileFromDb.observe(viewLifecycleOwner, Observer {
             binding.profileFragmentNameEditText.setText(it.name)
             binding.profileFragmentSurnameEditText.setText(it.surname)
             binding.profileFragmentAgeEditText.setText(it.age.toString())
@@ -162,47 +156,48 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showDeleteItemDialog() {
-        viewModel.getProfileById(getProfileIdFromSharedPreferences())?.observe(viewLifecycleOwner, Observer {
-            val mContext = requireContext()
-            val alertDialog = MaterialAlertDialogBuilder(mContext)
-            alertDialog.setCancelable(false)
+        viewModel.getProfileById(getProfileIdFromSharedPreferences())
+            .observe(viewLifecycleOwner, Observer {
+                val mContext = requireContext()
+                val alertDialog = MaterialAlertDialogBuilder(mContext)
+                alertDialog.setCancelable(false)
 
-            alertDialog.setTitle(mContext.getString(R.string.are_you_sure_text))
-            alertDialog.setMessage(mContext.getString(R.string.profile_is_deleting_text))
-            alertDialog.setPositiveButton(mContext.getString(R.string.yes_button_text)) { _, _ ->
-                viewModel.deleteProfile(
-                    it
-                )
-
-                val sharedPreferences =
-                    mContext.getSharedPreferences(
-                        mContext.packageName,
-                        Context.MODE_PRIVATE
+                alertDialog.setTitle(mContext.getString(R.string.are_you_sure_text))
+                alertDialog.setMessage(mContext.getString(R.string.profile_is_deleting_text))
+                alertDialog.setPositiveButton(mContext.getString(R.string.yes_button_text)) { _, _ ->
+                    viewModel.deleteProfile(
+                        it
                     )
 
-                sharedPreferences.edit()
-                    .remove(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID).apply()
+                    val sharedPreferences =
+                        mContext.getSharedPreferences(
+                            mContext.packageName,
+                            Context.MODE_PRIVATE
+                        )
 
-                val action =
-                    ProfileFragmentDirections.actionProfileFragmentToMainFragment()
-                Navigation.findNavController(requireView()).navigate(action)
+                    sharedPreferences.edit()
+                        .remove(MainFragment.SHARED_PREFERENCES_KEY_PROFILE_ID).apply()
 
-                Toast.makeText(
-                    mContext,
-                    mContext.getString(R.string.profile_deleted_text),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+                    val action =
+                        ProfileFragmentDirections.actionProfileFragmentToMainFragment()
+                    Navigation.findNavController(requireView()).navigate(action)
 
-            alertDialog.setNegativeButton(mContext.getString(R.string.no_button_text)) { _, _ ->
-                Toast.makeText(
-                    mContext,
-                    mContext.getString(R.string.profile_isnt_deleted_text),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+                    Toast.makeText(
+                        mContext,
+                        mContext.getString(R.string.profile_deleted_text),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-            alertDialog.show()
-        })
+                alertDialog.setNegativeButton(mContext.getString(R.string.no_button_text)) { _, _ ->
+                    Toast.makeText(
+                        mContext,
+                        mContext.getString(R.string.profile_isnt_deleted_text),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                alertDialog.show()
+            })
     }
 }

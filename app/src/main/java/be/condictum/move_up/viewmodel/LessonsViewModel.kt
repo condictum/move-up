@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import be.condictum.move_up.data.local.dao.LessonsDao
 import be.condictum.move_up.data.local.model.Lessons
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LessonsViewModel(private val lessonsDao: LessonsDao) : ViewModel() {
+@HiltViewModel
+class LessonsViewModel @Inject constructor(private val lessonsDao: LessonsDao) : ViewModel() {
     fun getAllDataByGoalsId(goalsId: Int): LiveData<List<Lessons>> {
         return lessonsDao.getAllDataByGoalsId(goalsId)
     }

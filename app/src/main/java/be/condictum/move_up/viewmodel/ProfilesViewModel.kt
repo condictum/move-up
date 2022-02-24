@@ -8,11 +8,13 @@ import be.condictum.move_up.data.local.dao.GoalsDao
 import be.condictum.move_up.data.local.dao.LessonsDao
 import be.condictum.move_up.data.local.dao.ProfilesDao
 import be.condictum.move_up.data.local.model.Profiles
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class ProfilesViewModel(
+@HiltViewModel
+class ProfilesViewModel @Inject constructor(
     private val profilesDao: ProfilesDao,
     private val goalsDao: GoalsDao,
     private val lessonsDao: LessonsDao

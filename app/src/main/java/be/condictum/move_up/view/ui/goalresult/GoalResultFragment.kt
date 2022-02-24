@@ -10,44 +10,34 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import be.condictum.move_up.R
 import be.condictum.move_up.adapter.LessonRecyclerViewAdapter
-import be.condictum.move_up.data.local.DatabaseApplication
 import be.condictum.move_up.data.local.model.Lessons
 import be.condictum.move_up.databinding.FragmentGoalResultBinding
 import be.condictum.move_up.view.ui.goalscreen.GoalScreenFragment
 import be.condictum.move_up.viewmodel.LessonsViewModel
-import be.condictum.move_up.viewmodel.LessonsViewModelFactory
 import com.github.mikephil.charting.charts.CombinedChart
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.data.CombinedData
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class GoalResultFragment : Fragment() {
-    private lateinit var lessonChart: CombinedChart
-    private val barWidth: Float = 0.25f
 
     private var _binding: FragmentGoalResultBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: LessonsViewModel by viewModels()
+
     private lateinit var recyclerLessonAdapter: LessonRecyclerViewAdapter
 
-    private val viewModel: LessonsViewModel by activityViewModels {
-        LessonsViewModelFactory(
-            (activity?.application as DatabaseApplication).database.lessonsDao(),
-        )
-    }
+    private lateinit var lessonChart: CombinedChart
+    private val barWidth: Float = 0.25f
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

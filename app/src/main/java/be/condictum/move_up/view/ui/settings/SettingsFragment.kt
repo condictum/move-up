@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import be.condictum.move_up.R
 import be.condictum.move_up.databinding.FragmentSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!

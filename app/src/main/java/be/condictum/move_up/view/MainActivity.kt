@@ -6,7 +6,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -16,25 +15,21 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import be.condictum.move_up.R
-import be.condictum.move_up.data.local.DatabaseApplication
 import be.condictum.move_up.databinding.ActivityMainBinding
-import be.condictum.move_up.view.ui.settings.SettingsFragment
-import be.condictum.move_up.util.notification.receiver.ResultReceiver
 import be.condictum.move_up.util.notification.NotificationUtil
+import be.condictum.move_up.util.notification.receiver.ResultReceiver
 import be.condictum.move_up.view.ui.goalresult.GoalResultFragmentDirections
+import be.condictum.move_up.view.ui.settings.SettingsFragment
 import be.condictum.move_up.viewmodel.GoalsViewModel
-import be.condictum.move_up.viewmodel.GoalsViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
 import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val viewModel: GoalsViewModel by viewModels {
-        GoalsViewModelFactory(
-            (this.application as DatabaseApplication).database.goalsDao(),
-        )
-    }
+    private val viewModel: GoalsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             val goalList = viewModel.getAllGoals()
             val nowDate = Date(System.currentTimeMillis())
 
-            goalList?.observe(this, Observer { listOfGoals ->
+            goalList.observe(this, Observer { listOfGoals ->
                 val upcomingDates = listOfGoals.filter {
                     it.dataDate.after(nowDate) && (TimeUnit.DAYS.convert(
                         it.dataDate.time - nowDate.time,
@@ -60,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                     ) + 1 <= 7)
                 }
 
-                upcomingDates?.forEach {
+                upcomingDates.forEach {
                     val dayDifference = TimeUnit.DAYS.convert(
                         it.dataDate.time - nowDate.time,
                         TimeUnit.MILLISECONDS

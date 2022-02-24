@@ -10,25 +10,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import be.condictum.move_up.R
 import be.condictum.move_up.adapter.GoalScreenAdapter
-import be.condictum.move_up.data.local.DatabaseApplication
 import be.condictum.move_up.data.local.model.Goals
 import be.condictum.move_up.databinding.FragmentGoalScreenBinding
 import be.condictum.move_up.view.ui.main.MainFragment
 import be.condictum.move_up.viewmodel.GoalsViewModel
-import be.condictum.move_up.viewmodel.GoalsViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+@AndroidEntryPoint
 class GoalScreenFragment : Fragment() {
     companion object {
         const val SHARED_PREFERENCES_KEY_GOAL_ID = "goalId"
     }
+
+    private val viewModel: GoalsViewModel by viewModels()
 
     private var _binding: FragmentGoalScreenBinding? = null
     private val binding get() = _binding!!
@@ -38,12 +39,6 @@ class GoalScreenFragment : Fragment() {
     private lateinit var adapter: GoalScreenAdapter
     private var dateFormatter: SimpleDateFormat =
         SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-
-    private val viewModel: GoalsViewModel by activityViewModels {
-        GoalsViewModelFactory(
-            (activity?.application as DatabaseApplication).database.goalsDao(),
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

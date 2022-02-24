@@ -7,8 +7,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import javax.inject.Inject
 
-class NotificationUtil(private var context: Context?) {
+class NotificationUtil @Inject constructor(private var context: Context?) {
     companion object {
         private const val CHANNEL_ID = "ID"
         private const val CHANNEL_NAME = "NAME"

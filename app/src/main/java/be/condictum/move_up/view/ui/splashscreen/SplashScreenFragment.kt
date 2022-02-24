@@ -13,8 +13,10 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import be.condictum.move_up.R
 import be.condictum.move_up.databinding.FragmentSplashScreenBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint("CustomSplashScreen")
+@AndroidEntryPoint
 class SplashScreenFragment : Fragment() {
     private var _binding: FragmentSplashScreenBinding? = null
     private val binding get() = _binding!!

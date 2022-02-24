@@ -7,35 +7,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import be.condictum.move_up.R
 import be.condictum.move_up.adapter.ProfileMainRecyclerAdapter
-import be.condictum.move_up.data.local.DatabaseApplication
 import be.condictum.move_up.databinding.FragmentMainBinding
 import be.condictum.move_up.viewmodel.ProfilesViewModel
-import be.condictum.move_up.viewmodel.ProfilesViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainFragment : Fragment() {
     companion object {
         const val SHARED_PREFERENCES_KEY_PROFILE_ID = "profileId"
     }
 
+    private val viewModel: ProfilesViewModel by viewModels()
+
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var recyclerProfileAdapter: ProfileMainRecyclerAdapter
-
-    private val viewModel: ProfilesViewModel by activityViewModels {
-        ProfilesViewModelFactory(
-            (activity?.application as DatabaseApplication).database.profilesDao(),
-            (activity?.application as DatabaseApplication).database.goalsDao(),
-            (activity?.application as DatabaseApplication).database.lessonsDao(),
-        )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

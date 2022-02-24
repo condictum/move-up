@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import be.condictum.move_up.data.local.dao.GoalsDao
 import be.condictum.move_up.data.local.model.Goals
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.sql.Date
+import javax.inject.Inject
 
-class GoalsViewModel(private val goalsDao: GoalsDao) : ViewModel() {
+@HiltViewModel
+class GoalsViewModel @Inject constructor(private val goalsDao: GoalsDao) : ViewModel() {
     fun getAllLiveDataByProfileId(profileId: Int): LiveData<List<Goals>> {
         return goalsDao.getAllLiveDataByProfileId(profileId)
     }
